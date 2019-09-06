@@ -1,8 +1,3119 @@
+<!DOCTYPE html>
 <html>
-	<body>
-		iro-no-namae
-	</body>
-	<script>
-		alert("iro-no-namae");
-	</script>
+<head><meta charset="UTF-8" />
+<title>いろのなまえ v2.1.0 - js do it</title>
+<meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS -" />
+<meta name="Keywords"  content="JavaScript,HTML5,CSS" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+<style type="text/css">body {
+	overflow: hidden;
+}
+h1 {
+	display: block;
+	float: left;
+	font-size: 1.4em;
+	font-family:'Helvetica','sans-serif';
+	margin: 0px;
+	margin-top: 0.1em;
+	margin-left: 0.25em;
+}
+#header {
+	width: 20em;
+	height: 2.5em;
+	margin: 0px;
+}
+#pasteArea {
+	float: left;
+	border: 0px;
+	cursor: none;
+	font-size: 1px;
+	color: white;
+	opacity: 0.0;
+}
+
+#showMenu {
+	display: block;
+	float: left;
+	font-size: 2em;
+	margin: 0px;
+	font-family:'Helvetica','sans-serif';
+	font-weight:normal;
+	cursor: pointer;
+	color: #444;
+	user-select: none;
+	-moz-user-select: none; /* Firefox */
+	-webkit-user-select: none; /* Safari、Chromeなど */
+}
+#helpPanel {
+	display: none;
+	position: absolute;
+	cursor: pointer;
+	top: 0px;
+	left: 0px;
+	border:1px solid black;
+	background-color: white;
+	padding: 8px;
+	margin: 8px;
+	line-height: 150%;
+	height: 92%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+#colornamePanel {
+	display: none;
+	position: absolute;
+	cursor: pointer;
+	top: 0px;
+	left: 0px;
+	height: 92%;
+	overflow-y: scroll;
+	border: 1px solid black;
+	padding: 8px;
+	margin: 8px;
+	background-color: white;
+}
+#colornamePanel > div {
+	line-height:150%;
+}
+
+#menuPanel {
+	display: block;
+	position: absolute;
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	height: 0px;
+	z-index: 1;
+	cursor: pointer;
+	overflow: hidden;
+
+    transition-property: height;
+    transition-duration: 500ms;
+    transition-delay: 0s;
+    transition-timing-function: ease;
+
+}
+#menu {
+	font-size: 1.2em;
+	padding: 0px;
+	margin: 0px;
+	width: 14em;
+}
+#menu div {
+	float: left;
+}
+#menu > div {
+	height: 2em;
+	line-height: 2em;
+	font-family:'Helvetica','sans-serif';
+	border-bottom: 1px solid gray;
+	width: 100%;
+	cursor: pointer;
+	background-color: white;
+	color: black;
+	user-select: none;
+	-moz-user-select: none; /* Firefox */
+	-webkit-user-select: none; /* Safari、Chromeなど */
+}
+
+#fileButton::after, #help::after {
+	float: right;
+	margin-right: 0.6em;
+	margin-top: 0.8em;
+	width: 8px;
+	height: 8px;
+	border-top: 2px solid #666;
+	border-right: 2px solid #888;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+	content: "";
+}
+#severityView, #zoomView {
+	font-family:'Helvetica','sans-serif';
+	font-size: 0.8em;
+	border: 2px solid rgba(0,0,0,0);
+	display:block;
+	float:left;
+	height:2em;
+	line-height:2em;
+	margin:0px;
+	width:2em;
+	text-align: center;
+}
+#severityView::-webkit-outer-spin-button,
+#severityView::-webkit-inner-spin-button,
+#zoomView::-webkit-outer-spin-button,
+#zoomView::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#severityView, #zoomView {
+    -moz-appearance: textfield;
+}
+#severityView:disabled, #zoomView:disabled {
+   background-color: white;
+}
+
+#severityDown, #zoomDown {
+	font-family:'Helvetica','sans-serif';
+	font-size: 0.8em;
+	margin: 0px;
+	padding: 0px;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	border: 4px solid rgba(0,0,0,0);
+	border-left: none;
+	border-right: none;
+	text-align: center;
+	transform: rotate(270deg);
+}
+#severityUp, #zoomUp {
+	font-family:'Helvetica','sans-serif';
+	font-size: 0.8em;
+	margin: 0px;
+	padding: 0px;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	border: 4px solid rgba(0,0,0,0);
+	border-left: none;
+	border-right: none;
+	text-align: center;
+	transform: rotate(90deg);
+}
+a {
+	text-decoration: none;
+}
+
+
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<title>いろのなまえ v2.1.0</title>
+</head>
+
+<body>
+<div id="header">
+	<div id="showMenu">≡</div><h1 id="title">いろのなまえ</h1>
+	<input type="text" id="pasteArea" contenteditable="true" readonly>
+</div>
+<div id="menuPanel">
+		<div id="menu">
+			<div id="fileButton">開く</div>
+			<div id="cvdPanel">
+				<div id="cvdConverterView">色弱なし</div>
+				<div id="severityInputPanel" style="float:right">
+					<div id="severityDown">▲</div>
+					<input id="severityView" type="number" value=100 min=0 max=100>
+					<div id="severityUp">▲</div>
+				</div>
+			</div>
+			<div id="kanjiView">ひらがな</div>
+			<div id="speakView">音声あり</div>
+			<div id="screenColorPinView" style="display:none">元の色</div>
+			<div id="colornameSetView">
+				<div>12色</div>
+				<div style="float:right;padding:0px;padding-left:0.5em;padding-right:0.5em;color:#666">?</div>
+			</div>
+			<div id="zoomPanel">
+				<div id="autoZoomView">自動拡大OFF</div>
+				<div id="zoomInputPanel" style="float:right">
+					<div id="zoomDown">▲</div>
+					<input id="zoomView" type="number" value=100 min=1 max=2000>
+					<div id="zoomUp">▲</div>
+				</div>
+			</div>
+			<div id="colorDiffView" style="display:none"></div>
+			<div id="help">ヘルプ</div>
+		</div>
+</div>
+
+<div id="helpPanel"><div>
+<h2>このアプリについて</h2>
+<p>色の名前を文字と音声で教えてくれるアプリです。色は13色、23色、35色、552色の中から最も近い色を探し出します。</p>
+
+<h2>使い方（基本）</h2>
+画像ファイルを選択した後、表示された画像の上でクリックするとその場所の色の表すピンが追加されます。音声に対応したブラウザの場合は色の名前を読み上げます。ピンを削除したいときは色の名前の上でクリックして下さい。完璧ではありませんが[ctrl]+[v]で画像をクリップボードからの貼り付ることもできます。
+
+<h2>キーボードショートカット対応表</h2>
+<ul>
+<li> [p] → P型シミュレーションON/OFF  </li>
+<li> [d] → D型シミュレーションON/OFF  </li>
+<li> [t] → T型シミュレーションON/OFF  </li>
+<li> [a] → A型シミュレーションON/OFF  </li>
+<li> [1]-[9],[0] → 色弱の度合い。[1]が10で、[9]は90、[0]は100。  </li>
+<li> [c] → 色の数の変更  </li>
+<li> [k] → 漢字表記ON/OFF</li>
+<li> [s] → 音声ON/OFF</li>
+<li> [ctrl]+[v] → クリップボードから画像の貼付け</li>
+</ul>
+
+<h2>色弱シミュレーションについて</h2>
+<p>&lt;注意&gt;この機能は色弱者の色の見分けにくさを模擬的に再現したもので実際に見えている色を再現するものではありません。黒に見えても実は赤だったり、黄色に見えても実は緑だった、みたいな世界を模擬体験することを目的としています。「色弱」という呼称は「CUDO（カラーユニバーサルデザイン機構）」の提唱する色覚の呼称となりますので、P型（protanopia）、D型（deuteranopia）、T型（tritanopia）、A型（Achromatopsia）の事を指しています。
+</p>
+
+<p>P型、D型、T型への変換は<a href="http://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html">「A Physiologically-based Model for Simulation of Color Vision Deficiency」（Gustavo M. Machado, Manuel M. Oliveira, Member, IEEE, and Leandro A. F. Fernandes）</a>の値からy = ax<sup>4</sup> + bx<sup>3</sup> + cx<sup>2</sup> + dxの計算式を生成し使用しています。A型については詳しい情報が見つからなかったため彩度（saturate）を調整することで再現しています（計算式は<a href="https://www.w3.org/TR/SVG/filters.html">「Filter Effects - SVG 1.1」（W3C,2011）</a>を参考）。</p>
+
+<h2>対応ブラウザ</h2>
+対応ブラウザは以下のとおりです。
+
+<h3>Linux(Ubuntu12-16)</h3>
+<ul>
+<li>Firefox → 音声不可、色弱シミュレート可  </li>
+<li>Google Chrome → 音声可、色弱シミュレート可  </li>
+</ul>
+
+<h3>Windows10</h3>
+<ul>
+<li>Firefox → 音声可、色弱シミュレート可  </li>
+<li>Google Chrome → 音声可、色弱シミュレート可  </li>
+<li>Microsoft Edge → 音声可、色弱シミュレート不可  </li>
+</ul>
+
+<h3>Android</h3>
+<ul>
+<li>Google Chrome → 音声可、色弱シミュレート可…だったような…  </li>
+</ul>
+
+<h3>iPad</h3>
+<ul>
+<li>Safari → 音声可（マナーモードOFF）、色弱シミュレート可  </li>
+<li>Firefox → 音声可（マナーモードOFF）、色弱シミュレート可  </li>
+<li>Google Chrome → 音声可（マナーモードOFF）、色弱シミュレート可  </li>
+</ul>
+</div>
+</div>
+
+<input id="file" type="file" accept="image/*" style="display:none" />
+    <div id="colornamePanel" style="clear:both:width:100%"><div></div></div>
+    <div id="imagePanel" style="clear:both;overflow:auto;border:0px solid red;float:left">
+	<div id="imageTuningFrame" style="border:0px solid blue;position:relative">
+		<canvas id="imageTuning" style="float:left"></canvas>
+	</div>
+<img id="imageOrigin" style="float:left;display:none">
+</div>
+    <div id="copyrightPanel" style="clear:both;width:100%;font-size:0.8em;height:2em">Copyright (c) 2016-2018 hachisukansw<br />
+This software is released under the MIT License, see <a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a>
+</div>
+<script type="text/javascript">/*
+1.0.0 リリース
+1.1.0 インターフェースの変更
+1.3.0 クリップボードからのペースト機能追加
+1.4.0 色差アルゴリズムの修正＆追加＆デフォルトをCIE2000に変更
+1.5.0 ピンの色名を画面上の色か元の色かを選択できる機能を追加
+1.5.3 画面の色でしゃべらないバグを修正
+1.6.1 パラメーターで倍率を指定できるようにした 例）?zoom=1（1=100%）
+1.6.2 倍率を指定した際画面からはみ出る場合はスクロールバーを表示するようにした
+2.0.0 ECMAScript6ベースにコードを見直し（クラス使用）
+	  色弱の度合い（severity）を0-100とし1刻みで指定できるように変更
+2.0.1 メニューからのズームが機能していなかったのでできるように修正
+      touchstart,touchendイベントへの対応
+2.0.2 自動ズームにした時にピンが再配置されないバグを修正
+2.1.0 コンテキストメニューを廃止。保存したいから。
+*/
+
+class ColorDiff {
+	static build(s) {
+		if (s.match(/^euc/i)) return new Euclidean();
+		if (s.match(/^cie76/i)) return new Cie76();
+		if (s.match(/^cie94/i)) return new Cie94();
+		if (s.match(/^cie2000/i)) return new Cie2000();
+	}
+	/**
+	 * @param {Object.<number, number, number>} rgb
+	 * @return {Object.<number, number, number>}
+	 */
+	rgbToLab(rgbColor) {
+		//https://en.wikipedia.org/wiki/SRGB#The_reverse_transformation
+		let r = rgbColor.r / 255;
+		let g = rgbColor.g / 255;
+		let b = rgbColor.b / 255;
+
+		r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
+		g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
+		b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
+
+		let x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+		let y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+		let z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+
+		//https://en.wikipedia.org/wiki/Lab_color_space#CIELAB-CIEXYZ_conversions
+		x *= 100;
+		y *= 100;
+		z *= 100;
+
+		x /= 95.047;
+		y /= 100;
+		z /= 108.883;
+
+		x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
+		y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
+		z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
+
+		return {L:(116 * y) - 16, a:500 * (x - y), b:200 * (y - z)};
+	}
+	diff(rgbColor1, rgbColor2) {return -1;}
+	diffByLab(lab1, lab2) {return -1;}
+}
+class Euclidean extends ColorDiff {
+	toString() {return "euclidean"}
+	diff(rgbColor1, rgbColor2) {
+		return Math.sqrt(
+						Math.pow(rgbColor1.r - rgbColor2.r, 2) +
+				 		Math.pow(rgbColor1.g - rgbColor2.g, 2) +
+						Math.pow(rgbColor1.b - rgbColor2.b, 2)
+						);
+	}
+}
+class Cie76 extends ColorDiff {
+	toString() {return "cie76"}
+	diff(rgbColor1, rgbColor2) {
+		return this.diffByLab(this.rgbToLab(rgbColor1), this.rgbToLab(rgbColor2));
+	}
+	/**
+	 * https://en.wikipedia.org/wiki/Color_difference#CIE76
+	 * @param {Object.<number, number, number>, Object.<number, number, number>} lab1,lab2
+	 * @return {number}
+	 */
+	diffByLab(lab1, lab2) {
+		return Math.sqrt(
+				Math.pow(lab1.L - lab2.L, 2) +
+				Math.pow(lab1.a - lab2.a, 2) +
+				Math.pow(lab1.b - lab2.b, 2)
+				);
+	}
+}
+class Cie94 extends Cie76 {
+	toString() {return "cie94"}
+	/**
+	 * https://en.wikipedia.org/wiki/Color_difference#CIE94
+	 * @param {Object.<number, number, number>, Object.<number, number, number>} lab1,lab2
+	 * @return {number}
+	 */
+	diffByLab(lab1, lab2) {
+		let kL = 1;
+		let kC = 1;
+		let kH = 1;
+
+		let K1;
+		let K2;
+		if (kL == 1) {
+			K1 = 0.045;
+			K2 = 0.015;
+		} else {
+			K1 = 0.048;
+			K2 = 0.014;
+		}
+		let deltaL = lab1.L - lab2.L;
+		let C1 = Math.sqrt(Math.pow(lab1.a, 2) + Math.pow(lab1.b, 2));
+		let C2 = Math.sqrt(Math.pow(lab2.a, 2) + Math.pow(lab2.b, 2));
+		let deltaCab = C1 - C2;
+		let deltaa = lab1.a - lab2.a;
+		let deltab = lab1.b - lab2.b;
+		let deltaHab = Math.sqrt(
+				Math.pow(deltaa, 2) +
+				Math.pow(deltab, 2) -
+				Math.pow(deltaCab, 2)
+			);
+		let SL = 1;
+		let SC = 1 + (K1 * C1);
+		let SH = 1 + (K2 * C1);
+
+		return Math.sqrt(
+				Math.pow((deltaL/(kL*SL)), 2) +
+				Math.pow((deltaCab/(kC*SC)), 2) +
+				Math.pow((deltaHab/(kH*SH)), 2)
+			);
+	}
+}
+class Cie2000 extends Cie76 {
+	toString() {return "cie2000"}
+	/**
+	 * https://en.wikipedia.org/wiki/Color_difference#CIEDE2000
+	 * @param {Object.<number, number, number>, Object.<number, number, number>} lab1,lab2
+	 * @return {number}
+	 */
+	diffByLab(lab1, lab2) {
+		//http://en.wikipedia.org/wiki/Color_difference#CIEDE2000
+		let radianToDegree = function(radian) {return radian * (180 / Math.PI);};
+		let degreeToRadian = function(degree) {return degree * (Math.PI / 180);};
+
+		let kL = 1;
+		let kC = 1;
+		let kH = 1;
+
+		let deltaLp = lab2.L - lab1.L;
+		let L_ = (lab1.L + lab2.L) / 2;
+		let C1 = Math.sqrt(Math.pow(lab1.a, 2) + Math.pow(lab1.b, 2));
+		let C2 = Math.sqrt(Math.pow(lab2.a, 2) + Math.pow(lab2.b, 2));
+		let C_ = (C1 + C2) / 2;
+		let ap1 = lab1.a + (lab1.a / 2) *
+			(1 - Math.sqrt(
+				Math.pow(C_, 7) /
+				(Math.pow(C_, 7) + Math.pow(25, 7))
+				)
+			);
+		let ap2 = lab2.a + (lab2.a / 2) *
+			(1 - Math.sqrt(
+				Math.pow(C_, 7) /
+				(Math.pow(C_, 7) + Math.pow(25, 7))
+				)
+			);
+		let Cp1 = Math.sqrt(Math.pow(ap1, 2) + Math.pow(lab1.b, 2));
+		let Cp2 = Math.sqrt(Math.pow(ap2, 2) + Math.pow(lab2.b, 2));
+		let Cp_ = (Cp1 + Cp2) / 2;
+		let deltaCp = Cp2 - Cp1;
+
+		let hp1;
+		if (lab1.b == 0 && ap1 == 0) {
+			hp1 = 0;
+		} else {
+			hp1 = radianToDegree(Math.atan2(lab1.b, ap1));
+			if (hp1 < 0) {hp1 = hp1 + 360;}
+		}
+		let hp2;
+		if (lab2.b == 0 && ap2 == 0) {
+			hp2 = 0;
+		} else {
+			hp2 = radianToDegree(Math.atan2(lab2.b, ap2));
+			if (hp2 < 0) {hp2 = hp2 + 360;}
+		}
+
+		let deltahp;
+		if (C1 == 0 || C2 == 0) {
+			deltahp = 0;
+		} else if (Math.abs(hp1 - hp2) <= 180) {
+			deltahp = hp2 - hp1;
+		} else if (hp2 <= hp1) {
+			deltahp = hp2 - hp1 + 360;
+		} else {
+			deltahp = hp2 - hp1 - 360;
+		}
+
+		let deltaHp = 2 * Math.sqrt(Cp1 * Cp2) * Math.sin(degreeToRadian(deltahp) / 2);
+
+		let Hp_;
+		if (Math.abs(hp1 - hp2) > 180) {
+			Hp_ =  (hp1 + hp2 + 360) / 2
+		} else {
+			Hp_ = (hp1 + hp2) / 2
+		};
+
+		let T = 1 -
+			0.17 * Math.cos(degreeToRadian(Hp_ - 30)) +
+			0.24 * Math.cos(degreeToRadian(2 * Hp_)) +
+			0.32 * Math.cos(degreeToRadian(3 * Hp_ + 6)) -
+			0.20 * Math.cos(degreeToRadian(4 * Hp_ - 63));
+
+		let SL = 1 + (
+			(0.015 * Math.pow(L_ - 50, 2)) /
+			Math.sqrt(20 + Math.pow(L_ - 50, 2))
+			);
+		let SC = 1 + 0.045 * Cp_;
+		let SH = 1 + 0.015 * Cp_ * T;
+
+		let RT = -2 *
+			Math.sqrt(
+				Math.pow(Cp_, 7) /
+				(Math.pow(Cp_, 7) + Math.pow(25, 7))
+			) *
+			Math.sin(degreeToRadian(
+				60 * Math.exp(-Math.pow((Hp_ - 275) / 25, 2))
+			));
+
+		return Math.sqrt(
+			Math.pow(deltaLp / (kL * SL), 2) +
+			Math.pow(deltaCp / (kC * SC), 2) +
+			Math.pow(deltaHp / (kH * SH), 2) +
+			RT * (deltaCp / (kC * SC)) * (deltaHp / (kH * SH))
+			);
+	}
+}
+
+class ColornameSet {
+	constructor() {
+		this._values = this._baseValues();
+		this._values = this.compactColornameSet(this._values);
+		this._values = this.parseColornameSet(this._values);
+	}
+	static build(s) {
+		if (s.match(/^12/i)) return new ColornameSet12();
+		if (s.match(/^24/i)) return new ColornameSet24();
+		if (s.match(/^36/i)) return new ColornameSet36();
+		if (s.match(/^ext/i)) return new ColornameSetExt();
+	}
+	toString() {return ""}
+	values() {return this._values;}
+	get length() {return this._values.length;}
+	forEach(callback) {return this._values.forEach(callback);}
+	_baseValues() {return [];}
+	compactColornameSet(colornameSet) {
+		let result = [];
+
+		//remove english name
+		result = colornameSet.filter(o=>(!o.reading.match(/[a-zA-Z0-9]/)));
+
+		//remove duplicates color
+		result = result.filter((o,oIdx)=>(
+			result.filter((p,pIdx)=>(pIdx < oIdx && p.hex == o.hex)).length == 0
+		));
+
+		//remove duplicates name
+		result = result.filter((o,oIdx)=>(
+			result.filter((p,pIdx)=>(
+				pIdx < oIdx && (p.name == o.name || p.name.replace(/色$/,"") == o.name.replace(/色$/,"")))).length == 0
+		));
+		return result;
+	}
+	parseColornameSet(colornameSet) {
+		let result = [];
+
+		result = colornameSet.map(o=>{
+			o.rgbColor = {};
+			o.rgbColor.r = parseInt(o.hex.substring(1,3), 16);
+			o.rgbColor.g = parseInt(o.hex.substring(3,5), 16);
+			o.rgbColor.b = parseInt(o.hex.substring(5,7), 16);
+			return o;
+		});
+		result.sort((a,b)=>{
+			if (a.reading > b.reading) return 1;
+			if (a.reading < b.reading) return -1;
+			return 0;
+		});
+		return result;
+	}
+	calcDiff(colorDiff, rgbColor) {
+		this._values.forEach(o=>{
+			o.len = colorDiff.diff(rgbColor, o.rgbColor);
+		});
+	}
+	nearestColorname(colorDiff, fromRgbColor) {
+		this.calcDiff(colorDiff, fromRgbColor);
+		let result = null;
+		this._values.forEach(function(o) {
+			if (result == null || o.len < result.len) result = o
+		});
+		return result;	
+	}
+}
+class ColornameSet12 extends ColornameSet {
+	toString() {return "12"}
+	_baseValues() {
+		return [
+			{name: "赤",reading: "あか",hex: "#e60033",ds: "DIC"},
+			{name: "橙色",reading: "だいだいいろ",hex: "#ee7800",ds: "DIC"},
+			{name: "黄色",reading: "きいろ",hex: "#ffd900",ds: "DIC"},
+			{name: "黄緑",reading: "きみどり",hex: "#b8d200",ds: "DIC"},
+			{name: "緑",reading: "みどり",hex: "#3eb370",ds: "DIC"},
+			{name: "青",reading: "あお",hex: "#0095d9",ds: "DIC"},
+			{name: "紫",reading: "むらさき",hex: "#884898",ds: "DIC"},
+			{name: "桃色",reading: "ももいろ",hex: "#f09199",ds: "DIC"},
+			{name: "白",reading: "しろ",hex: "#ffffff",ds: "DIC"},
+			{name: "黒",reading: "くろ",hex: "#2b2b2b",ds: "DIC"},
+			{name: "灰色",reading: "はいいろ",hex: "#7d7d7d",ds: "DIC"},
+			{name: "茶色",reading: "ちゃいろ",hex: "#965042",ds: "DIC"},
+			{name: "水色",reading: "みずいろ",hex: "#bce2e8",ds: "DIC"},
+			]
+	}
+}
+class ColornameSet24 extends ColornameSet12 {
+	toString() {return "24"}
+	_baseValues() {
+		return super._baseValues().concat([
+			//{name: "白",reading: "しろ",hex: "#ffffff",ds: "DIC"},
+			{name: "薄橙",reading: "うすだいだい",hex: "#fce2c4",ds: "DIC"},
+			{name: "山吹色",reading: "やまぶきいろ",hex: "#f8b500",ds: "DIC"},
+			{name: "黄土色",reading: "おうどいろ",hex: "#c39143",ds: "DIC"},
+			{name: "深緑",reading: "ふかみどり",hex: "#00552e",ds: "DIC"},
+			{name: "群青色",reading: "ぐんじょういろ",hex: "#4c6cb3",ds: "DIC"},
+			{name: "菫色",reading: "すみれいろ",hex: "#7058a3",ds: "DIC"},
+			{name: "赤紫",reading: "あかむらさき",hex: "#eb6ea5",ds: "DIC"},
+			{name: "朱色",reading: "しゅいろ",hex: "#eb6101",ds: "DIC"},
+			{name: "焦茶",reading: "こげちゃ",hex: "#6f4b3e",ds: "DIC"},
+			{name: "鼠色",reading: "ねずみいろ",hex: "#949495",ds: "DIC"},
+			//{name: "銀色",reading: "ぎんいろ",hex: "#c0c0c0",ds: "JIS"},
+			//{name: "金色",reading: "きんいろ",hex: "#ffd700",ds: "JIS"}
+			])
+	}
+}
+class ColornameSet36 extends  ColornameSet24 {
+	toString() {return "36"}
+	_baseValues() {
+		return super._baseValues().concat([
+			{name: "檸檬色",reading: "れもんいろ",hex: "#ecdf2b",ds: "WA"},
+			{name: "常磐色",reading: "ときわいろ",hex: "#007b43",ds: "DIC"},
+			{name: "松葉色",reading: "まつばいろ",hex: "#839b5c",ds: "DIC"},
+			{name: "納戸色",reading: "なんどいろ",hex: "#008899",ds: "DIC"},
+			{name: "青緑",reading: "あおみどり",hex: "#00a497",ds: "DIC"},
+			{name: "薄青",reading: "うすあお",hex: "#93b69c",ds: "DIC"},
+			{name: "藍色",reading: "あいいろ",hex: "#165e83",ds: "DIC"},
+			{name: "藤紫",reading: "ふじむらさき",hex: "#a59aca",ds: "DIC"},
+			{name: "藤色",reading: "ふじいろ",hex: "#bbbcde",ds: "DIC"},
+			{name: "紅色",reading: "べにいろ",hex: "#be003f",ds: "JIS"},
+			{name: "薄紅",reading: "うすべに",hex: "#f0908d",ds: "DIC"},
+			{name: "赤茶",reading: "あかちゃ",hex: "#bb5535",ds: "DIC"}
+			])
+	}
+}
+class ColornameSetExt extends  ColornameSet36 {
+	toString() {return "ext"}
+	_baseValues() {
+		if (typeof colornameSetExt == "undefined") return [];
+		return super._baseValues().concat(colornameSetExt());
+	}
+}
+
+class View {
+	constructor() {
+		this.el = {};
+		this.registElements();
+	}
+	registElements() {
+		this.document = document;
+		this.window = window;
+		Array.from(document.getElementsByTagName("*")).forEach(o=>{
+			if (typeof o.id == "undefined" || o.id == "") return;
+			this[o.id] = o;
+		});
+	}
+	isOpenHelpPanel() {return this.helpPanel.style.display != "none";}
+	toggleHelpPanel() {
+		if (this.isOpenHelpPanel()) {
+			this.closeHelpPanel();
+		} else {
+			this.openHelpPanel();
+		}
+	}
+	openHelpPanel() {
+		let headerRect = this.header.getBoundingClientRect();
+		this.helpPanel.style.top = headerRect.bottom + "px";
+		this.helpPanel.style.height = `${(window.innerHeight - headerRect.bottom)*0.9}px`;
+		this.helpPanel.style.display = "inline";
+		this.imagePanel.style.display = "none";
+		this.copyrightPanel.style.display = "none";
+	}
+	closeHelpPanel() {
+		this.helpPanel.style.display = "none";
+		this.imagePanel.style.display = "inline";
+		this.copyrightPanel.style.display = "inline";
+	}
+	isOpenMenuPanel() {return this.menuPanel.style.height != "0px";}
+	toggleMenuPanel() {
+		if (this.isOpenMenuPanel()) {
+			this.closeMenuPanel();
+		} else {
+			this.openMenuPanel();
+		}
+	}
+	openMenuPanel() {
+		let headerRect = this.header.getBoundingClientRect();
+		this.menuPanel.style.top = "0px";
+		this.menuPanel.style.left = headerRect.left + "px";
+		this.menuPanel.style.width = "100%";
+		this.menuPanel.style.height = "100%";
+		this.menu.style.marginTop = headerRect.top + headerRect.height + "px";
+	}
+	closeMenuPanel() {
+		this.menuPanel.style.height = "0px";
+	}
+	isOpenColornamePanel() {return this.colornamePanel.style.display != "none";}
+	toggleColornamePanel() {
+		if (this.isOpenColornamePanel()) {
+			this.closeColornamePanel();
+		} else {
+			this.openColornamePanel();
+		}
+	}
+	openColornamePanel() {
+		let headerRect = this.header.getBoundingClientRect();
+		this.colornamePanel.style.top = headerRect.bottom + "px";
+		this.colornamePanel.style.display = "block";
+		this.helpPanel.style.display = "none";
+		this.imagePanel.style.display = "none";
+		this.copyrightPanel.style.display = "none";
+	}
+	closeColornamePanel() {
+		this.colornamePanel.style.display = "none";
+		this.imagePanel.style.display = "inline";
+		this.copyrightPanel.style.display = "inline";
+	}
+
+	updateSpeakView(b) {
+		this.speakView.textContent = b ? "音声あり":"音声なし";
+	}
+	updateKanjiView(b) {
+		this.kanjiView.textContent = b ? "漢字":"ひらがな";
+	}
+	updateScreenColorPinView(b) {
+		this.screenColorPinView.textContent = b ? "画面の色":"元の色";
+	}
+	updateCvdConverterView(cvdConverter) {
+		this.cvdConverterView.textContent = cvdConverter.toJaString();
+		this.severityInputPanel.disabled = (cvdConverter.toString() == "common") ? true:false;
+		this.severityView.disabled = (cvdConverter.toString() == "common") ? true:false;
+		this.severityDown.style.color = (cvdConverter.toString() == "common") ? "#999":"#444";
+		this.severityUp.style.color = (cvdConverter.toString() == "common") ? "#999":"#444";
+	}
+	updateAutoZoomView(b) {
+		this.autoZoomView.textContent = b ? "自動ズームON":"自動ズームOFF";
+		this.zoomInputPanel.disabled = b ? true:false;
+		this.zoomView.disabled = b ? true:false;
+		this.zoomDown.style.color = b ? "#999":"#444";
+		this.zoomUp.style.color = b ? "#999":"#444";
+	}
+	updateZoomView(f) {
+		view.zoomView.value = Math.floor(f * 100);
+	}
+	updateSeverityView(n) {
+		view.severityView.value = n;
+	}
+	updateSvgFilter(svgFilter) {
+		let o = this.document.getElementsByTagName("svg");
+		if (o.length > 0) document.body.removeChild(o[0]);
+		this.document.body.appendChild(svgFilter);
+		this.imageTuning.style.filter = 'url(#cvdFilter)';
+		this.imageTuning.style.webkitFilter = 'url(#cvdFilter)';
+	}
+	updateColorDiffView(colorDiff) {
+		this.colorDiffView.textContent = colorDiff.toString();
+	}
+	updateColornameSetView(colornameSet) {
+		this.colornameSetView.children[0].textContent = colornameSet.length + "色";
+	}
+	updateColornamePanel(colornameSet, isKanji) {
+		let colors = [];
+		colornameSet.forEach(o=>{
+			colors.push({name:isKanji ? o.name:o.reading, hex:o.hex});
+		});
+		let colorWidth = -1;
+		colors.forEach(o=>{
+			if (colorWidth < o.name.length) colorWidth = o.name.length;
+		});
+		while (this.colornamePanel.children[0].children.length > 0) {
+			this.colornamePanel.children[0].removeChild(this.colornamePanel.children[0].firstChild);
+		}
+		colors.forEach(color=>{
+			let p = this.document.createElement("span");
+			p.style.cssText = "display:inline-block;height:1em;width:" + (colorWidth + 4) + "em";
+			p.appendChild(this.document.createElement("span"));
+			p.firstChild.style.cssText = "display:inline-block;width:3em;height:1em"
+						+ ";border:1px solid black;background-color:" + color.hex;
+			p.appendChild(this.document.createElement("span"));
+			p.lastChild.style.cssText = "display:inline-block;margin-left:4px"
+						+ ";height:1em;width:" +  (colorWidth + 0.5) + "em"
+						+ ";color:black;vertical-align:top";
+			p.lastChild.textContent = color.name;
+			this.colornamePanel.children[0].appendChild(p);
+		});
+	}
+}
+
+class CvdConverter {
+	static build(type) {
+		if (type.match(/^[cn]/i)) return new CvdCConverter();
+		if (type.match(/^p/i)) return new CvdPConverter();
+		if (type.match(/^d/i)) return new CvdDConverter();
+		if (type.match(/^t/i)) return new CvdTConverter();
+		if (type.match(/^a/i)) return new CvdAConverter();
+	}
+	params() {
+		return {
+		rr:{a: 0.247, b:-0.836, c: 1.294, d:-1.552, e: 1.000},
+		rg:{a:-0.322, b: 1.091, c:-1.686, d: 1.969, e: 0.000},
+		rb:{a: 0.075, b:-0.255, c: 0.391, d:-0.416, e: 0.000},
+		gr:{a:-0.076, b: 0.258, c:-0.395, d: 0.328, e: 0.000},
+		gg:{a: 0.099, b:-0.336, c: 0.518, d:-0.494, e: 1.000},
+		gb:{a:-0.023, b: 0.079, c:-0.122, d: 0.166, e: 0.000},
+		br:{a: 0.008, b:-0.025, c: 0.047, d:-0.033, e: 0.000},
+		bg:{a:-0.010, b: 0.033, c:-0.061, d:-0.010, e: 0.000},
+		bb:{a: 0.002, b:-0.008, c: 0.014, d: 0.043, e: 1.000}
+		}
+	}
+	matrix(x=1.0) {
+		let v = {};
+		["rr","rg","rb","gr","gg","gb","br","bg","bb"].forEach(key=>{
+			v[key] =  this.params()[key].a * Math.pow(x,4)
+					+ this.params()[key].b * Math.pow(x,3)
+					+ this.params()[key].c * Math.pow(x,2)
+					+ this.params()[key].d * Math.pow(x,1)
+					+ this.params()[key].e;
+		});
+		return	[v.rr, v.rg, v.rb, 0, 0,
+				 v.gr, v.gg, v.gb, 0, 0,
+				 v.br, v.bg, v.bb, 0, 0,
+				 0,    0,    0,    1, 0];
+
+	}
+	convertFromRgbColor(fromRgbColor, severity) {
+		let matrix = this.matrix(severity);
+		let result = {};
+		result.r = fromRgbColor.r * matrix[0] +  fromRgbColor.g * matrix[1] +  fromRgbColor.b * matrix[2];
+		result.g = fromRgbColor.r * matrix[5] +  fromRgbColor.g * matrix[6] +  fromRgbColor.b * matrix[7];
+		result.b = fromRgbColor.r * matrix[10] + fromRgbColor.g * matrix[11] + fromRgbColor.b * matrix[12];
+		return result;
+	}
+	svgFilterElements(x=1.0) {
+		let namespace = 'http://www.w3.org/2000/svg'
+		let svg = document.createElementNS(namespace,'svg');
+		let defs = document.createElementNS(namespace, 'defs');
+		let filter = document.createElementNS(namespace, 'filter');
+		let feColorMatrix = document.createElementNS(namespace, "feColorMatrix");
+
+		svg.setAttribute('style', 'width:0px;height:0px');
+		filter.setAttribute('id', 'cvdFilter');
+
+		feColorMatrix.setAttribute("values", this.matrix(x));
+		feColorMatrix.setAttribute("color-interpolation-filters", "sRGB");
+		feColorMatrix.setAttribute("in", "SourceGraphic");
+		feColorMatrix.setAttribute("type", "matrix");
+
+		filter.appendChild(feColorMatrix);
+
+		let feComponentTransfer = document.createElementNS(namespace, "feComponentTransfer");
+		let feFuncR = document.createElementNS(namespace, "feFuncR");
+		let feFuncG = document.createElementNS(namespace, "feFuncG");
+		let feFuncB = document.createElementNS(namespace, "feFuncB");
+		feFuncR.setAttribute("type", "gamma");
+		feFuncR.setAttribute("amplitude", "1");
+		feFuncR.setAttribute("exponent", "1");
+		feFuncR.setAttribute("offset", "0");
+		feFuncG.setAttribute("type", "gamma");
+		feFuncG.setAttribute("amplitude", "1");
+		feFuncG.setAttribute("exponent", "1");
+		feFuncG.setAttribute("offset", "0");
+		feFuncB.setAttribute("type", "gamma");
+		feFuncB.setAttribute("amplitude", "1");
+		feFuncB.setAttribute("exponent", "1");
+		feFuncB.setAttribute("offset", "0");
+		feComponentTransfer.appendChild(feFuncR);
+		feComponentTransfer.appendChild(feFuncG);
+		feComponentTransfer.appendChild(feFuncB);
+		filter.appendChild(feComponentTransfer);
+
+		defs.appendChild(filter);
+		svg.appendChild(defs);
+		return svg;
+	}
+}
+class CvdCConverter extends CvdConverter {
+	toString() {return "common"}
+	toJaString() {return "色弱なし";}
+	params() {return {}} /* params()は使わずに計算するため不要 */
+	matrix(x=1.0) {
+		return	[1, 0, 0, 0, 0,
+				 0, 1, 0, 0, 0,
+				 0, 0, 1, 0, 0,
+				 0, 0, 0, 1, 0];
+
+	}
+}
+class CvdPConverter extends CvdConverter {
+	toString() {return "protanopia";}
+	toJaString() {return "P型";}
+	params() {
+		return {
+		rr:{a: 0.247, b:-0.836, c: 1.294, d:-1.552, e: 1.000},
+		rg:{a:-0.322, b: 1.091, c:-1.686, d: 1.969, e: 0.000},
+		rb:{a: 0.075, b:-0.255, c: 0.391, d:-0.416, e: 0.000},
+		gr:{a:-0.076, b: 0.258, c:-0.395, d: 0.328, e: 0.000},
+		gg:{a: 0.099, b:-0.336, c: 0.518, d:-0.494, e: 1.000},
+		gb:{a:-0.023, b: 0.079, c:-0.122, d: 0.166, e: 0.000},
+		br:{a: 0.008, b:-0.025, c: 0.047, d:-0.033, e: 0.000},
+		bg:{a:-0.010, b: 0.033, c:-0.061, d:-0.010, e: 0.000},
+		bb:{a: 0.002, b:-0.008, c: 0.014, d: 0.043, e: 1.000}
+		}
+	}
+}
+class CvdDConverter extends  CvdConverter {
+	toString() {return "deuteranopia";}
+	toJaString() {return "D型";}
+	params() {
+		return {
+		rr:{a: 0.337, b:-1.102, c: 1.608, d:-1.475, e: 1.000},
+		rg:{a:-0.439, b: 1.438, c:-2.097, d: 1.958, e: 0.000},
+		rb:{a: 0.103, b:-0.336, c: 0.489, d:-0.484, e: 0.000},
+		gr:{a:-0.104, b: 0.340, c:-0.495, d: 0.538, e: 0.000},
+		gg:{a: 0.135, b:-0.444, c: 0.646, d:-0.665, e: 1.000},
+		gb:{a:-0.032, b: 0.104, c:-0.151, d: 0.127, e: 0.000},
+		br:{a: 0.010, b:-0.034, c: 0.051, d:-0.039, e: 0.000},
+		bg:{a:-0.013, b: 0.044, c:-0.066, d: 0.078, e: 0.000},
+		bb:{a: 0.003, b:-0.010, c: 0.015, d:-0.039, e: 1.000}
+		}
+	}
+}
+class CvdTConverter extends  CvdConverter {
+	toString() {return "tritanopia";}
+	toJaString() {return "T型";}
+	params() {
+		return {
+		rr:{a:-1.177, b: 0.175, c: 2.225, d:-0.970, e: 1.001},
+		rg:{a: 0.262, b: 1.881, c:-3.525, d: 1.311, e:-0.002},
+		rb:{a: 0.915, b:-2.056, c: 1.301, d:-0.341, e: 0.001},
+		gr:{a: 0.358, b:-0.080, c:-0.635, d: 0.279, e: 0.000},
+		gg:{a: 0.090, b:-0.941, c: 1.278, d:-0.498, e: 1.001},
+		gb:{a:-0.448, b: 1.021, c:-0.643, d: 0.219, e:-0.001},
+		br:{a: 0.004, b: 0.196, c:-0.317, d: 0.122, e: 0.000},
+		bg:{a:-1.267, b: 2.755, c:-1.531, d: 0.738, e:-0.002},
+		bb:{a: 1.263, b:-2.952, c: 1.849, d:-0.86, e:  1.002}
+		}
+	}
+}
+class CvdAConverter extends  CvdConverter {
+	toString() {return "achromatopsia";}
+	toJaString() {return "A型";}
+	params() {return {}} /* params()は使わずに計算するため不要 */
+	/*
+	params() {
+		return {
+		rr:{a: 0.009, b:-0.014, c: 0.005, d:-0.787, e: 1.000},
+		rg:{a:-0.012, b: 0.023, c:-0.015, d: 0.718, e: 0.000},
+		rb:{a:-0.003, b: 0.002, c: 0.001, d: 0.072, e: 0.000},
+		gr:{a: 0.009, b:-0.014, c: 0.005, d: 0.213, e: 0.000},
+		gg:{a:-0.012, b: 0.023, c:-0.015, d:-0.282, e: 1.000},
+		gb:{a:-0.003, b: 0.002, c: 0.001, d: 0.072, e: 0.000},
+		br:{a: 0.009, b:-0.014, c: 0.005, d: 0.213, e: 0.000},
+		bg:{a:-0.012, b: 0.023, c:-0.015, d: 0.718, e: 0.000},
+		bb:{a:-0.003, b: 0.002, c: 0.001, d:-0.928, e: 1.000}
+		}
+	}
+	*/
+	matrix(x=1.0) {
+		return	[0.213+0.787*(1-x), 0.715-0.715*(1-x), 0.072-0.072*(1-x), 0, 0,
+				 0.213-0.213*(1-x), 0.715+0.285*(1-x), 0.072-0.072*(1-x), 0, 0,
+				 0.213-0.213*(1-x), 0.715-0.715*(1-x), 0.072+0.928*(1-x), 0, 0,
+				 0,                 0,                 0,                 1, 0];
+
+	}
+}
+
+let colornameSets = {
+	"12": new ColornameSet12(),
+	"24": new ColornameSet24(),
+	"36": new ColornameSet36(),
+	"ext": new ColornameSetExt()
+}
+
+let view = new View();
+let pins = [];
+
+let originCanvas = document.createElement("canvas");
+
+let prefs = {
+	colornameSet: null,
+	isSpeak: null,
+	severity: null,
+	isKanji: null,
+	isScreenColorPin: false,
+	isAutoZoom: true,
+	zoom: 1,
+	isPC: true,
+
+	pinUID: 0,
+
+	colorDiff: null,
+	cvdConverter: null,
+
+	intervalId: null,
+}
+
+setColorDiff(ColorDiff.build("cie2000"));
+setColornameSet(colornameSets["12"]);
+setSpeak(true);
+setCvdConverter(CvdConverter.build("common"));
+setSeverity(100);
+setKanji(false);
+view.updateAutoZoomView(prefs.isAutoZoom);
+
+window.location.search.slice(1).split('&').forEach(o=>{
+	let key = o.split('=')[0].toLowerCase();
+	let value = o.split('=')[1];
+
+	if (key == "colordiff") {
+		setColorDiff(ColorDiff.build(value));
+		view.colorDiffView.style.display = "block";
+	} else if (key == "colornameset") {
+		setColornameSet(colornameSets[value]);
+	} else if (key == "speak")  {
+		setSpeak(value == "1" ? true:false);
+	} else if (key == "cvd") {
+		setCvdConverter(CvdConverter.build(value));
+	} else if (key == "severity") {
+		setSeverity(parseInt(value));
+	} else if (key == "kanji") {
+		setKanji(value == "1" ? true:false);
+	} else if (key == "zoom") {
+		setAutoZoom(false);
+		setZoom(parseFloat(value));
+	}
+});
+
+if (window.navigator.userAgent.toLowerCase().indexOf('firefox') == -1) {
+	document.getElementById("imageOrigin").removeAttribute("src");
+}
+
+document.getElementById("title").textContent = document.title.replace(/ - .+$/, "");
+document.getElementById("file").value = "";
+
+if (canSpeak()) {
+	document.getElementById("speakView").disabled = false;
+} else {
+	document.getElementById("speakView").disabled = true;
+	setSpeak(false);
+}
+if (document.getElementById("imageOrigin").src) {
+	document.getElementById("imageOrigin").isSelect = true;
+} else {
+	document.getElementById("imageOrigin").src = "!raise error-event!";
+	document.getElementById("imageOrigin").isSelect = false;
+}
+
+//append event handler
+document.addEventListener("keyup", function(e) {
+	if (e.ctrlKey) return;
+	if (e.altKey) return;
+	if (typeof e.key == "undefined") {
+		e.key = String.fromCharCode(e.keyCode).toLowerCase();
+	}
+	if(document.activeElement == document.getElementById("severityView")) {
+		return;
+	}
+	if (e.key.match(/^[pdta]/) && e.key == prefs.cvdConverter.toString().substr(0,1)) {
+		setCvdConverter(CvdConverter.build("common"));
+		return;
+	}
+	if (e.key.match(/^[pdtan]/)) {
+		setCvdConverter(CvdConverter.build(e.key));
+		return;
+	}
+	if (e.key >= "1" && e.key <= "9") {
+		if (view.cvdPanel.children[1].disabled) return;
+		setSeverity(e.key + "0");
+		return;
+	}
+	if (e.key == "0") {
+		if (view.cvdPanel.children[1].disabled) return;
+		setSeverity(100);
+		return;
+	}
+	if (e.key == "s") {
+		setSpeak(!prefs.isSpeak);
+		return;
+	}
+	if (e.key == "k") {
+		setKanji(!prefs.isKanji);
+		return;
+	}
+	if (e.key == "c") {
+		setColornameSet(nextColornameSet(prefs.colornameSet));
+		return;
+	}
+});
+window.addEventListener("resize", function() {
+	copyImageOriginToTuningCanvas();
+	relocateAllPins();
+});
+document.getElementById("fileButton").addEventListener("click", function() {
+	document.getElementById("file").click();
+});
+document.getElementById("showMenu").addEventListener("click", e=>{
+	e.stopPropagation();
+	view.openMenuPanel();
+	view.closeHelpPanel()
+	view.closeColornamePanel();
+});
+document.getElementById("menuPanel").addEventListener("click", e=>{
+	e.stopPropagation();
+	view.closeMenuPanel();
+});
+
+document.getElementById("cvdPanel").addEventListener("click", e=>{
+	if (e.target.parentElement.parentElement == view.cvdPanel) {
+		e.stopPropagation();
+		return;
+	}
+	if (e.target == view.cvdPanel || e.target.parentElement == view.cvdPanel) {
+		e.stopPropagation();
+		setCvdConverter(nextCvdConverter(prefs.cvdConverter));
+		return;
+	}
+	return;
+});
+document.getElementById("severityDown").addEventListener("touchstart", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mousedown", true, true );
+	view.severityDown.dispatchEvent(evt);
+});
+document.getElementById("severityDown").addEventListener("touchend", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mouseup", true, true );
+	view.severityDown.dispatchEvent(evt);
+});
+document.getElementById("severityDown").addEventListener("mousedown", e=>{
+	if (this.cvdPanel.children[1].disabled) return;
+	if (prefs.intervalId != null) return;
+	e.stopPropagation();
+	setSeverity(prefs.severity - 1);;
+	prefs.intervalId = setInterval(function(){
+		setSeverity(prefs.severity - 1);;
+	},100);
+});
+document.getElementById("severityDown").addEventListener("mouseup", e=>{
+	e.stopPropagation();
+	clearInterval(prefs.intervalId);
+	prefs.intervalId = null;
+});
+document.getElementById("severityUp").addEventListener("touchstart", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mousedown", true, true );
+	view.severityUp.dispatchEvent(evt);
+});
+document.getElementById("severityUp").addEventListener("touchend", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mouseup", true, true );
+	view.severityUp.dispatchEvent(evt);
+});
+document.getElementById("severityUp").addEventListener("mousedown", e=>{
+	if (this.cvdPanel.children[1].disabled) return;
+	if (prefs.intervalId != null) return;
+	e.stopPropagation();
+	setSeverity(prefs.severity + 1);
+	prefs.intervalId = setInterval(function(){
+		setSeverity(prefs.severity + 1);
+	},100);
+});
+document.getElementById("severityUp").addEventListener("mouseup", e=>{
+	e.stopPropagation();
+	clearInterval(prefs.intervalId);
+	prefs.intervalId = null;
+});
+document.getElementById("severityView").addEventListener("input", e=>{
+	e.stopPropagation();
+	setSeverity(parseInt("0" + view.severityView.value));
+});
+document.getElementById("severityView").addEventListener("click", e=>{
+	e.stopPropagation();
+	e.target.select();
+});
+
+document.getElementById("kanjiView").addEventListener("click", e=>{
+	e.stopPropagation();
+	setKanji(!prefs.isKanji);
+});
+document.getElementById("screenColorPinView").addEventListener("click", e=>{
+	e.stopPropagation();
+	setScreenColorPin(!prefs.isScreenColorPin);
+});
+document.getElementById("speakView").addEventListener("click", e=>{
+	e.stopPropagation();
+	setSpeak(!prefs.isSpeak);
+});
+document.getElementById("colornameSetView").addEventListener("click", e=>{
+	e.stopPropagation();
+	setColornameSet(nextColornameSet(prefs.colornameSet));
+});
+document.getElementById("colornameSetView").children[1].addEventListener("click", e=>{
+	e.stopPropagation();
+	if (view.isOpenColornamePanel()) {
+		view.closeColornamePanel();
+	} else {
+		view.closeMenuPanel();
+		view.openColornamePanel();
+		updateColornamePanel();
+	}
+});
+document.getElementById("zoomPanel").addEventListener("click", e=>{
+	if (e.target.parentElement.parentElement == view.zoomPanel) {
+		e.stopPropagation();
+		return;
+	}
+	if (e.target == view.zoomPanel || e.target.parentElement == view.zoomPanel) {
+		e.stopPropagation();
+		setAutoZoom(!prefs.isAutoZoom);
+		copyImageOriginToTuningCanvas();
+		relocateAllPins();
+		return;
+	}
+	return;
+});
+document.getElementById("zoomDown").addEventListener("touchstart", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mousedown", true, true );
+	view.zoomDown.dispatchEvent(evt);
+});
+document.getElementById("zoomDown").addEventListener("touchend", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mouseup", true, true );
+	view.zoomDown.dispatchEvent(evt);
+});
+document.getElementById("zoomDown").addEventListener("mousedown", e=>{
+	if (prefs.isAutoZoom) return;
+	e.stopPropagation();
+	setZoom(prefs.zoom - 0.01);
+	copyImageOriginToTuningCanvas();
+	relocateAllPins();
+	prefs.intervalId = setInterval(function(){
+		setZoom(prefs.zoom - 0.01);
+		copyImageOriginToTuningCanvas();
+		relocateAllPins();
+	},100);
+});
+document.getElementById("zoomDown").addEventListener("mouseup", e=>{
+	if (prefs.isAutoZoom) return;
+	e.stopPropagation();
+	clearInterval(prefs.intervalId);
+	prefs.intervalId = null;
+});
+document.getElementById("zoomUp").addEventListener("touchstart", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mousedown", true, true );
+	view.zoomUp.dispatchEvent(evt);
+});
+document.getElementById("zoomUp").addEventListener("touchend", e=>{
+	let evt = document.createEvent("MouseEvents");
+	evt.initEvent("mouseup", true, true );
+	view.zoomUp.dispatchEvent(evt);
+});
+document.getElementById("zoomUp").addEventListener("mousedown", e=>{
+	if (prefs.isAutoZoom) return;
+	e.stopPropagation();
+	setZoom(prefs.zoom + 0.01);
+	copyImageOriginToTuningCanvas();
+	relocateAllPins();
+	prefs.intervalId = setInterval(function(){
+		setZoom(prefs.zoom + 0.01);
+		copyImageOriginToTuningCanvas();
+		relocateAllPins();
+	},100);
+});
+document.getElementById("zoomUp").addEventListener("mouseup", e=>{
+	if (prefs.isAutoZoom) return;
+	e.stopPropagation();
+	clearInterval(prefs.intervalId);
+	prefs.intervalId = null;
+});
+document.getElementById("zoomView").addEventListener("input", e=>{
+	e.stopPropagation();
+	setZoom(parseInt("0" + view.zoomView.value) / 100);
+	copyImageOriginToTuningCanvas();
+	relocateAllPins();
+});
+document.getElementById("zoomView").addEventListener("click", e=>{
+	if (prefs.isAutoZoom) return;
+	e.stopPropagation();
+	e.target.select();
+});
+
+document.getElementById("colorDiffView").addEventListener("click", e=>{
+	e.stopPropagation();
+	setColorDiff(nextColorDiff(prefs.colorDiff));
+	view.updateColorDiffView(prefs.colorDiff)
+});
+
+document.getElementById("help").addEventListener("click", e=>{
+	e.stopPropagation();
+	view.closeMenuPanel();
+	view.closeColornamePanel();
+	view.toggleHelpPanel();
+});
+document.getElementById("helpPanel").addEventListener("click", function() {
+	view.closeHelpPanel();
+});
+document.getElementById("colornamePanel").addEventListener("click", function() {
+	view.closeColornamePanel();
+});
+document.getElementById("file").addEventListener("change", function() {
+	let fileList = this.files;
+	let URL = window.URL || window.webkitURL;
+	let imgUrl = URL.createObjectURL(fileList[0]);
+	document.getElementById("imageOrigin").src = imgUrl;
+	document.getElementById("imageOrigin").isSelect = true;
+});
+document.getElementById("imageOrigin").addEventListener("load", function() {
+	view.closeColornamePanel();
+	view.closeHelpPanel();
+
+	originCanvas.width = this.width;
+	originCanvas.height = this.height;
+	originCanvas.getContext("2d").drawImage(this, 0, 0);
+
+	copyImageOriginToTuningCanvas();
+	removeAllPins();
+});
+document.getElementById("imageOrigin").addEventListener("error", function() {
+	let canvas = document.createElement("canvas");
+	let ctx = canvas.getContext("2d");
+	canvas.width = window.innerWidth/2;
+	canvas.height = canvas.width;
+	ctx.strokeRect(5, 5, canvas.width-5, canvas.height-5);
+	ctx.font = "16px \"sans-serif\"";
+	ctx.fillText('画像が選択されていません。画像を選択して下さい。', 20, 40, canvas.width-40);
+	document.getElementById("imageOrigin").src = canvas.toDataURL();
+	document.getElementById("imageOrigin").isSelect = false;
+});
+/*
+document.getElementById("imageTuning").addEventListener("contextmenu", function(e) {
+	e.preventDefault();
+	let color = getColor(this, e.offsetX, e.offsetY);
+	if (prefs.isSpeak) speak(nearestColorname(color).reading);
+});
+*/
+document.getElementById("imageTuning").addEventListener("click", function(e) {
+	if (!document.getElementById("imageOrigin").isSelect) {
+		document.getElementById("file").click();
+		return;
+	}
+	let x = e.offsetX / prefs.zoom;
+	let y = e.offsetY / prefs.zoom;
+	let color = getColor(originCanvas, x, y);
+	appendPin(x, y, color);
+});
+document.getElementById("pasteArea").addEventListener("paste", function(e) {
+	//clipboardData.items(=DataTransferItemList)が使えるなら使う（Chrome,Edge）
+	if (!e.clipboardData) {return}
+	if (!e.clipboardData.items) {return}
+	if (e.clipboardData.items.length < 1) {return}
+
+	Array.from(e.clipboardData.items).forEach(function(o) {
+		if (o.kind != "file") {return}
+		let f = new FileReader();
+		f.addEventListener("load", function(e){
+			document.getElementById("imageOrigin").src = e.target.result;
+			document.getElementById("imageOrigin").isSelect = true;
+		});
+		f.readAsDataURL(o.getAsFile());
+	});
+	this.textContent = null;
+});
+document.getElementById("pasteArea").addEventListener("input", function(e) {
+	//画像が貼り付けられたらそれを使う（Firefox）
+	if (this.querySelector("img")) {
+		document.getElementById("imageOrigin").src = this.querySelector("img").src;
+		document.getElementById("imageOrigin").isSelect = true;
+	}
+	this.textContent = null;
+})
+//
+setInterval (function() {
+	if (document.activeElement === document.body) resetFocus();
+}, 10000);
+
+//
+//view.openMenuPanel();
+resetFocus();
+function resetFocus() {
+	document.getElementById("pasteArea").focus();
+}
+
+//Pin
+function removeAllPins() {
+	pins = [];
+	updatePins(pins);
+}
+function relocateAllPins() {
+	updatePins(pins);
+}
+function renameAllPins() {
+	pins.forEach(o=>{
+		o.colorname = nearestColorname(prefs.isScreenColorPin ? convertToCvdColor(o.rgbColor):o.rgbColor);
+	});
+	updatePins(pins);
+}
+function removePin(pin) {
+	removeByPinId(pin.id);
+}
+function removeByPinId(pinId) {
+	pins = pins.filter(o=>(o.id != pinId));
+	updatePins(pins);
+}
+function appendPin(x, y, color) {
+	let pin = createPin(x, y, color);
+	pins.push(pin);
+	updatePins(pins);
+	if (prefs.isSpeak) speak(pin.colorname.reading);
+}
+function createPin(x, y, color) {
+	return {
+		x: x,
+		y: y,
+		rgbColor: color,
+		colorname: nearestColorname(prefs.isScreenColorPin ? convertToCvdColor(color):color),
+		id: prefs.pinUID++
+	}
+}
+function updatePins(pins, isKanji=prefs.isKanji) {
+	pins.forEach(pin=>{
+		let e = document.getElementById(pin.id);
+		if (!e) {
+			e = createPinElement(pin, isKanji);
+			document.getElementById("imageTuningFrame").appendChild(e);
+		}
+		e.style.top = Math.ceil(pin.y * prefs.zoom - 74) + "px";
+		e.style.left = Math.ceil(pin.x * prefs.zoom - 25) + "px";
+		e.firstChild.style.backgroundColor = pin.colorname.hex;
+		e.firstChild.textContent = isKanji ? pin.colorname.name:pin.colorname.reading;
+	});
+	Array.from(document.getElementById("imageTuningFrame").getElementsByTagName("div")).filter(o=>(
+		o.isPin && !pins.find(p=>(p.id == o.id))
+	)).forEach(o=>document.getElementById("imageTuningFrame").removeChild(o));
+}
+function createPinElement(pin,isKanji=prefs.isKanji) {
+	let r = document.getElementById("imageTuningFrame").getBoundingClientRect();
+	let o = document.createElement("div");
+	o.id = pin.id;
+	o.isPin = true;
+	o.style.cssText = "margin:0px;width:50px;height:75px;position:absolute";
+	o.style.left = (pin.x * prefs.zoom - 25) + "px";
+	o.style.top =  (pin.y * prefs.zoom - 74) + "px";
+	o.appendChild(document.createElement("div"));
+	o.firstChild.isPinCircle = true;
+	o.firstChild.textContent = isKanji ? pin.colorname.name:pin.colorname.reading;
+	o.firstChild.style.cssText = "margin:0px;width:50px;height:50px"
+				   + ";border-radius:50%;display:table-cell;vertical-align:middle;text-align:center"
+				   + ";color:white;font-size:small;border:1px solid rgba(0,0,0,0.5)"
+				   + ";text-shadow:1px 1px 0px black;cursor: default;user-select: none"
+				   + ";-moz-user-select:none;-webkit-user-select:none";
+	o.firstChild.style.backgroundColor = pin.colorname.hex;
+	o.appendChild(document.createElement("div"));
+	o.lastChild.isPinLine = true;
+	o.lastChild.style.cssText = "margin:0px;width:25px;height:22px;border:0px;border-right:1px solid rgba(0,0,0,0.5)";
+	o.addEventListener("click", function(e) {
+		if (e.target.isPinCircle) {
+			removeByPinId(this.id);
+			return;
+		}
+		let thisr = e.target.getBoundingClientRect();
+		let imagePanelr = document.getElementById("imagePanel").getBoundingClientRect();
+		let x = (e.offsetX + thisr.left + document.getElementById("imagePanel").scrollLeft - imagePanelr.left) / prefs.zoom;
+		let y = (e.offsetY + thisr.top + document.getElementById("imagePanel").scrollTop - imagePanelr.top) / prefs.zoom;
+		let color = getColor(originCanvas, x, y);
+		appendPin(x, y, color);
+		return;
+	});
+	o.addEventListener("contextmenu", function(e) {
+		e.preventDefault();
+		if (prefs.isSpeak) speak(pins.find(o=>(o.id == this.id)).colorname.reading);
+	});
+	return o;
+}
+//
+function nearestColorname(rgbColor) {
+	return prefs.colornameSet.nearestColorname(prefs.colorDiff, rgbColor);
+}
+
+//
+function setSpeak(b) {
+	prefs.isSpeak = b;
+	view.updateSpeakView(b);
+}
+function setKanji(b) {
+	prefs.isKanji = b;
+	view.updateKanjiView(b);
+	renameAllPins();
+	if (view.isOpenColornamePanel()) updateColornamePanel();
+}
+function setAutoZoom(b) {
+	prefs.isAutoZoom = b;
+	view.updateAutoZoomView(b);
+}
+function setZoom(f) {
+	if (f < 0.01) f = 0.01;
+	prefs.zoom = f;
+	view.updateZoomView(f);
+}
+function setScreenColorPin(b) {
+	prefs.isScreenColorPin = b;
+	view.updateScreenColorPinView(b);
+	renameAllPins();
+}
+function nextColorDiff(colorDiff) {
+	if (colorDiff.toString() == "euclidean") return new Cie76();
+	if (colorDiff.toString() == "cie76") return new Cie94();
+	if (colorDiff.toString() == "cie94") return new Cie2000();
+	if (colorDiff.toString() == "cie2000") return new Euclidean();
+}
+function nextCvdConverter(cvdConverter) {
+	if (cvdConverter.toString() == "common") return CvdConverter.build("protanopia");
+	if (cvdConverter.toString() == "protanopia") return CvdConverter.build("deuteranopia");
+	if (cvdConverter.toString() == "deuteranopia") return CvdConverter.build("tritanopia");
+	if (cvdConverter.toString() == "tritanopia") return CvdConverter.build("achromatopsia");
+	if (cvdConverter.toString() == "achromatopsia") return CvdConverter.build("common");
+	return CvdConverter.build("common");
+}
+function setCvdConverter(cvdConverter) {
+	prefs.cvdConverter = cvdConverter;
+	view.updateCvdConverterView(prefs.cvdConverter);
+	renameAllPins();
+	applyFilter();
+}
+function setSeverity(n) {
+	prefs.severity = parseInt(n);
+	if (prefs.severity < 0) prefs.severity = 0;
+	if (prefs.severity > 100) prefs.severity = 100;
+	view.updateSeverityView(prefs.severity);
+	renameAllPins();
+	applyFilter();
+}
+function setColorDiff(colorDiff) {
+	prefs.colorDiff = colorDiff;
+	view.updateColorDiffView(prefs.colorDiff);
+	renameAllPins();
+}
+function nextColornameSet(colornameSet) {
+	if (colornameSet.toString() == "12") return colornameSets["24"];
+	if (colornameSet.toString() == "24") return colornameSets["36"];
+	if (colornameSet.toString() == "36") {
+		if (colornameSets["ext"].length > 0) return colornameSets["ext"];
+		return colornameSets["12"]
+	}
+	if (colornameSet.toString() == "ext") return colornameSets["12"];
+	return colornameSets["12"];
+}
+function setColornameSet(colornameSet) {
+	prefs.colornameSet = colornameSet;
+	view.updateColornameSetView(prefs.colornameSet);
+	renameAllPins();
+	if (view.isOpenColornamePanel()) updateColornamePanel();
+}
+function applyFilter() {
+	view.updateSvgFilter(prefs.cvdConverter.svgFilterElements(prefs.severity / 100));
+	copyImageOriginToTuningCanvas();
+	relocateAllPins();
+}
+function updateColornamePanel() {
+	view.updateColornamePanel(prefs.colornameSet, prefs.isKanji);
+}
+
+function getColor(canvas, x,y) {
+	let ctx = canvas.getContext("2d");
+	let imageData = ctx.getImageData(x, y, 1, 1);
+	let pixel = imageData.data;
+	return {r:pixel[0], g:pixel[1], b:pixel[2]};
+}
+function copyImageOriginToTuningCanvas() {
+	let canvas = document.getElementById("imageTuning");
+	let ctx = canvas.getContext("2d");
+
+	canvas.width = document.body.clientWidth - document.getElementById("imagePanel").getBoundingClientRect().left; 
+	canvas.height = (window.innerHeight - document.getElementById("imagePanel").getBoundingClientRect().top) * 0.95;
+	canvas.height = canvas.height - document.getElementById("copyrightPanel").getBoundingClientRect().height; 
+
+	document.getElementById("imagePanel").style.width = canvas.width + "px";
+	document.getElementById("imagePanel").style.height = canvas.height + "px";
+	
+	if (prefs.isAutoZoom) {
+		if (canvas.height > canvas.width) {
+			let f = canvas.height / originCanvas.height;
+			if (canvas.width < originCanvas.width * f) {
+				f = canvas.width / originCanvas.width;
+			}
+			setZoom(f);
+		} else {
+			let f = canvas.width / originCanvas.width;
+			if (canvas.height < originCanvas.height * f) {
+				f = canvas.height / originCanvas.height;
+			}
+			setZoom(f);
+		}
+	}
+	canvas.height = originCanvas.height * prefs.zoom;
+	canvas.width = originCanvas.width * prefs.zoom;
+	//canvas.zoom = prefs.zoom;
+	document.getElementById("imageTuningFrame").style.width = canvas.width + "px";
+	document.getElementById("imageTuningFrame").style.height = canvas.height + "px";
+	ctx.drawImage(originCanvas, 0, 0, originCanvas.width, originCanvas.height, 0, 0, canvas.width, canvas.height);
+}
+
+function canSpeak() {
+	if (typeof SpeechSynthesisUtterance != "undefined") return true;
+	return false;
+}
+function speak(text) {
+	if (!canSpeak()) return;
+	let u = new SpeechSynthesisUtterance();
+	u.text = text;
+	u.lang = 'ja-JP';
+	u.rate = 1.0;
+	speechSynthesis.speak(u);
+}
+
+function convertToCvdColor(fromRgbColor) {
+	return prefs.cvdConverter.convertFromRgbColor(fromRgbColor, prefs.severity / 100);
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+function colornameSetExt() {
+return [{name:"桜色", reading:"さくらいろ", hex:"#fef4f4",ds:"DIC"},
+{name:"小豆色", reading:"あずきいろ", hex:"#96514d",ds:"DIC"},
+{name:"黄金", reading:"こがね", hex:"#e6b422",ds:"DIC"},
+{name:"萌葱色", reading:"もえぎいろ", hex:"#006e54",ds:"DIC"},
+{name:"古代紫", reading:"こだいむらさき", hex:"#895b8a",ds:"DIC"},
+{name:"薄桜", reading:"うすざくら", hex:"#fdeff2",ds:"DIC"},
+{name:"枯茶", reading:"からちゃ", hex:"#8d6449",ds:"DIC"},
+{name:"櫨染", reading:"はじぞめ", hex:"#d9a62e",ds:"DIC"},
+{name:"花緑青", reading:"はなろくしょう", hex:"#00a381",ds:"DIC"},
+{name:"茄子紺", reading:"なすこん", hex:"#824880",ds:"DIC"},
+{name:"桜鼠", reading:"さくらねず", hex:"#e9dfe5",ds:"DIC"},
+{name:"飴色", reading:"あめいろ", hex:"#deb068",ds:"DIC"},
+{name:"黄朽葉色", reading:"きくちばいろ", hex:"#d3a243",ds:"DIC"},
+{name:"翡翠色", reading:"ひすいいろ", hex:"#38b48b",ds:"DIC"},
+{name:"二藍", reading:"ふたあい", hex:"#915c8b",ds:"DIC"},
+{name:"鴇鼠", reading:"ときねず", hex:"#e4d2d8",ds:"DIC"},
+{name:"駱駝色", reading:"らくだいろ", hex:"#bf794e",ds:"DIC"},
+{name:"山吹茶", reading:"やまぶきちゃ", hex:"#c89932",ds:"DIC"},
+{name:"青緑", reading:"あおみどり", hex:"#00a497",ds:"DIC"},
+{name:"京紫", reading:"きょうむらさき", hex:"#9d5b8b",ds:"DIC"},
+{name:"虹色", reading:"にじいろ", hex:"#f6bfbc",ds:"DIC"},
+{name:"土色", reading:"つちいろ", hex:"#bc763c",ds:"DIC"},
+{name:"芥子色", reading:"からしいろ", hex:"#d0af4c",ds:"DIC"},
+{name:"水浅葱", reading:"みずあさぎ", hex:"#80aba9",ds:"DIC"},
+{name:"蒲葡", reading:"えびぞめ", hex:"#7a4171",ds:"DIC"},
+{name:"珊瑚色", reading:"さんごいろ", hex:"#f5b1aa",ds:"DIC"},
+{name:"黄唐茶", reading:"きがらちゃ", hex:"#b98c46",ds:"DIC"},
+{name:"豆がら茶", reading:"まめがらちゃ", hex:"#8b968d",ds:"DIC"},
+{name:"錆浅葱", reading:"さびあさぎ", hex:"#5c9291",ds:"DIC"},
+{name:"若紫", reading:"わかむらさき", hex:"#bc64a4",ds:"DIC"},
+{name:"一斤染", reading:"いっこんぞめ", hex:"#f5b199",ds:"DIC"},
+{name:"桑染", reading:"くわぞめ", hex:"#b79b5b",ds:"DIC"},
+{name:"麹塵", reading:"きくじん", hex:"#6e7955",ds:"DIC"},
+{name:"青碧", reading:"せいへき", hex:"#478384",ds:"DIC"},
+{name:"紅紫", reading:"べにむらさき", hex:"#b44c97",ds:"DIC"},
+{name:"宍色", reading:"ししいろ", hex:"#efab93",ds:"DIC"},
+{name:"櫨色", reading:"はじいろ", hex:"#b77b57",ds:"DIC"},
+{name:"山鳩色", reading:"やまばといろ", hex:"#767c6b",ds:"DIC"},
+{name:"御召茶", reading:"おめしちゃ", hex:"#43676b",ds:"DIC"},
+{name:"梅紫", reading:"うめむらさき", hex:"#aa4c8f",ds:"DIC"},
+{name:"紅梅色", reading:"こうばいいろ", hex:"#f2a0a1",ds:"DIC"},
+{name:"黄橡", reading:"きつるばみ", hex:"#b68d4c",ds:"DIC"},
+{name:"利休鼠", reading:"りきゅうねずみ", hex:"#888e7e",ds:"DIC"},
+{name:"湊鼠", reading:"みなとねずみ", hex:"#80989b",ds:"DIC"},
+{name:"菖蒲色", reading:"あやめいろ", hex:"#cc7eb1",ds:"DIC"},
+{name:"薄紅", reading:"うすべに", hex:"#f0908d",ds:"DIC"},
+{name:"丁字染", reading:"ちょうじぞめ", hex:"#ad7d4c",ds:"DIC"},
+{name:"海松茶", reading:"みるちゃ", hex:"#5a544b",ds:"DIC"},
+{name:"高麗納戸", reading:"こうらいなんど", hex:"#2c4f54",ds:"DIC"},
+{name:"紅藤色", reading:"べにふじいろ", hex:"#cca6bf",ds:"DIC"},
+{name:"甚三紅", reading:"じんざもみ", hex:"#ee827c",ds:"DIC"},
+{name:"香染", reading:"こうぞめ", hex:"#ad7d4c",ds:"DIC"},
+{name:"藍海松茶", reading:"あいみるちゃ", hex:"#56564b",ds:"DIC"},
+{name:"百入茶", reading:"ももしおちゃ", hex:"#1f3134",ds:"DIC"},
+{name:"浅紫", reading:"あさむらさき", hex:"#c4a3bf",ds:"DIC"},
+{name:"桃色", reading:"ももいろ", hex:"#f09199",ds:"DIC"},
+{name:"枇杷茶", reading:"びわちゃ", hex:"#ae7c4f",ds:"DIC"},
+{name:"藍媚茶", reading:"あいこびちゃ", hex:"#555647",ds:"DIC"},
+{name:"錆鼠", reading:"さびねず", hex:"#47585c",ds:"DIC"},
+{name:"紫水晶", reading:"むらさきすいしょう", hex:"#e7e7eb",ds:"DIC"},
+{name:"鴇色", reading:"ときいろ", hex:"#f4b3c2",ds:"DIC"},
+{name:"芝翫茶", reading:"しかんちゃ", hex:"#ad7e4e",ds:"DIC"},
+{name:"千歳茶", reading:"せんさいちゃ", hex:"#494a41",ds:"DIC"},
+{name:"錆鉄御納戸", reading:"さびてつおなんど", hex:"#485859",ds:"DIC"},
+{name:"薄梅鼠", reading:"うすうめねず", hex:"#dcd6d9",ds:"DIC"},
+{name:"撫子色", reading:"なでしこいろ", hex:"#eebbcb",ds:"DIC"},
+{name:"焦香", reading:"こがれこう", hex:"#ae7c58",ds:"DIC"},
+{name:"岩井茶", reading:"いわいちゃ", hex:"#6b6f59",ds:"DIC"},
+{name:"藍鼠", reading:"あいねず", hex:"#6c848d",ds:"DIC"},
+{name:"暁鼠", reading:"あかつきねず", hex:"#d3cfd9",ds:"DIC"},
+{name:"灰梅", reading:"はいうめ", hex:"#e8d3c7",ds:"DIC"},
+{name:"胡桃色", reading:"くるみいろ", hex:"#a86f4c",ds:"DIC"},
+{name:"仙斎茶", reading:"せんさいちゃ", hex:"#474b42",ds:"DIC"},
+{name:"錆御納戸", reading:"さびおなんど", hex:"#53727d",ds:"DIC"},
+{name:"牡丹鼠", reading:"ぼたんねず", hex:"#d3ccd6",ds:"DIC"},
+{name:"灰桜", reading:"はいざくら", hex:"#e8d3d1",ds:"DIC"},
+{name:"渋紙色", reading:"しぶかみいろ", hex:"#946243",ds:"DIC"},
+{name:"黒緑", reading:"くろみどり", hex:"#333631",ds:"DIC"},
+{name:"舛花色", reading:"ますはないろ", hex:"#5b7e91",ds:"DIC"},
+{name:"霞色", reading:"かすみいろ", hex:"#c8c2c6",ds:"DIC"},
+{name:"淡紅藤", reading:"あわべにふじ", hex:"#e6cde3",ds:"DIC"},
+{name:"朽葉色", reading:"くちばいろ", hex:"#917347",ds:"DIC"},
+{name:"柳煤竹", reading:"やなぎすすたけ", hex:"#5b6356",ds:"DIC"},
+{name:"熨斗目花色", reading:"のしめはないろ", hex:"#426579",ds:"DIC"},
+{name:"藤鼠", reading:"ふじねず", hex:"#a6a5c4",ds:"DIC"},
+{name:"石竹色", reading:"せきちくいろ", hex:"#e5abbe",ds:"DIC"},
+{name:"桑茶", reading:"くわちゃ", hex:"#956f29",ds:"DIC"},
+{name:"樺茶色", reading:"かばちゃいろ", hex:"#726250",ds:"DIC"},
+{name:"御召御納戸", reading:"おめしおなんど", hex:"#4c6473",ds:"DIC"},
+{name:"半色", reading:"はしたいろ", hex:"#a69abd",ds:"DIC"},
+{name:"薄紅梅", reading:"うすこうばい", hex:"#e597b2",ds:"DIC"},
+{name:"路考茶", reading:"ろこうちゃ", hex:"#8c7042",ds:"DIC"},
+{name:"空五倍子色", reading:"うつぶしいろ", hex:"#9d896c",ds:"DIC"},
+{name:"鉄御納戸", reading:"てつおなんど", hex:"#455765",ds:"DIC"},
+{name:"薄色", reading:"うすいろ", hex:"#a89dac",ds:"DIC"},
+{name:"桃花色", reading:"ももはないろ", hex:"#e198b4",ds:"DIC"},
+{name:"国防色", reading:"こくぼうしょく", hex:"#7b6c3e",ds:"DIC"},
+{name:"生壁色", reading:"なまかべいろ", hex:"#94846a",ds:"DIC"},
+{name:"紺鼠", reading:"こんねず", hex:"#44617b",ds:"DIC"},
+{name:"薄鼠", reading:"うすねず", hex:"#9790a4",ds:"DIC"},
+{name:"水柿", reading:"みずがき", hex:"#e4ab9b",ds:"DIC"},
+{name:"伽羅色", reading:"きゃらいろ", hex:"#d8a373",ds:"DIC"},
+{name:"肥後煤竹", reading:"ひごすすたけ", hex:"#897858",ds:"DIC"},
+{name:"藍鉄", reading:"あいてつ", hex:"#393f4c",ds:"DIC"},
+{name:"鳩羽鼠", reading:"はとばねずみ", hex:"#9e8b8e",ds:"DIC"},
+{name:"ときがら茶", reading:"ときがらちゃ", hex:"#e09e87",ds:"DIC"},
+{name:"江戸茶", reading:"えどちゃ", hex:"#cd8c5c",ds:"DIC"},
+{name:"媚茶", reading:"こびちゃ", hex:"#716246",ds:"DIC"},
+{name:"青褐", reading:"あおかち", hex:"#393e4f",ds:"DIC"},
+{name:"鳩羽色", reading:"はとばいろ", hex:"#95859c",ds:"DIC"},
+{name:"退紅", reading:"あらぞめ", hex:"#d69090",ds:"DIC"},
+{name:"樺色", reading:"かばいろ", hex:"#cd5e3c",ds:"DIC"},
+{name:"白橡", reading:"しろつるばみ", hex:"#cbb994",ds:"DIC"},
+{name:"褐返", reading:"かちかえし", hex:"#203744",ds:"DIC"},
+{name:"桔梗鼠", reading:"ききょうねず", hex:"#95949a",ds:"DIC"},
+{name:"薄柿", reading:"うすがき", hex:"#d4acad",ds:"DIC"},
+{name:"紅鬱金", reading:"べにうこん", hex:"#cb8347",ds:"DIC"},
+{name:"亜麻色", reading:"あまいろ", hex:"#d6c6af",ds:"DIC"},
+{name:"褐色", reading:"かちいろ", hex:"#4d4c61",ds:"DIC"},
+{name:"紫鼠", reading:"むらさきねず", hex:"#71686c",ds:"DIC"},
+{name:"長春色", reading:"ちょうしゅんいろ", hex:"#c97586",ds:"DIC"},
+{name:"土器色", reading:"かわらけいろ", hex:"#c37854",ds:"DIC"},
+{name:"榛色", reading:"はしばみいろ", hex:"#bfa46f",ds:"DIC"},
+{name:"月白", reading:"げっぱく", hex:"#eaf4fc",ds:"DIC"},
+{name:"葡萄鼠", reading:"ぶどうねずみ", hex:"#705b67",ds:"DIC"},
+{name:"梅鼠", reading:"うめねず", hex:"#c099a0",ds:"DIC"},
+{name:"狐色", reading:"きつねいろ", hex:"#c38743",ds:"DIC"},
+{name:"灰汁色", reading:"あくいろ", hex:"#9e9478",ds:"DIC"},
+{name:"白菫色", reading:"しろすみれいろ", hex:"#eaedf7",ds:"DIC"},
+{name:"濃色", reading:"こきいろ", hex:"#634950",ds:"DIC"},
+{name:"鴇浅葱", reading:"ときあさぎ", hex:"#b88884",ds:"DIC"},
+{name:"黄土色", reading:"おうどいろ", hex:"#c39143",ds:"DIC"},
+{name:"利休茶", reading:"りきゅうちゃ", hex:"#a59564",ds:"DIC"},
+{name:"白花色", reading:"しらはないろ", hex:"#e8ecef",ds:"DIC"},
+{name:"紫鳶", reading:"むらさきとび", hex:"#5f414b",ds:"DIC"},
+{name:"梅染", reading:"うめぞめ", hex:"#b48a76",ds:"DIC"},
+{name:"琥珀色", reading:"こはくいろ", hex:"#bf783a",ds:"DIC"},
+{name:"鶯茶", reading:"うぐいすちゃ", hex:"#715c1f",ds:"DIC"},
+{name:"藍白", reading:"あいじろ", hex:"#ebf6f7",ds:"DIC"},
+{name:"濃鼠", reading:"こいねず", hex:"#4f455c",ds:"DIC"},
+{name:"蘇芳香", reading:"すおうこう", hex:"#a86965",ds:"DIC"},
+{name:"赤茶", reading:"あかちゃ", hex:"#bb5535",ds:"DIC"},
+{name:"木蘭色", reading:"もくらんじき", hex:"#c7b370",ds:"DIC"},
+{name:"白藍", reading:"しらあい", hex:"#c1e4e9",ds:"DIC"},
+{name:"藤煤竹", reading:"ふじすすたけ", hex:"#5a5359",ds:"DIC"},
+{name:"浅蘇芳", reading:"あさすおう", hex:"#a25768",ds:"DIC"},
+{name:"代赭", reading:"たいしゃ", hex:"#bb5520",ds:"DIC"},
+{name:"砂色", reading:"すないろ", hex:"#dcd3b2",ds:"DIC"},
+{name:"水色", reading:"みずいろ", hex:"#bce2e8",ds:"DIC"},
+{name:"滅紫", reading:"けしむらさき", hex:"#594255",ds:"DIC"},
+{name:"真朱", reading:"まそお", hex:"#ec6d71",ds:"DIC"},
+{name:"煉瓦色", reading:"れんがいろ", hex:"#b55233",ds:"DIC"},
+{name:"油色", reading:"あぶらいろ", hex:"#a19361",ds:"DIC"},
+{name:"瓶覗", reading:"かめのぞき", hex:"#a2d7dd",ds:"DIC"},
+{name:"紅消鼠", reading:"べにけしねずみ", hex:"#524748",ds:"DIC"},
+{name:"赤紫", reading:"あかむらさき", hex:"#eb6ea5",ds:"DIC"},
+{name:"雀茶", reading:"すずめちゃ", hex:"#aa4f37",ds:"DIC"},
+{name:"利休色", reading:"りきゅういろ", hex:"#8f8667",ds:"DIC"},
+{name:"秘色色", reading:"ひそくいろ", hex:"#abced8",ds:"DIC"},
+{name:"似せ紫", reading:"にせむらさき", hex:"#513743",ds:"DIC"},
+{name:"躑躅色", reading:"つつじいろ", hex:"#e95295",ds:"DIC"},
+{name:"団十郎茶", reading:"だんじゅうろうちゃ", hex:"#9f563a",ds:"DIC"},
+{name:"梅幸茶", reading:"ばいこうちゃ", hex:"#887938",ds:"DIC"},
+{name:"空色", reading:"そらいろ", hex:"#a0d8ef",ds:"DIC"},
+{name:"灰黄緑", reading:"はいきみどり", hex:"#e6eae3",ds:"DIC"},
+{name:"牡丹色", reading:"ぼたんいろ", hex:"#e7609e",ds:"DIC"},
+{name:"柿渋色", reading:"かきしぶいろ", hex:"#9f563a",ds:"DIC"},
+{name:"璃寛茶", reading:"りかんちゃ", hex:"#6a5d21",ds:"DIC"},
+{name:"勿忘草色", reading:"わすれなぐさいろ", hex:"#89c3eb",ds:"DIC"},
+{name:"蕎麦切色", reading:"そばきりいろ", hex:"#d4dcd6",ds:"DIC"},
+{name:"今様色", reading:"いまよういろ", hex:"#d0576b",ds:"DIC"},
+{name:"紅鳶", reading:"べにとび", hex:"#9a493f",ds:"DIC"},
+{name:"黄海松茶", reading:"きみるちゃ", hex:"#918754",ds:"DIC"},
+{name:"青藤色", reading:"あおふじいろ", hex:"#84a2d4",ds:"DIC"},
+{name:"薄雲鼠", reading:"うすくもねず", hex:"#d4dcda",ds:"DIC"},
+{name:"中紅", reading:"なかべに", hex:"#c85179",ds:"DIC"},
+{name:"灰茶", reading:"はいちゃ", hex:"#98623c",ds:"DIC"},
+{name:"菜種油色", reading:"なたねゆいろ", hex:"#a69425",ds:"DIC"},
+{name:"白群", reading:"びゃくぐん", hex:"#83ccd2",ds:"DIC"},
+{name:"枯野色", reading:"かれのいろ", hex:"#d3cbc6",ds:"DIC"},
+{name:"薔薇色", reading:"ばらいろ", hex:"#e9546b",ds:"DIC"},
+{name:"茶色", reading:"ちゃいろ", hex:"#965042",ds:"DIC"},
+{name:"青朽葉", reading:"あおくちば", hex:"#ada250",ds:"DIC"},
+{name:"浅縹", reading:"あさはなだ", hex:"#84b9cb",ds:"DIC"},
+{name:"潤色", reading:"うるみいろ", hex:"#c8c2be",ds:"DIC"},
+{name:"韓紅", reading:"からくれない", hex:"#e95464",ds:"DIC"},
+{name:"檜皮色", reading:"ひわだいろ", hex:"#965036",ds:"DIC"},
+{name:"根岸色", reading:"ねぎしいろ", hex:"#938b4b",ds:"DIC"},
+{name:"薄花色", reading:"うすはないろ", hex:"#698aab",ds:"DIC"},
+{name:"利休白茶", reading:"りきゅうしろちゃ", hex:"#b3ada0",ds:"DIC"},
+{name:"銀朱", reading:"ぎんしゅ", hex:"#c85554",ds:"DIC"},
+{name:"鳶色", reading:"とびいろ", hex:"#95483f",ds:"DIC"},
+{name:"鶸茶", reading:"ひわちゃ", hex:"#8c8861",ds:"DIC"},
+{name:"納戸色", reading:"なんどいろ", hex:"#008899",ds:"DIC"},
+{name:"茶鼠", reading:"ちゃねずみ", hex:"#a99e93",ds:"DIC"},
+{name:"赤紅", reading:"あかべに", hex:"#c53d43",ds:"DIC"},
+{name:"柿茶", reading:"かきちゃ", hex:"#954e2a",ds:"DIC"},
+{name:"柳茶", reading:"やなぎちゃ", hex:"#a1a46d",ds:"DIC"},
+{name:"浅葱色", reading:"あさぎいろ", hex:"#00a3af",ds:"DIC"},
+{name:"胡桃染", reading:"くるみぞめ", hex:"#a58f86",ds:"DIC"},
+{name:"紅緋", reading:"べにひ", hex:"#e83929",ds:"DIC"},
+{name:"弁柄色", reading:"べんがらいろ", hex:"#8f2e14",ds:"DIC"},
+{name:"海松色", reading:"みるいろ", hex:"#726d40",ds:"DIC"},
+{name:"花浅葱", reading:"はなあさぎ", hex:"#2a83a2",ds:"DIC"},
+{name:"江戸鼠", reading:"えどねず", hex:"#928178",ds:"DIC"},
+{name:"赤", reading:"あか", hex:"#e60033",ds:"DIC"},
+{name:"赤錆色", reading:"あかさびいろ", hex:"#8a3319",ds:"DIC"},
+{name:"鶯色", reading:"うぐいすいろ", hex:"#928c36",ds:"DIC"},
+{name:"新橋色", reading:"しんばしいろ", hex:"#59b9c6",ds:"DIC"},
+{name:"煤色", reading:"すすいろ", hex:"#887f7a",ds:"DIC"},
+{name:"猩々緋", reading:"しょうじょうひ", hex:"#e2041b",ds:"DIC"},
+{name:"褐色", reading:"かっしょく", hex:"#8a3b00",ds:"DIC"},
+{name:"緑黄色", reading:"りょくおうしょく", hex:"#dccb18",ds:"DIC"},
+{name:"天色", reading:"あまいろ", hex:"#2ca9e1",ds:"DIC"},
+{name:"丁子茶", reading:"ちょうじちゃ", hex:"#b4866b",ds:"DIC"},
+{name:"紅", reading:"くれない", hex:"#d7003a",ds:"DIC"},
+{name:"栗梅", reading:"くりうめ", hex:"#852e19",ds:"DIC"},
+{name:"鶸色", reading:"ひわいろ", hex:"#d7cf3a",ds:"DIC"},
+{name:"露草色", reading:"つゆくさいろ", hex:"#38a1db",ds:"DIC"},
+{name:"柴染", reading:"ふしぞめ", hex:"#b28c6e",ds:"DIC"},
+{name:"深緋", reading:"こきひ", hex:"#c9171e",ds:"DIC"},
+{name:"紅檜皮", reading:"べにひはだ", hex:"#7b4741",ds:"DIC"},
+{name:"抹茶色", reading:"まっちゃいろ", hex:"#c5c56a",ds:"DIC"},
+{name:"青", reading:"あお", hex:"#0095d9",ds:"DIC"},
+{name:"宗伝唐茶", reading:"そうでんからちゃ", hex:"#a16d5d",ds:"DIC"},
+{name:"緋色", reading:"ひいろ", hex:"#d3381c",ds:"DIC"},
+{name:"海老茶", reading:"えびちゃ", hex:"#773c30",ds:"DIC"},
+{name:"若草色", reading:"わかくさいろ", hex:"#c3d825",ds:"DIC"},
+{name:"薄藍", reading:"うすあい", hex:"#0094c8",ds:"DIC"},
+{name:"砺茶", reading:"とのちゃ", hex:"#9f6f55",ds:"DIC"},
+{name:"赤丹", reading:"あかに", hex:"#ce5242",ds:"DIC"},
+{name:"唐茶", reading:"からちゃ", hex:"#783c1d",ds:"DIC"},
+{name:"黄緑", reading:"きみどり", hex:"#b8d200",ds:"DIC"},
+{name:"縹色", reading:"はなだいろ", hex:"#2792c3",ds:"DIC"},
+{name:"煎茶色", reading:"せんちゃいろ", hex:"#8c6450",ds:"DIC"},
+{name:"紅赤", reading:"べにあか", hex:"#d9333f",ds:"DIC"},
+{name:"栗色", reading:"くりいろ", hex:"#762f07",ds:"DIC"},
+{name:"若芽色", reading:"わかめいろ", hex:"#e0ebaf",ds:"DIC"},
+{name:"紺碧", reading:"こんぺき", hex:"#007bbb",ds:"DIC"},
+{name:"銀煤竹", reading:"ぎんすすだけ", hex:"#856859",ds:"DIC"},
+{name:"臙脂", reading:"えんじ", hex:"#b94047",ds:"DIC"},
+{name:"赤銅色", reading:"しゃくどういろ", hex:"#752100",ds:"DIC"},
+{name:"若菜色", reading:"わかないろ", hex:"#d8e698",ds:"DIC"},
+{name:"薄群青", reading:"うすぐんじょう", hex:"#5383c3",ds:"DIC"},
+{name:"黄枯茶", reading:"きがらちゃ", hex:"#765c47",ds:"DIC"},
+{name:"朱・緋", reading:"あけ", hex:"#ba2636",ds:"DIC"},
+{name:"錆色", reading:"さびいろ", hex:"#6c3524",ds:"DIC"},
+{name:"若苗色", reading:"わかなえいろ", hex:"#c7dc68",ds:"DIC"},
+{name:"薄花桜", reading:"うすはなざくら", hex:"#5a79ba",ds:"DIC"},
+{name:"煤竹色", reading:"すすたけいろ", hex:"#6f514c",ds:"DIC"},
+{name:"茜色", reading:"あかねいろ", hex:"#b7282e",ds:"DIC"},
+{name:"赤褐色", reading:"せっかっしょく", hex:"#683f36",ds:"DIC"},
+{name:"青丹", reading:"あおに", hex:"#99ab4e",ds:"DIC"},
+{name:"群青色", reading:"ぐんじょういろ", hex:"#4c6cb3",ds:"DIC"},
+{name:"焦茶", reading:"こげちゃ", hex:"#6f4b3e",ds:"DIC"},
+{name:"紅海老茶", reading:"べにえびちゃ", hex:"#a73836",ds:"DIC"},
+{name:"茶褐色", reading:"ちゃかっしょく", hex:"#664032",ds:"DIC"},
+{name:"草色", reading:"くさいろ", hex:"#7b8d42",ds:"DIC"},
+{name:"杜若色", reading:"かきつばたいろ", hex:"#3e62ad",ds:"DIC"},
+{name:"黒橡", reading:"くろつるばみ", hex:"#544a47",ds:"DIC"},
+{name:"蘇芳", reading:"すおう", hex:"#9e3d3f",ds:"DIC"},
+{name:"栗皮茶", reading:"くりかわちゃ", hex:"#6d3c32",ds:"DIC"},
+{name:"苔色", reading:"こけいろ", hex:"#69821b",ds:"DIC"},
+{name:"瑠璃色", reading:"るりいろ", hex:"#1e50a2",ds:"DIC"},
+{name:"憲法色", reading:"けんぽういろ", hex:"#543f32",ds:"DIC"},
+{name:"真紅", reading:"しんく", hex:"#a22041",ds:"DIC"},
+{name:"黒茶", reading:"くろちゃ", hex:"#583822",ds:"DIC"},
+{name:"萌黄", reading:"もえぎ", hex:"#aacf53",ds:"DIC"},
+{name:"薄縹", reading:"うすはなだ", hex:"#507ea4",ds:"DIC"},
+{name:"涅色", reading:"くりいろ", hex:"#554738",ds:"DIC"},
+{name:"濃紅", reading:"こいくれない", hex:"#a22041",ds:"DIC"},
+{name:"葡萄茶", reading:"えびちゃ", hex:"#6c2c2f",ds:"DIC"},
+{name:"苗色", reading:"なえいろ", hex:"#b0ca71",ds:"DIC"},
+{name:"瑠璃紺", reading:"るりこん", hex:"#19448e",ds:"DIC"},
+{name:"檳榔子染", reading:"びんろうじぞめ", hex:"#433d3c",ds:"DIC"},
+{name:"象牙色", reading:"ぞうげいろ", hex:"#f8f4e6",ds:"DIC"},
+{name:"葡萄色", reading:"えびいろ", hex:"#640125",ds:"DIC"},
+{name:"若葉色", reading:"わかばいろ", hex:"#b9d08b",ds:"DIC"},
+{name:"紺瑠璃", reading:"こんるり", hex:"#164a84",ds:"DIC"},
+{name:"黒鳶", reading:"くろとび", hex:"#432f2f",ds:"DIC"},
+{name:"練色", reading:"ねりいろ", hex:"#ede4cd",ds:"DIC"},
+{name:"萱草色", reading:"かんぞういろ", hex:"#f8b862",ds:"DIC"},
+{name:"松葉色", reading:"まつばいろ", hex:"#839b5c",ds:"DIC"},
+{name:"藍色", reading:"あいいろ", hex:"#165e83",ds:"DIC"},
+{name:"赤墨", reading:"あかすみ", hex:"#3f312b",ds:"DIC"},
+{name:"灰白色", reading:"かいはくしょく", hex:"#e9e4d4",ds:"DIC"},
+{name:"柑子色", reading:"こうじいろ", hex:"#f6ad49",ds:"DIC"},
+{name:"夏虫色", reading:"なつむしいろ", hex:"#cee4ae",ds:"DIC"},
+{name:"青藍", reading:"せいらん", hex:"#274a78",ds:"DIC"},
+{name:"黒紅", reading:"くろべに", hex:"#302833",ds:"DIC"},
+{name:"蒸栗色", reading:"むしぐりいろ", hex:"#ebe1a9",ds:"DIC"},
+{name:"金茶", reading:"きんちゃ", hex:"#f39800",ds:"DIC"},
+{name:"鶸萌黄", reading:"ひわもえぎ", hex:"#82ae46",ds:"DIC"},
+{name:"深縹", reading:"こきはなだ", hex:"#2a4073",ds:"DIC"},
+{name:"白", reading:"しろ", hex:"#ffffff",ds:"DIC"},
+{name:"女郎花", reading:"おみなえし", hex:"#f2f2b0",ds:"DIC"},
+{name:"蜜柑色", reading:"みかんいろ", hex:"#f08300",ds:"DIC"},
+{name:"柳色", reading:"やなぎいろ", hex:"#a8c97f",ds:"DIC"},
+{name:"紺色", reading:"こんいろ", hex:"#223a70",ds:"DIC"},
+{name:"胡粉色", reading:"ごふんいろ", hex:"#fffffc",ds:"DIC"},
+{name:"枯草色", reading:"かれくさいろ", hex:"#e4dc8a",ds:"DIC"},
+{name:"鉛丹色", reading:"えんたんいろ", hex:"#ec6d51",ds:"DIC"},
+{name:"青白橡", reading:"あおしろつるばみ", hex:"#9ba88d",ds:"DIC"},
+{name:"紺青", reading:"こんじょう", hex:"#192f60",ds:"DIC"},
+{name:"卯の花色", reading:"うのはないろ", hex:"#f7fcfe",ds:"DIC"},
+{name:"淡黄", reading:"たんこう", hex:"#f8e58c",ds:"DIC"},
+{name:"黄丹", reading:"おうに", hex:"#ee7948",ds:"DIC"},
+{name:"柳鼠", reading:"やなぎねず", hex:"#c8d5bb",ds:"DIC"},
+{name:"留紺", reading:"とめこん", hex:"#1c305c",ds:"DIC"},
+{name:"白磁", reading:"はくじ", hex:"#f8fbf8",ds:"DIC"},
+{name:"白茶", reading:"しらちゃ", hex:"#ddbb99",ds:"DIC"},
+{name:"柿色", reading:"かきいろ", hex:"#ed6d3d",ds:"DIC"},
+{name:"裏葉柳", reading:"うらはやなぎ", hex:"#c1d8ac",ds:"DIC"},
+{name:"濃藍", reading:"こいあい", hex:"#0f2350",ds:"DIC"},
+{name:"生成り色", reading:"きなりいろ", hex:"#fbfaf5",ds:"DIC"},
+{name:"赤白橡", reading:"あかしろつるばみ", hex:"#d7a98c",ds:"DIC"},
+{name:"黄赤", reading:"きあか", hex:"#ec6800",ds:"DIC"},
+{name:"山葵色", reading:"わさびいろ", hex:"#a8bf93",ds:"DIC"},
+{name:"鉄紺", reading:"てつこん", hex:"#17184b",ds:"DIC"},
+{name:"乳白色", reading:"にゅうはくしょく", hex:"#f3f3f3",ds:"DIC"},
+{name:"洗柿", reading:"あらいがき", hex:"#f2c9ac",ds:"DIC"},
+{name:"人参色", reading:"にんじんいろ", hex:"#ec6800",ds:"DIC"},
+{name:"老竹色", reading:"おいたけいろ", hex:"#769164",ds:"DIC"},
+{name:"漆黒", reading:"しっこく", hex:"#0d0015",ds:"DIC"},
+{name:"白練", reading:"しろねり", hex:"#f3f3f2",ds:"DIC"},
+{name:"鳥の子色", reading:"とりのこいろ", hex:"#fff1cf",ds:"DIC"},
+{name:"橙色", reading:"だいだいいろ", hex:"#ee7800",ds:"DIC"},
+{name:"白緑", reading:"びゃくろく", hex:"#d6e9ca",ds:"DIC"},
+{name:"淡藤色", reading:"あわふじいろ", hex:"#bbc8e6",ds:"DIC"},
+{name:"素色", reading:"そしょく", hex:"#eae5e3",ds:"DIC"},
+{name:"蜂蜜色", reading:"はちみついろ", hex:"#fddea5",ds:"DIC"},
+{name:"照柿", reading:"てりがき", hex:"#eb6238",ds:"DIC"},
+{name:"淡萌黄", reading:"うすもえぎ", hex:"#93ca76",ds:"DIC"},
+{name:"藤色", reading:"ふじいろ", hex:"#bbbcde",ds:"DIC"},
+{name:"白梅鼠", reading:"しらうめねず", hex:"#e5e4e6",ds:"DIC"},
+{name:"肌色", reading:"はだいろ", hex:"#fce2c4",ds:"DIC"},
+{name:"赤橙", reading:"あかだいだい", hex:"#ea5506",ds:"DIC"},
+{name:"柳染", reading:"やなぎぞめ", hex:"#93b881",ds:"DIC"},
+{name:"紅掛空色", reading:"べにかけそらいろ", hex:"#8491c3",ds:"DIC"},
+{name:"白鼠", reading:"しろねず", hex:"#dcdddd",ds:"DIC"},
+{name:"薄卵色", reading:"うすたまごいろ", hex:"#fde8d0",ds:"DIC"},
+{name:"金赤", reading:"きんあか", hex:"#ea5506",ds:"DIC"},
+{name:"薄萌葱", reading:"うすもえぎ", hex:"#badcad",ds:"DIC"},
+{name:"紅碧", reading:"べにみどり", hex:"#8491c3",ds:"DIC"},
+{name:"絹鼠", reading:"きぬねず", hex:"#dddcd6",ds:"DIC"},
+{name:"雄黄", reading:"ゆうおう", hex:"#f9c89b",ds:"DIC"},
+{name:"朱色", reading:"しゅいろ", hex:"#eb6101",ds:"DIC"},
+{name:"深川鼠", reading:"ふかがわねずみ", hex:"#97a791",ds:"DIC"},
+{name:"紺桔梗", reading:"こんききょう", hex:"#4d5aaf",ds:"DIC"},
+{name:"灰青", reading:"はいあお", hex:"#c0c6c9",ds:"DIC"},
+{name:"洒落柿", reading:"しゃれがき", hex:"#f7bd8f",ds:"DIC"},
+{name:"小麦色", reading:"こむぎいろ", hex:"#e49e61",ds:"DIC"},
+{name:"若緑", reading:"わかみどり", hex:"#98d98e",ds:"DIC"},
+{name:"花色", reading:"はないろ", hex:"#4d5aaf",ds:"DIC"},
+{name:"銀鼠", reading:"ぎんねず", hex:"#afafb0",ds:"DIC"},
+{name:"赤香", reading:"あかこう", hex:"#f6b894",ds:"DIC"},
+{name:"丹色", reading:"にいろ", hex:"#e45e32",ds:"DIC"},
+{name:"浅緑", reading:"あさみどり", hex:"#88cb7f",ds:"DIC"},
+{name:"紺藍", reading:"こんあい", hex:"#4a488e",ds:"DIC"},
+{name:"薄鈍", reading:"うすにび", hex:"#adadad",ds:"DIC"},
+{name:"砥粉色", reading:"とのこいろ", hex:"#f4dda5",ds:"DIC"},
+{name:"黄茶", reading:"きちゃ", hex:"#e17b34",ds:"DIC"},
+{name:"薄緑", reading:"うすみどり", hex:"#69b076",ds:"DIC"},
+{name:"紅桔梗", reading:"べにききょう", hex:"#4d4398",ds:"DIC"},
+{name:"薄墨色", reading:"うすずみいろ", hex:"#a3a3a2",ds:"DIC"},
+{name:"肉色", reading:"にくいろ", hex:"#f1bf99",ds:"DIC"},
+{name:"肉桂色", reading:"にっけいいろ", hex:"#dd7a56",ds:"DIC"},
+{name:"青鈍", reading:"あおにび", hex:"#6b7b6e",ds:"DIC"},
+{name:"桔梗色", reading:"ききょういろ", hex:"#5654a2",ds:"DIC"},
+{name:"錫色", reading:"すずいろ", hex:"#9ea1a3",ds:"DIC"},
+{name:"人色", reading:"ひといろ", hex:"#f1bf99",ds:"DIC"},
+{name:"赤朽葉色", reading:"あかくちばいろ", hex:"#db8449",ds:"DIC"},
+{name:"青磁鼠", reading:"せいじねず", hex:"#bed2c3",ds:"DIC"},
+{name:"藤納戸", reading:"ふじなんど", hex:"#706caa",ds:"DIC"},
+{name:"素鼠", reading:"すねずみ", hex:"#9fa0a0",ds:"DIC"},
+{name:"丁子色", reading:"ちょうじいろ", hex:"#efcd9a",ds:"DIC"},
+{name:"黄櫨染", reading:"こうろぜん", hex:"#d66a35",ds:"DIC"},
+{name:"薄青", reading:"うすあお", hex:"#93b69c",ds:"DIC"},
+{name:"紅掛花色", reading:"べにかけはないろ", hex:"#68699b",ds:"DIC"},
+{name:"鼠色", reading:"ねずみいろ", hex:"#949495",ds:"DIC"},
+{name:"香色", reading:"こういろ", hex:"#efcd9a",ds:"DIC"},
+{name:"蒲公英色", reading:"たんぽぽいろ", hex:"#ffd900",ds:"DIC"},
+{name:"錆青磁", reading:"さびせいじ", hex:"#a6c8b2",ds:"DIC"},
+{name:"紫苑色", reading:"しおんいろ", hex:"#867ba9",ds:"DIC"},
+{name:"源氏鼠", reading:"げんじねず", hex:"#888084",ds:"DIC"},
+{name:"薄香", reading:"うすこう", hex:"#f0cfa0",ds:"DIC"},
+{name:"黄色", reading:"きいろ", hex:"#ffd900",ds:"DIC"},
+{name:"緑青色", reading:"ろくしょういろ", hex:"#47885e",ds:"DIC"},
+{name:"白藤色", reading:"しらふじいろ", hex:"#dbd0e6",ds:"DIC"},
+{name:"灰色", reading:"はいいろ", hex:"#7d7d7d",ds:"DIC"},
+{name:"浅黄", reading:"うすき", hex:"#edd3a1",ds:"DIC"},
+{name:"中黄", reading:"ちゅうき", hex:"#ffea00",ds:"DIC"},
+{name:"千歳緑", reading:"ちとせみどり", hex:"#316745",ds:"DIC"},
+{name:"藤紫", reading:"ふじむらさき", hex:"#a59aca",ds:"DIC"},
+{name:"鉛色", reading:"なまりいろ", hex:"#7b7c7d",ds:"DIC"},
+{name:"枯色", reading:"かれいろ", hex:"#e0c38c",ds:"DIC"},
+{name:"菜の花色", reading:"なのはないろ", hex:"#ffec47",ds:"DIC"},
+{name:"若竹色", reading:"わかたけいろ", hex:"#68be8d",ds:"DIC"},
+{name:"菫色", reading:"すみれいろ", hex:"#7058a3",ds:"DIC"},
+{name:"鈍色", reading:"にびいろ", hex:"#727171",ds:"DIC"},
+{name:"淡香", reading:"うすこう", hex:"#f3bf88",ds:"DIC"},
+{name:"黄檗色", reading:"きはだいろ", hex:"#fef263",ds:"DIC"},
+{name:"緑", reading:"みどり", hex:"#3eb370",ds:"DIC"},
+{name:"青紫", reading:"あおむらさき", hex:"#674598",ds:"DIC"},
+{name:"墨", reading:"すみ", hex:"#595857",ds:"DIC"},
+{name:"杏色", reading:"あんずいろ", hex:"#f7b977",ds:"DIC"},
+{name:"卵色", reading:"たまごいろ", hex:"#fcd575",ds:"DIC"},
+{name:"常磐色", reading:"ときわいろ", hex:"#007b43",ds:"DIC"},
+{name:"菖蒲色", reading:"しょうぶいろ", hex:"#674196",ds:"DIC"},
+{name:"丼鼠", reading:"どぶねずみ", hex:"#595455",ds:"DIC"},
+{name:"東雲色", reading:"しののめいろ", hex:"#f19072",ds:"DIC"},
+{name:"花葉色", reading:"はなばいろ", hex:"#fbd26b",ds:"DIC"},
+{name:"千草鼠", reading:"ちぐさねず", hex:"#bed3ca",ds:"DIC"},
+{name:"竜胆色", reading:"りんどういろ", hex:"#9079ad",ds:"DIC"},
+{name:"消炭色", reading:"けしずみいろ", hex:"#524e4d",ds:"DIC"},
+{name:"曙色", reading:"あけぼのいろ", hex:"#f19072",ds:"DIC"},
+{name:"刈安色", reading:"かりやすいろ", hex:"#f5e56b",ds:"DIC"},
+{name:"千草色", reading:"ちぐさいろ", hex:"#92b5a9",ds:"DIC"},
+{name:"江戸紫", reading:"えどむらさき", hex:"#745399",ds:"DIC"},
+{name:"藍墨茶", reading:"あいすみちゃ", hex:"#474a4d",ds:"DIC"},
+{name:"珊瑚朱色", reading:"さんごしゅいろ", hex:"#ee836f",ds:"DIC"},
+{name:"玉蜀黍色", reading:"とうもろこしいろ", hex:"#eec362",ds:"DIC"},
+{name:"青磁色", reading:"せいじいろ", hex:"#7ebea5",ds:"DIC"},
+{name:"本紫", reading:"ほんむらさき", hex:"#65318e",ds:"DIC"},
+{name:"羊羹色", reading:"ようかんいろ", hex:"#383c3c",ds:"DIC"},
+{name:"深支子", reading:"こきくちなし", hex:"#eb9b6f",ds:"DIC"},
+{name:"金糸雀色", reading:"かなりあいろ", hex:"#ebd842",ds:"DIC"},
+{name:"青竹色", reading:"あおたけいろ", hex:"#7ebeab",ds:"DIC"},
+{name:"葡萄色", reading:"ぶどういろ", hex:"#522f60",ds:"DIC"},
+{name:"蝋色", reading:"ろういろ", hex:"#2b2b2b",ds:"DIC"},
+{name:"纁", reading:"そひ", hex:"#e0815e",ds:"DIC"},
+{name:"黄支子色", reading:"きくちなしいろ", hex:"#ffdb4f",ds:"DIC"},
+{name:"常磐緑", reading:"ときわみどり", hex:"#028760",ds:"DIC"},
+{name:"深紫", reading:"ふかむらさき", hex:"#493759",ds:"DIC"},
+{name:"黒", reading:"くろ", hex:"#2b2b2b",ds:"DIC"},
+{name:"浅緋", reading:"うすきひ", hex:"#df7163",ds:"DIC"},
+{name:"支子色", reading:"くちなしいろ", hex:"#fbca4d",ds:"DIC"},
+{name:"木賊色", reading:"とくさいろ", hex:"#3b7960",ds:"DIC"},
+{name:"紫黒", reading:"しこく", hex:"#2e2930",ds:"DIC"},
+{name:"烏羽色", reading:"からすばいろ", hex:"#180614",ds:"DIC"},
+{name:"真赭", reading:"まそほ", hex:"#d57c6b",ds:"DIC"},
+{name:"向日葵色", reading:"ひまわりいろ", hex:"#fcc800",ds:"DIC"},
+{name:"天鵞絨", reading:"びろうど", hex:"#2f5d50",ds:"DIC"},
+{name:"紫", reading:"むらさき", hex:"#884898",ds:"DIC"},
+{name:"鉄黒", reading:"てつぐろ", hex:"#281a14",ds:"DIC"},
+{name:"洗朱", reading:"あらいしゅ", hex:"#d0826c",ds:"DIC"},
+{name:"山吹色", reading:"やまぶきいろ", hex:"#f8b500",ds:"DIC"},
+{name:"虫襖", reading:"むしあお", hex:"#3a5b52",ds:"DIC"},
+{name:"薄葡萄", reading:"うすぶどう", hex:"#c0a2c7",ds:"DIC"},
+{name:"濡羽色", reading:"ぬればいろ", hex:"#000b00",ds:"DIC"},
+{name:"遠州茶", reading:"えんしゅうちゃ", hex:"#ca8269",ds:"DIC"},
+{name:"鬱金色", reading:"うこんいろ", hex:"#fabf14",ds:"DIC"},
+{name:"革色", reading:"かわいろ", hex:"#475950",ds:"DIC"},
+{name:"紫紺", reading:"しこん", hex:"#460e44",ds:"DIC"},
+{name:"黒檀", reading:"こくたん", hex:"#250d00",ds:"DIC"},
+{name:"紅樺色", reading:"べにかばいろ", hex:"#bb5548",ds:"DIC"},
+{name:"藤黄", reading:"とうおう", hex:"#f7c114",ds:"DIC"},
+{name:"深緑", reading:"ふかみどり", hex:"#00552e",ds:"DIC"},
+{name:"暗紅色", reading:"あんこうしょく", hex:"#74325c",ds:"DIC"},
+{name:"憲法黒茶", reading:"けんぽうくろちゃ", hex:"#241a08",ds:"DIC"},
+{name:"赭", reading:"そほ", hex:"#ab6953",ds:"DIC"},
+{name:"金色", reading:"こんじき", hex:"#e6b422",ds:"DIC"},
+{name:"鉄色", reading:"てついろ", hex:"#005243",ds:"DIC"},
+{name:"桑の実色", reading:"くわのみいろ", hex:"#55295b",ds:"DIC"},
+{name:"暗黒色", reading:"あんこくしょく", hex:"#16160e",ds:"DIC"},
+{name:"ブラック", reading:"black", hex:"#000000",ds:"DIC"},
+{name:"アリスブルー", reading:"aliceblue", hex:"#f0f8ff",ds:"DIC"},
+{name:"ダークシアン", reading:"darkcyan", hex:"#008b8b",ds:"DIC"},
+{name:"ライトイエロー", reading:"lightyellow", hex:"#ffffe0",ds:"DIC"},
+{name:"コーラル", reading:"coral", hex:"#ff7f50",ds:"DIC"},
+{name:"ディムグレイ", reading:"dimgray", hex:"#696969",ds:"DIC"},
+{name:"ラベンダー", reading:"lavender", hex:"#e6e6fa",ds:"DIC"},
+{name:"ティール", reading:"teal", hex:"#008080",ds:"DIC"},
+{name:"ライトゴールデンロッドイエロー", reading:"lightgoldenrodyellow", hex:"#fafad2",ds:"DIC"},
+{name:"トマト", reading:"tomato", hex:"#ff6347",ds:"DIC"},
+{name:"グレイ", reading:"gray", hex:"#808080",ds:"DIC"},
+{name:"ライトスチールブルー", reading:"lightsteelblue", hex:"#b0c4de",ds:"DIC"},
+{name:"ダークスレートグレイ", reading:"darkslategray", hex:"#2f4f4f",ds:"DIC"},
+{name:"レモンシフォン", reading:"lemonchiffon", hex:"#fffacd",ds:"DIC"},
+{name:"オレンジレッド", reading:"orangered", hex:"#ff4500",ds:"DIC"},
+{name:"ダークグレイ", reading:"darkgray", hex:"#a9a9a9",ds:"DIC"},
+{name:"ライトスレートグレイ", reading:"lightslategray", hex:"#778899",ds:"DIC"},
+{name:"ダークグリーン", reading:"darkgreen", hex:"#006400",ds:"DIC"},
+{name:"ウィート", reading:"wheat", hex:"#f5deb3",ds:"DIC"},
+{name:"レッド", reading:"red", hex:"#ff0000",ds:"DIC"},
+{name:"シルバー", reading:"silver", hex:"#c0c0c0",ds:"DIC"},
+{name:"スレートグレイ", reading:"slategray", hex:"#708090",ds:"DIC"},
+{name:"グリーン", reading:"green", hex:"#008000",ds:"DIC"},
+{name:"バーリーウッド", reading:"burlywood", hex:"#deb887",ds:"DIC"},
+{name:"クリムソン", reading:"crimson", hex:"#dc143c",ds:"DIC"},
+{name:"ライトグレイ", reading:"lightgrey", hex:"#d3d3d3",ds:"DIC"},
+{name:"スチールブルー", reading:"steelblue", hex:"#4682b4",ds:"DIC"},
+{name:"フォレストグリーン", reading:"forestgreen", hex:"#228b22",ds:"DIC"},
+{name:"タン", reading:"tan", hex:"#d2b48c",ds:"DIC"},
+{name:"ミディアムバイオレットレッド", reading:"mediumvioletred", hex:"#c71585",ds:"DIC"},
+{name:"ゲインズボロ", reading:"gainsboro", hex:"#dcdcdc",ds:"DIC"},
+{name:"ロイヤルブルー", reading:"royalblue", hex:"#4169e1",ds:"DIC"},
+{name:"シーグリーン", reading:"seagreen", hex:"#2e8b57",ds:"DIC"},
+{name:"カーキー", reading:"khaki", hex:"#f0e68c",ds:"DIC"},
+{name:"ディープピンク", reading:"deeppink", hex:"#ff1493",ds:"DIC"},
+{name:"ホワイトスモーク", reading:"whitesmoke", hex:"#f5f5f5",ds:"DIC"},
+{name:"ミッドナイトブルー", reading:"midnightblue", hex:"#191970",ds:"DIC"},
+{name:"ミディアムシーグリーン", reading:"mediumseagreen", hex:"#3cb371",ds:"DIC"},
+{name:"イエロー", reading:"yellow", hex:"#ffff00",ds:"DIC"},
+{name:"ホットピンク", reading:"hotpink", hex:"#ff69b4",ds:"DIC"},
+{name:"ホワイト", reading:"white", hex:"#ffffff",ds:"DIC"},
+{name:"ネイビー", reading:"navy", hex:"#000080",ds:"DIC"},
+{name:"ミディアムアクアマリン", reading:"mediumaquamarine", hex:"#66cdaa",ds:"DIC"},
+{name:"ゴールド", reading:"gold", hex:"#ffd700",ds:"DIC"},
+{name:"ペールバイオレットレッド", reading:"palevioletred", hex:"#db7093",ds:"DIC"},
+{name:"スノー", reading:"snow", hex:"#fffafa",ds:"DIC"},
+{name:"ダークブルー", reading:"darkblue", hex:"#00008b",ds:"DIC"},
+{name:"ダークグリーン", reading:"darkseagreen", hex:"#8fbc8f",ds:"DIC"},
+{name:"オレンジ", reading:"orange", hex:"#ffa500",ds:"DIC"},
+{name:"ピンク", reading:"pink", hex:"#ffc0cb",ds:"DIC"},
+{name:"ゴースト･ホワイト", reading:"ghostwhite", hex:"#f8f8ff",ds:"DIC"},
+{name:"ミディアムブルー", reading:"mediumblue", hex:"#0000cd",ds:"DIC"},
+{name:"アクアマリーン", reading:"aquamarine", hex:"#7fffd4",ds:"DIC"},
+{name:"サンディブラウン", reading:"sandybrown", hex:"#f4a460",ds:"DIC"},
+{name:"ライトピンク", reading:"lightpink", hex:"#ffb6c1",ds:"DIC"},
+{name:"フローラルホワイト", reading:"floralwhite", hex:"#fffaf0",ds:"DIC"},
+{name:"ブルー", reading:"blue", hex:"#0000ff",ds:"DIC"},
+{name:"ペールグリーン", reading:"palegreen", hex:"#98fb98",ds:"DIC"},
+{name:"ダークオレンジ", reading:"darkorange", hex:"#ff8c00",ds:"DIC"},
+{name:"シスル", reading:"thistle", hex:"#d8bfd8",ds:"DIC"},
+{name:"オールドレース", reading:"linen", hex:"#faf0e6",ds:"DIC"},
+{name:"ドジャーブルー", reading:"dodgerblue", hex:"#1e90ff",ds:"DIC"},
+{name:"ライトグリーン", reading:"lightgreen", hex:"#90ee90",ds:"DIC"},
+{name:"ゴールデンロッド", reading:"goldenrod", hex:"#daa520",ds:"DIC"},
+{name:"マゼンタ", reading:"magenta", hex:"#ff00ff",ds:"DIC"},
+{name:"アンティークホワイト", reading:"antiquewhite", hex:"#faebd7",ds:"DIC"},
+{name:"コーンフラワーブルー", reading:"cornflowerblue", hex:"#6495ed",ds:"DIC"},
+{name:"スプリンググリーン", reading:"springgreen", hex:"#00ff7f",ds:"DIC"},
+{name:"ペルー", reading:"peru", hex:"#cd853f",ds:"DIC"},
+{name:"マゼンタ", reading:"fuchsia", hex:"#ff00ff",ds:"DIC"},
+{name:"パパイヤホイップ", reading:"papayawhip", hex:"#ffefd5",ds:"DIC"},
+{name:"ディープスカイブルー", reading:"deepskyblue", hex:"#00bfff",ds:"DIC"},
+{name:"ミディアムスプリンググリーン", reading:"mediumspringgreen", hex:"#00fa9a",ds:"DIC"},
+{name:"ダークゴールデンロッド", reading:"darkgoldenrod", hex:"#b8860b",ds:"DIC"},
+{name:"バイオレット", reading:"violet", hex:"#ee82ee",ds:"DIC"},
+{name:"ブランチドアーモンド", reading:"blanchedalmond", hex:"#ffebcd",ds:"DIC"},
+{name:"ライトスカイブルー", reading:"lightskyblue", hex:"#87cefa",ds:"DIC"},
+{name:"ローングリーン", reading:"lawngreen", hex:"#7cfc00",ds:"DIC"},
+{name:"チョコレート", reading:"chocolate", hex:"#d2691e",ds:"DIC"},
+{name:"プラム", reading:"plum", hex:"#dda0dd",ds:"DIC"},
+{name:"ビスク", reading:"bisque", hex:"#ffe4c4",ds:"DIC"},
+{name:"スカイブルー", reading:"skyblue", hex:"#87ceeb",ds:"DIC"},
+{name:"シャトルーズ", reading:"chartreuse", hex:"#7fff00",ds:"DIC"},
+{name:"シェンナ", reading:"sienna", hex:"#a0522d",ds:"DIC"},
+{name:"オーキッド", reading:"orchid", hex:"#da70d6",ds:"DIC"},
+{name:"モカシン", reading:"moccasin", hex:"#ffe4b5",ds:"DIC"},
+{name:"ライトブルー", reading:"lightblue", hex:"#add8e6",ds:"DIC"},
+{name:"グリーンイエロー", reading:"greenyellow", hex:"#adff2f",ds:"DIC"},
+{name:"サドルブラウン", reading:"saddlebrown", hex:"#8b4513",ds:"DIC"},
+{name:"ミディアムオーキッド", reading:"mediumorchid", hex:"#ba55d3",ds:"DIC"},
+{name:"ナバホホワイト", reading:"navajowhite", hex:"#ffdead",ds:"DIC"},
+{name:"パウダーブルー", reading:"powderblue", hex:"#b0e0e6",ds:"DIC"},
+{name:"ライム", reading:"lime", hex:"#00ff00",ds:"DIC"},
+{name:"マルーン", reading:"maroon", hex:"#800000",ds:"DIC"},
+{name:"ダークオーキッド", reading:"darkorchid", hex:"#9932cc",ds:"DIC"},
+{name:"ピーチパフ", reading:"peachpuff", hex:"#ffdab9",ds:"DIC"},
+{name:"ペールターコイズ", reading:"paleturquoise", hex:"#afeeee",ds:"DIC"},
+{name:"ライムグリーン", reading:"limegreen", hex:"#32cd32",ds:"DIC"},
+{name:"ダークレッド", reading:"darkred", hex:"#8b0000",ds:"DIC"},
+{name:"ダークバイオレット", reading:"darkviolet", hex:"#9400d3",ds:"DIC"},
+{name:"ミスティローズ", reading:"mistyrose", hex:"#ffe4e1",ds:"DIC"},
+{name:"ライトシアン", reading:"lightcyan", hex:"#e0ffff",ds:"DIC"},
+{name:"イエローグリーン", reading:"yellowgreen", hex:"#9acd32",ds:"DIC"},
+{name:"ブラウン", reading:"brown", hex:"#a52a2a",ds:"DIC"},
+{name:"ダークマゼンタ", reading:"darkmagenta", hex:"#8b008b",ds:"DIC"},
+{name:"ラベンダーブラシ", reading:"lavenderblush", hex:"#fff0f5",ds:"DIC"},
+{name:"シアン", reading:"cyan", hex:"#00ffff",ds:"DIC"},
+{name:"ダークオリーブグリーン", reading:"darkolivegreen", hex:"#556b2f",ds:"DIC"},
+{name:"ファイアブリック", reading:"firebrick", hex:"#b22222",ds:"DIC"},
+{name:"パープル", reading:"purple", hex:"#800080",ds:"DIC"},
+{name:"シーシェル", reading:"seashell", hex:"#fff5ee",ds:"DIC"},
+{name:"シアン", reading:"aqua", hex:"#00ffff",ds:"DIC"},
+{name:"オリーブドラブ", reading:"olivedrab", hex:"#6b8e23",ds:"DIC"},
+{name:"インディアンレッド", reading:"indianred", hex:"#cd5c5c",ds:"DIC"},
+{name:"インディゴ", reading:"indigo", hex:"#4b0082",ds:"DIC"},
+{name:"オールドレース", reading:"oldlace", hex:"#fdf5e6",ds:"DIC"},
+{name:"ターコイズ", reading:"turquoise", hex:"#40e0d0",ds:"DIC"},
+{name:"オリーブ", reading:"olive", hex:"#808000",ds:"DIC"},
+{name:"ロージーブラウン", reading:"rosybrown", hex:"#bc8f8f",ds:"DIC"},
+{name:"ダークスレートブルー", reading:"darkslateblue", hex:"#483d8b",ds:"DIC"},
+{name:"アイボリー", reading:"ivory", hex:"#fffff0",ds:"DIC"},
+{name:"ミディアムターコイズ", reading:"mediumturquoise", hex:"#48d1cc",ds:"DIC"},
+{name:"ダークカーキー", reading:"darkkhaki", hex:"#bdb76b",ds:"DIC"},
+{name:"ダークサーモン", reading:"darksalmon", hex:"#e9967a",ds:"DIC"},
+{name:"ブルーバイオレット", reading:"blueviolet", hex:"#8a2be2",ds:"DIC"},
+{name:"ハニーデュー", reading:"honeydew", hex:"#f0fff0",ds:"DIC"},
+{name:"ダークターコイズ", reading:"darkturquoise", hex:"#00ced1",ds:"DIC"},
+{name:"ペールゴールデンロッド", reading:"palegoldenrod", hex:"#eee8aa",ds:"DIC"},
+{name:"ライトコーラル", reading:"lightcoral", hex:"#f08080",ds:"DIC"},
+{name:"ミディアムパープル", reading:"mediumpurple", hex:"#9370db",ds:"DIC"},
+{name:"ミントクリーム", reading:"mintcream", hex:"#f5fffa",ds:"DIC"},
+{name:"ライトシーグリーン", reading:"lightseagreen", hex:"#20b2aa",ds:"DIC"},
+{name:"コーン･シルク", reading:"cornsilk", hex:"#fff8dc",ds:"DIC"},
+{name:"サーモン", reading:"salmon", hex:"#fa8072",ds:"DIC"},
+{name:"スレートブルー", reading:"slateblue", hex:"#6a5acd",ds:"DIC"},
+{name:"アザー", reading:"azure", hex:"#f0ffff",ds:"DIC"},
+{name:"カデットブルー", reading:"cadetblue", hex:"#5f9ea0",ds:"DIC"},
+{name:"ベージュ", reading:"beige", hex:"#f5f5dc",ds:"DIC"},
+{name:"ライトサーモン", reading:"lightsalmon", hex:"#ffa07a",ds:"DIC"},
+{name:"ミディアムスレートブルー", reading:"mediumslateblue", hex:"#7b68ee",ds:"DIC"},
+{name:"コーラルレッド", reading:"coral red", hex:"#ef857d",ds:"DIC"},
+{name:"サンシャインイエロー", reading:"sunshine yellow", hex:"#ffedab",ds:"DIC"},
+{name:"アイスグリーン", reading:"ice green", hex:"#a3d6cc",ds:"DIC"},
+{name:"ウイスタリア", reading:"wistaria", hex:"#8d93c8",ds:"DIC"},
+{name:"ピンクアーモンド", reading:"pink almond", hex:"#e3acae",ds:"DIC"},
+{name:"ポピーレッド", reading:"poppy red", hex:"#ea5550",ds:"DIC"},
+{name:"クリームイエロー", reading:"cream yellow", hex:"#fff3b8",ds:"DIC"},
+{name:"ターコイズグリーン", reading:"turquoise green", hex:"#00947a",ds:"DIC"},
+{name:"ブルーラベンダー", reading:"blue lavender", hex:"#a4a8d4",ds:"DIC"},
+{name:"ローズダスト", reading:"rose dust", hex:"#e6c0c0",ds:"DIC"},
+{name:"レッド", reading:"red", hex:"#ea5550",ds:"DIC"},
+{name:"ネープルスイエロー", reading:"naples yellow", hex:"#fdd35c",ds:"DIC"},
+{name:"シーグリーン", reading:"sea green", hex:"#00ac97",ds:"DIC"},
+{name:"パンジー", reading:"pannsy", hex:"#4d4398",ds:"DIC"},
+{name:"トマトレッド", reading:"tomato red", hex:"#ea5549",ds:"DIC"},
+{name:"トパーズ", reading:"topaz", hex:"#e9bc00",ds:"DIC"},
+{name:"ペパーミントグリーン", reading:"peppermint green", hex:"#00ac9a",ds:"DIC"},
+{name:"バイオレット", reading:"violet", hex:"#5a4498",ds:"DIC"},
+{name:"スノーホワイト", reading:"snow white", hex:"#fafdff",ds:"DIC"},
+{name:"バーミリオン", reading:"vermilion", hex:"#ea553a",ds:"DIC"},
+{name:"クロムイエロー", reading:"chrome yellow", hex:"#fcc800",ds:"DIC"},
+{name:"ピーコックグリーン", reading:"peacock green", hex:"#00a497",ds:"DIC"},
+{name:"ヘリオトロープ", reading:"heliotrope", hex:"#9079b6",ds:"DIC"},
+{name:"ピンクホワイト", reading:"pink white", hex:"#fef9fb",ds:"DIC"},
+{name:"スカーレット", reading:"scarlet", hex:"#ea5532",ds:"DIC"},
+{name:"クリーム", reading:"cream", hex:"#e3d7a3",ds:"DIC"},
+{name:"ナイルブルー", reading:"nile blue", hex:"#2cb4ad",ds:"DIC"},
+{name:"ディープロイヤルパープル", reading:"deep royal purple", hex:"#47266e",ds:"DIC"},
+{name:"ミルキーホワイト", reading:"milky white", hex:"#fffff9",ds:"DIC"},
+{name:"キャロットオレンジ", reading:"carrot orange", hex:"#ed6d35",ds:"DIC"},
+{name:"ストロー", reading:"straw", hex:"#ece093",ds:"DIC"},
+{name:"サックスブルー", reading:"saxe blue", hex:"#418b89",ds:"DIC"},
+{name:"グレープ", reading:"grape", hex:"#56256e",ds:"DIC"},
+{name:"アンバーホワイト", reading:"amber white", hex:"#fff9f5",ds:"DIC"},
+{name:"チャイニーズレッド", reading:"chinese red", hex:"#ed6d46",ds:"DIC"},
+{name:"ジャスミンイエロー", reading:"jasmine yellow", hex:"#edde7b",ds:"DIC"},
+{name:"スレートグリーン", reading:"slate green", hex:"#3c7170",ds:"DIC"},
+{name:"モーブ", reading:"mauve", hex:"#915da3",ds:"DIC"},
+{name:"ラベンダーアイス", reading:"lavender ice", hex:"#f7f6fb",ds:"DIC"},
+{name:"テラコッタ", reading:"terracotta", hex:"#bd6856",ds:"DIC"},
+{name:"アンティックゴールド", reading:"antique gold", hex:"#c1ab05",ds:"DIC"},
+{name:"テールグリーン", reading:"teal green", hex:"#006a6c",ds:"DIC"},
+{name:"アイリス", reading:"iris", hex:"#c7a5cc",ds:"DIC"},
+{name:"パールホワイト", reading:"pearl white", hex:"#f7f6f5",ds:"DIC"},
+{name:"ココアブラウン", reading:"cocoa brown", hex:"#98605e",ds:"DIC"},
+{name:"オリーブ", reading:"olive", hex:"#72640c",ds:"DIC"},
+{name:"アクアグリーン", reading:"aqua green", hex:"#88bfbf",ds:"DIC"},
+{name:"ライラック", reading:"lilac", hex:"#d1bada",ds:"DIC"},
+{name:"アイボリー", reading:"ivory", hex:"#f8f4e6",ds:"DIC"},
+{name:"マホガニー", reading:"mahogany", hex:"#6b3f31",ds:"DIC"},
+{name:"オリーブドラブ", reading:"olive drab", hex:"#665a1a",ds:"DIC"},
+{name:"アクアマリン", reading:"aquamarine", hex:"#67b5b7",ds:"DIC"},
+{name:"ラベンダー", reading:"lavender", hex:"#cab8d9",ds:"DIC"},
+{name:"パウダーピンク", reading:"powder pink", hex:"#f5ecf4",ds:"DIC"},
+{name:"チョコレート", reading:"chocolate", hex:"#6c3524",ds:"DIC"},
+{name:"ジョンブリアン", reading:"jaune brillant", hex:"#ffdc00",ds:"DIC"},
+{name:"ピーコックブルー", reading:"peacock blue", hex:"#009e9f",ds:"DIC"},
+{name:"クロッカス", reading:"crocus", hex:"#b79fcb",ds:"DIC"},
+{name:"シルバーホワイト", reading:"silver white", hex:"#efefef",ds:"DIC"},
+{name:"マルーン", reading:"marron", hex:"#6a1917",ds:"DIC"},
+{name:"イエロー", reading:"yellow", hex:"#ffdc00",ds:"DIC"},
+{name:"ターコイズ", reading:"turquoise", hex:"#009b9f",ds:"DIC"},
+{name:"ラベンダーモーブ", reading:"lavender mauve", hex:"#a688bd",ds:"DIC"},
+{name:"フロスティグレイ", reading:"frosty gray", hex:"#e8ece9",ds:"DIC"},
+{name:"セピア", reading:"sepia", hex:"#622d18",ds:"DIC"},
+{name:"シトラス", reading:"citrus", hex:"#eddc44",ds:"DIC"},
+{name:"カプリブルー", reading:"capri blue", hex:"#00a3a7",ds:"DIC"},
+{name:"パープル", reading:"purple", hex:"#9b72b0",ds:"DIC"},
+{name:"シルバーピンク", reading:"silver pink", hex:"#eeeaec",ds:"DIC"},
+{name:"コーヒー色", reading:"coffee", hex:"#7b5544",ds:"DIC"},
+{name:"ライムライト", reading:"limelight", hex:"#fff799",ds:"DIC"},
+{name:"ケンブリッジブルー", reading:"cambridge blue", hex:"#25b7c0",ds:"DIC"},
+{name:"ロイヤルパープル", reading:"royal purple", hex:"#7f1184",ds:"DIC"},
+{name:"ベージュカメオ", reading:"beige cameo", hex:"#eee9e6",ds:"DIC"},
+{name:"ブラウン", reading:"brown", hex:"#8f6552",ds:"DIC"},
+{name:"カナリヤ", reading:"canary yellow", hex:"#fff462",ds:"DIC"},
+{name:"ターコイズブルー", reading:"turquoise blue", hex:"#00afcc",ds:"DIC"},
+{name:"レーズン", reading:"raisin", hex:"#6b395f",ds:"DIC"},
+{name:"エクリュ", reading:"ecru", hex:"#eee7e0",ds:"DIC"},
+{name:"バーントシェンナ", reading:"burnt sienna", hex:"#bb5535",ds:"DIC"},
+{name:"ミモザ", reading:"mimosa", hex:"#fff462",ds:"DIC"},
+{name:"ホライズンブルー", reading:"horizon blue", hex:"#82cddd",ds:"DIC"},
+{name:"プラム", reading:"plum", hex:"#6c2463",ds:"DIC"},
+{name:"ピンクベージュ", reading:"pink beige", hex:"#ede4e1",ds:"DIC"},
+{name:"アンバーローズ", reading:"amber rose", hex:"#e6bfb2",ds:"DIC"},
+{name:"レモンイエロー", reading:"lemon yellow", hex:"#fff352",ds:"DIC"},
+{name:"サマーシャワー", reading:"summer shower", hex:"#a1d8e2",ds:"DIC"},
+{name:"ラズベリー", reading:"raspberry", hex:"#841a75",ds:"DIC"},
+{name:"フロスティホワイト", reading:"frosty white", hex:"#e6eae6",ds:"DIC"},
+{name:"ベージュローゼ", reading:"beige rose", hex:"#e8d3ca",ds:"DIC"},
+{name:"メロンイエロー", reading:"melon yellow", hex:"#e0de94",ds:"DIC"},
+{name:"ホリゾンブルー", reading:"horizon blue", hex:"#a1d8e6",ds:"DIC"},
+{name:"フランボワーズ", reading:"framboise", hex:"#9a0d7c",ds:"DIC"},
+{name:"オイスターホワイト", reading:"oyster white", hex:"#eae8e1",ds:"DIC"},
+{name:"サーモンピンク", reading:"salmon pink", hex:"#f3a68c",ds:"DIC"},
+{name:"シャルトルーズイエロー", reading:"chartreuse yellow", hex:"#e3e548",ds:"DIC"},
+{name:"セルリアンブルー", reading:"cerulean blue", hex:"#008db7",ds:"DIC"},
+{name:"ダリアパープル", reading:"dahlia purple", hex:"#a50082",ds:"DIC"},
+{name:"ウィステリアミスト", reading:"wisteria mist", hex:"#d3d6dd",ds:"DIC"},
+{name:"サハラ", reading:"sahara", hex:"#e29676",ds:"DIC"},
+{name:"ライムイエロー", reading:"lime yellow", hex:"#eaeea2",ds:"DIC"},
+{name:"ダックブルー", reading:"duck blue", hex:"#007199",ds:"DIC"},
+{name:"オーキッドパープル", reading:"orchid purple", hex:"#af0082",ds:"DIC"},
+{name:"クラウド", reading:"cloud", hex:"#d4d9df",ds:"DIC"},
+{name:"アッシュローズ", reading:"ash rose", hex:"#e6bfab",ds:"DIC"},
+{name:"ライムグリーン", reading:"lime green", hex:"#e6eb94",ds:"DIC"},
+{name:"マリンブルー", reading:"marine blue", hex:"#006888",ds:"DIC"},
+{name:"ラズベリーレッド", reading:"raspberry red", hex:"#9f166a",ds:"DIC"},
+{name:"ムーングレイ", reading:"moon gray", hex:"#d4d9dc",ds:"DIC"},
+{name:"シェルピンク", reading:"shell pink", hex:"#fbdac8",ds:"DIC"},
+{name:"シャトルーズグリーン", reading:"chartreuse green", hex:"#d9e367",ds:"DIC"},
+{name:"マドンナブルー", reading:"madonna blue", hex:"#00608d",ds:"DIC"},
+{name:"オーキッド", reading:"orchid", hex:"#d9aacd",ds:"DIC"},
+{name:"チャイナクレイ", reading:"china clay", hex:"#d4dcd3",ds:"DIC"},
+{name:"ベビーピンク", reading:"baby pink", hex:"#fdede4",ds:"DIC"},
+{name:"レタスグリーン", reading:"lettuce green", hex:"#d1de4c",ds:"DIC"},
+{name:"エジプシャンブルー", reading:"egyptian blue", hex:"#0073a8",ds:"DIC"},
+{name:"リラ", reading:"lilla", hex:"#e0b5d3",ds:"DIC"},
+{name:"サンドベージュ", reading:"sand beige", hex:"#dcd6d2",ds:"DIC"},
+{name:"ネールピンク", reading:"nail pink", hex:"#fce4d6",ds:"DIC"},
+{name:"オリーブグリーン", reading:"olive green", hex:"#5f6527",ds:"DIC"},
+{name:"ベビーブルー", reading:"baby blue", hex:"#bbe2f1",ds:"DIC"},
+{name:"ローズタンドル", reading:"rose tendre", hex:"#e6afcf",ds:"DIC"},
+{name:"オーキッドミスト", reading:"orchid mist", hex:"#d3d3d8",ds:"DIC"},
+{name:"ローシェンナ", reading:"raw sienna", hex:"#e17b34",ds:"DIC"},
+{name:"モスグリーン", reading:"moss green", hex:"#777e41",ds:"DIC"},
+{name:"スカイブルー", reading:"sky blue", hex:"#a0d8ef",ds:"DIC"},
+{name:"オーキッドピンク", reading:"orchid pink", hex:"#da81b2",ds:"DIC"},
+{name:"リードグレイ", reading:"reed gray", hex:"#d4d9d6",ds:"DIC"},
+{name:"キャラメル", reading:"caramel", hex:"#bc611e",ds:"DIC"},
+{name:"グラスグリーン", reading:"grass green", hex:"#7b8d42",ds:"DIC"},
+{name:"シャドウブルー", reading:"shadow blue", hex:"#719bad",ds:"DIC"},
+{name:"シクラメンピンク", reading:"cyclamen pink", hex:"#d04f97",ds:"DIC"},
+{name:"スカイグレイ", reading:"sky gray", hex:"#cbd0d3",ds:"DIC"},
+{name:"サンセット", reading:"sunset", hex:"#f6b483",ds:"DIC"},
+{name:"スプリンググリーン", reading:"spring green", hex:"#9cbb1c",ds:"DIC"},
+{name:"シアン", reading:"cyan", hex:"#00a1e9",ds:"DIC"},
+{name:"マゼンタ", reading:"magenta", hex:"#e4007f",ds:"DIC"},
+{name:"ラベンダーグレイ", reading:"lavender gray", hex:"#bcbace",ds:"DIC"},
+{name:"シナモン", reading:"cinnamon", hex:"#be8f68",ds:"DIC"},
+{name:"リーフグリーン", reading:"leaf green", hex:"#9fc24d",ds:"DIC"},
+{name:"ヨットブルー", reading:"yacht blue", hex:"#409ecc",ds:"DIC"},
+{name:"ブーゲンビリア", reading:"bougainvillaea", hex:"#e62f8b",ds:"DIC"},
+{name:"シルバー", reading:"silver", hex:"#c9caca",ds:"DIC"},
+{name:"タン", reading:"tan", hex:"#bf783e",ds:"DIC"},
+{name:"ホワイトリリー", reading:"white lily", hex:"#f0f6da",ds:"DIC"},
+{name:"チョークブルー", reading:"chalk blue", hex:"#68a9cf",ds:"DIC"},
+{name:"ルビー", reading:"ruby", hex:"#c70067",ds:"DIC"},
+{name:"パールグレイ", reading:"pearl gray", hex:"#c9c9c4",ds:"DIC"},
+{name:"シャンパン", reading:"champagne", hex:"#e9dacb",ds:"DIC"},
+{name:"アスパラガスグリーン", reading:"asparagus green", hex:"#dbebc4",ds:"DIC"},
+{name:"ピジョンブルー", reading:"pigeon blue", hex:"#88b5d3",ds:"DIC"},
+{name:"クラレット", reading:"claret", hex:"#941f57",ds:"DIC"},
+{name:"サンドグレイ", reading:"sand gray", hex:"#c9c9c2",ds:"DIC"},
+{name:"ピーチ", reading:"peach", hex:"#fbd8b5",ds:"DIC"},
+{name:"シトロングリーン", reading:"citron green", hex:"#618e34",ds:"DIC"},
+{name:"スモークブルー", reading:"smoke blue", hex:"#a4c1d7",ds:"DIC"},
+{name:"アザレ", reading:"azalee", hex:"#d83473",ds:"DIC"},
+{name:"マーブルグレイ", reading:"marble gray", hex:"#c0c5c2",ds:"DIC"},
+{name:"カフェオレ", reading:"cafe au lait", hex:"#946c45",ds:"DIC"},
+{name:"メドウグリーン", reading:"meadow green", hex:"#65ab31",ds:"DIC"},
+{name:"フロスティブルー", reading:"frosty blue", hex:"#bbdbf3",ds:"DIC"},
+{name:"コスモス", reading:"cosmos", hex:"#dc6b9a",ds:"DIC"},
+{name:"オパールグレイ", reading:"opal gray", hex:"#bfbec5",ds:"DIC"},
+{name:"オレンジ", reading:"orange", hex:"#ee7800",ds:"DIC"},
+{name:"アップルグリーン", reading:"apple green", hex:"#a7d28d",ds:"DIC"},
+{name:"ブルーアシード", reading:"bleu acide", hex:"#006eb0",ds:"DIC"},
+{name:"ロータスピンク", reading:"lotus pink", hex:"#de82a7",ds:"DIC"},
+{name:"フレンチグレイ", reading:"french gray", hex:"#8da0b6",ds:"DIC"},
+{name:"アプリコット", reading:"apricot", hex:"#f7b977",ds:"DIC"},
+{name:"アイビーグリーン", reading:"ivy green", hex:"#578a3d",ds:"DIC"},
+{name:"コバルトブルー", reading:"cobalt blue", hex:"#0068b7",ds:"DIC"},
+{name:"オールドオーキッド", reading:"old orchid", hex:"#e3adc1",ds:"DIC"},
+{name:"ミスト", reading:"mist", hex:"#b4aeb1",ds:"DIC"},
+{name:"アンバー", reading:"amber", hex:"#c2894b",ds:"DIC"},
+{name:"スピナッチグリーン", reading:"spinach green", hex:"#417038",ds:"DIC"},
+{name:"サファイアブルー", reading:"sapphire blue", hex:"#0068b7",ds:"DIC"},
+{name:"ローズミスト", reading:"rose mist", hex:"#debecc",ds:"DIC"},
+{name:"アッシュブロンド", reading:"ash blond", hex:"#b5b5ae",ds:"DIC"},
+{name:"ブロンズ", reading:"bronze", hex:"#ac6b25",ds:"DIC"},
+{name:"カクタス", reading:"cactus", hex:"#387d39",ds:"DIC"},
+{name:"スペクトラムブルー", reading:"spectrum blue", hex:"#0075c2",ds:"DIC"},
+{name:"ローズドラジェ", reading:"rose dragee", hex:"#e5c1cd",ds:"DIC"},
+{name:"フォッグ", reading:"fog", hex:"#abb1b5",ds:"DIC"},
+{name:"ヴァニラ", reading:"vanilla", hex:"#e8c59c",ds:"DIC"},
+{name:"スカイグリーン", reading:"sky green", hex:"#bee0c2",ds:"DIC"},
+{name:"ブルー", reading:"blue", hex:"#0075c2",ds:"DIC"},
+{name:"チェリーピンク", reading:"cherry pink", hex:"#eb6ea0",ds:"DIC"},
+{name:"ベージュグレイ", reading:"beige gray", hex:"#b4ada9",ds:"DIC"},
+{name:"コルク", reading:"cork", hex:"#c49a6a",ds:"DIC"},
+{name:"スペアミント", reading:"spearmint", hex:"#79c06e",ds:"DIC"},
+{name:"ゼニスブルー", reading:"zenith blue", hex:"#4496d3",ds:"DIC"},
+{name:"オペラ", reading:"opera", hex:"#e95388",ds:"DIC"},
+{name:"シルバーグレイ", reading:"silver gray", hex:"#afafb0",ds:"DIC"},
+{name:"バーントアンバー", reading:"burnt umber", hex:"#6f5436",ds:"DIC"},
+{name:"ミントグリーン", reading:"mint green", hex:"#89c997",ds:"DIC"},
+{name:"ヘブンリーブルー", reading:"heavenly blue", hex:"#68a4d9",ds:"DIC"},
+{name:"ローズレッド", reading:"rose red", hex:"#ea618e",ds:"DIC"},
+{name:"ストームグレイ", reading:"storm gray", hex:"#aaaab0",ds:"DIC"},
+{name:"ローアンバー", reading:"raw umber", hex:"#866629",ds:"DIC"},
+{name:"パロットグリーン", reading:"parrot green", hex:"#37a34a",ds:"DIC"},
+{name:"オーキッドグレイ", reading:"orchid gray", hex:"#bcc7d7",ds:"DIC"},
+{name:"オールドライラック", reading:"old lilac", hex:"#b0778c",ds:"DIC"},
+{name:"グリーンフォッグ", reading:"green fog", hex:"#abb1ad",ds:"DIC"},
+{name:"フレッシュ", reading:"flesh", hex:"#fad09e",ds:"DIC"},
+{name:"サマーグリーン", reading:"summer green", hex:"#009944",ds:"DIC"},
+{name:"パウダーブルー", reading:"powder blue", hex:"#bccddb",ds:"DIC"},
+{name:"ココア色", reading:"cocoa", hex:"#6e4a55",ds:"DIC"},
+{name:"アッシュグレイ", reading:"ash gray", hex:"#9fa09e",ds:"DIC"},
+{name:"ゴールデンイエロー", reading:"golden yellow", hex:"#f6ae54",ds:"DIC"},
+{name:"オパールグリーン", reading:"opal green", hex:"#bee0ce",ds:"DIC"},
+{name:"ライトブルー", reading:"light blue", hex:"#b2cbe4",ds:"DIC"},
+{name:"ワインレッド", reading:"wine red", hex:"#b33e5c",ds:"DIC"},
+{name:"ローズグレイ", reading:"rose gray", hex:"#9d8e87",ds:"DIC"},
+{name:"マンダリンオレンジ", reading:"mandarin orange", hex:"#f3981d",ds:"DIC"},
+{name:"スプレイグリーン", reading:"spray green", hex:"#a4d5bd",ds:"DIC"},
+{name:"ベイビーブルー", reading:"baby blue", hex:"#a2c2e6",ds:"DIC"},
+{name:"ガーネット", reading:"garnet", hex:"#942343",ds:"DIC"},
+{name:"エレファントスキン", reading:"elephant skin", hex:"#9f9f98",ds:"DIC"},
+{name:"マリーゴールド", reading:"marigold", hex:"#f39800",ds:"DIC"},
+{name:"ボトルグリーン", reading:"bottle green", hex:"#004d25",ds:"DIC"},
+{name:"デイドリーム", reading:"day dream", hex:"#a3b9e0",ds:"DIC"},
+{name:"コチニールレッド", reading:"cochineal red", hex:"#c82c55",ds:"DIC"},
+{name:"バトルシップグレイ", reading:"battleship gray", hex:"#898989",ds:"DIC"},
+{name:"エクルベージュ", reading:"ecru beige", hex:"#f6e5cc",ds:"DIC"},
+{name:"コバルトグリーン", reading:"cobalt green", hex:"#3cb37a",ds:"DIC"},
+{name:"サルビアブルー", reading:"salvia blue", hex:"#94adda",ds:"DIC"},
+{name:"ストロベリー", reading:"strawberry", hex:"#e73562",ds:"DIC"},
+{name:"ストーングレイ", reading:"stone gray", hex:"#898880",ds:"DIC"},
+{name:"オイスター", reading:"oyster", hex:"#eae1cf",ds:"DIC"},
+{name:"エバーグリーン", reading:"evergreen", hex:"#00984f",ds:"DIC"},
+{name:"ヒヤシンスブルー", reading:"hyacinth blue", hex:"#7a99cf",ds:"DIC"},
+{name:"ルビーレッド", reading:"ruby red", hex:"#e73562",ds:"DIC"},
+{name:"モスグレイ", reading:"moss gray", hex:"#7e837f",ds:"DIC"},
+{name:"オーカー", reading:"ochre", hex:"#ba8b40",ds:"DIC"},
+{name:"マラカイトグリーン", reading:"malachite green", hex:"#009854",ds:"DIC"},
+{name:"ヒヤシンス", reading:"hyacinth", hex:"#6c9bd2",ds:"DIC"},
+{name:"カーマイン", reading:"carmine", hex:"#d70035",ds:"DIC"},
+{name:"ダブグレイ", reading:"dove gray", hex:"#7d7b83",ds:"DIC"},
+{name:"カーキー", reading:"khaki", hex:"#c5a05a",ds:"DIC"},
+{name:"グリーン", reading:"green", hex:"#00a960",ds:"DIC"},
+{name:"ミッドナイトブルー", reading:"midnight blue", hex:"#001e43",ds:"DIC"},
+{name:"シグナルレッド", reading:"signal red", hex:"#e8383d",ds:"DIC"},
+{name:"グレイ", reading:"gray", hex:"#7d7d7d",ds:"DIC"},
+{name:"バフ", reading:"buff", hex:"#caac71",ds:"DIC"},
+{name:"エメラルドグリーン", reading:"emerald green", hex:"#00a968",ds:"DIC"},
+{name:"ネービーブルー", reading:"navy blue", hex:"#202f55",ds:"DIC"},
+{name:"バーガンディー", reading:"burgundy", hex:"#6c2735",ds:"DIC"},
+{name:"スチールグレイ", reading:"steel gray", hex:"#736d71",ds:"DIC"},
+{name:"サフランイエロー", reading:"saffron yellow", hex:"#fac559",ds:"DIC"},
+{name:"フォレストグリーン", reading:"forest green", hex:"#288c66",ds:"DIC"},
+{name:"プルシャンブルー", reading:"prussian blue", hex:"#192f60",ds:"DIC"},
+{name:"ボルドー", reading:"bordeaux", hex:"#6c272d",ds:"DIC"},
+{name:"アイビーグレイ", reading:"ivy gray", hex:"#666c67",ds:"DIC"},
+{name:"パンプキン", reading:"pumpkin", hex:"#e5a323",ds:"DIC"},
+{name:"ビリジアン", reading:"viridian", hex:"#00885a",ds:"DIC"},
+{name:"アイアンブルー", reading:"iron blue", hex:"#192f60",ds:"DIC"},
+{name:"カメリア", reading:"camellia", hex:"#da536e",ds:"DIC"},
+{name:"スレートグレイ", reading:"slate gray", hex:"#626063",ds:"DIC"},
+{name:"イエローオーカー", reading:"yellow ocher", hex:"#c4972f",ds:"DIC"},
+{name:"ホーリーグリーン", reading:"holly green", hex:"#006948",ds:"DIC"},
+{name:"インディゴ", reading:"indigo", hex:"#043c78",ds:"DIC"},
+{name:"ローズ", reading:"rose", hex:"#e95464",ds:"DIC"},
+{name:"グラファイト", reading:"graphite", hex:"#594e52",ds:"DIC"},
+{name:"ブロンド", reading:"blond", hex:"#f2d58a",ds:"DIC"},
+{name:"ビリヤードグリーン", reading:"billiard green", hex:"#005c42",ds:"DIC"},
+{name:"インクブルー", reading:"ink blue", hex:"#003f8e",ds:"DIC"},
+{name:"ローズピンク", reading:"rose pink", hex:"#f19ca7",ds:"DIC"},
+{name:"チャコールグレイ", reading:"charcoal gray", hex:"#4e454a",ds:"DIC"},
+{name:"ベージュ", reading:"beige", hex:"#eedcb3",ds:"DIC"},
+{name:"クロムグリーン", reading:"chrome green", hex:"#00533f",ds:"DIC"},
+{name:"オリエンタルブルー", reading:"oriental blue", hex:"#26499d",ds:"DIC"},
+{name:"ピンク", reading:"pink", hex:"#f5b2b2",ds:"DIC"},
+{name:"トープ", reading:"taupe", hex:"#504946",ds:"DIC"},
+{name:"ビスケット", reading:"biscuit", hex:"#ead7a4",ds:"DIC"},
+{name:"アンティークグリーン", reading:"antique green", hex:"#54917f",ds:"DIC"},
+{name:"ウルトラマリンブルー", reading:"ultramarine blue", hex:"#4753a2",ds:"DIC"},
+{name:"フラミンゴピンク", reading:"flamingo pink", hex:"#f5b2ac",ds:"DIC"},
+{name:"ランプブラック", reading:"lamp black", hex:"#24140e",ds:"DIC"},
+{name:"レグホーン", reading:"leghorn", hex:"#ffe9a9",ds:"DIC"},
+{name:"ウォーターグリーン", reading:"water green", hex:"#a5c9c1",ds:"DIC"},
+{name:"ウルトラマリン", reading:"ultramarine", hex:"#434da2",ds:"DIC"},
+{name:"オールドローズ", reading:"old rose", hex:"#e29399",ds:"DIC"},
+{name:"鴇色", reading:"ときいろ", hex:"#fa9cb8",ds:"JIS"},
+{name:"躑躅色", reading:"つつじいろ", hex:"#cf4078",ds:"JIS"},
+{name:"桜色", reading:"さくらいろ", hex:"#fbdade",ds:"JIS"},
+{name:"薔薇色", reading:"ばらいろ", hex:"#d53e62",ds:"JIS"},
+{name:"唐紅", reading:"からくれない", hex:"#e64b6b",ds:"JIS"},
+{name:"珊瑚色", reading:"さんごいろ", hex:"#ff7f8f",ds:"JIS"},
+{name:"紅梅色", reading:"こうばいいろ", hex:"#df828a",ds:"JIS"},
+{name:"桃色", reading:"ももいろ", hex:"#e38089",ds:"JIS"},
+{name:"紅色", reading:"べにいろ", hex:"#be003f",ds:"JIS"},
+{name:"紅赤", reading:"べにあか", hex:"#b81a3e",ds:"JIS"},
+{name:"臙脂", reading:"えんじ", hex:"#ad3140",ds:"JIS"},
+{name:"蘇芳", reading:"すおう", hex:"#94474b",ds:"JIS"},
+{name:"茜色", reading:"あかねいろ", hex:"#9e2236",ds:"JIS"},
+{name:"赤", reading:"あか", hex:"#be0032",ds:"JIS"},
+{name:"朱色", reading:"しゅいろ", hex:"#ef454a",ds:"JIS"},
+{name:"紅樺色", reading:"べにかばいろ", hex:"#9e413f",ds:"JIS"},
+{name:"紅緋", reading:"べにひ", hex:"#ef4644",ds:"JIS"},
+{name:"鉛丹色", reading:"えんたんいろ", hex:"#d1483e",ds:"JIS"},
+{name:"紅海老茶", reading:"べにえびちゃ", hex:"#6d3a33",ds:"JIS"},
+{name:"鳶色", reading:"とびいろ", hex:"#7a453d",ds:"JIS"},
+{name:"小豆色", reading:"あずきいろ", hex:"#905d54",ds:"JIS"},
+{name:"弁柄色", reading:"べんがらいろ", hex:"#863e33",ds:"JIS"},
+{name:"海老茶", reading:"えびちゃ", hex:"#693c34",ds:"JIS"},
+{name:"金赤", reading:"きんあか", hex:"#ea4e31",ds:"JIS"},
+{name:"赤茶", reading:"あかちゃ", hex:"#ad4e39",ds:"JIS"},
+{name:"赤錆色", reading:"あかさびいろ", hex:"#8d3927",ds:"JIS"},
+{name:"黄丹", reading:"おうに", hex:"#eb6940",ds:"JIS"},
+{name:"赤橙", reading:"あかだいだい", hex:"#e65226",ds:"JIS"},
+{name:"柿色", reading:"かきいろ", hex:"#db5c35",ds:"JIS"},
+{name:"肉桂色", reading:"にっけいいろ", hex:"#b5725c",ds:"JIS"},
+{name:"樺色", reading:"かばいろ", hex:"#b64826",ds:"JIS"},
+{name:"煉瓦色", reading:"れんがいろ", hex:"#914c35",ds:"JIS"},
+{name:"錆色", reading:"さびいろ", hex:"#624035",ds:"JIS"},
+{name:"檜皮色", reading:"ひわだいろ", hex:"#865c4b",ds:"JIS"},
+{name:"栗色", reading:"くりいろ", hex:"#704b38",ds:"JIS"},
+{name:"黄赤", reading:"きあか", hex:"#d86011",ds:"JIS"},
+{name:"代赭", reading:"たいしゃ", hex:"#b26235",ds:"JIS"},
+{name:"駱駝色", reading:"らくだいろ", hex:"#b0764f",ds:"JIS"},
+{name:"黄茶", reading:"きちゃ", hex:"#b1632a",ds:"JIS"},
+{name:"肌色", reading:"はだいろ", hex:"#f1bb93",ds:"JIS"},
+{name:"橙色", reading:"だいだいいろ", hex:"#ef810f",ds:"JIS"},
+{name:"灰茶", reading:"はいちゃ", hex:"#816551",ds:"JIS"},
+{name:"茶色", reading:"ちゃいろ", hex:"#6d4c33",ds:"JIS"},
+{name:"焦茶", reading:"こげちゃ", hex:"#564539",ds:"JIS"},
+{name:"柑子色", reading:"こうじいろ", hex:"#faa55c",ds:"JIS"},
+{name:"杏色", reading:"あんずいろ", hex:"#d89f6d",ds:"JIS"},
+{name:"蜜柑色", reading:"みかんいろ", hex:"#eb8400",ds:"JIS"},
+{name:"褐色", reading:"かっしょく", hex:"#6b3e08",ds:"JIS"},
+{name:"土色", reading:"つちいろ", hex:"#9f6c31",ds:"JIS"},
+{name:"小麦色", reading:"こむぎいろ", hex:"#d4a168",ds:"JIS"},
+{name:"琥珀色", reading:"こはくいろ", hex:"#aa7a40",ds:"JIS"},
+{name:"金茶", reading:"きんちゃ", hex:"#b47700",ds:"JIS"},
+{name:"卵色", reading:"たまごいろ", hex:"#f4bd6b",ds:"JIS"},
+{name:"山吹色", reading:"やまぶきいろ", hex:"#f8a900",ds:"JIS"},
+{name:"黄土色", reading:"おうどいろ", hex:"#b8883b",ds:"JIS"},
+{name:"朽葉色", reading:"くちばいろ", hex:"#847461",ds:"JIS"},
+{name:"向日葵色", reading:"ひまわりいろ", hex:"#ffbb00",ds:"JIS"},
+{name:"鬱金色", reading:"うこんいろ", hex:"#edae00",ds:"JIS"},
+{name:"砂色", reading:"すないろ", hex:"#c5b69e",ds:"JIS"},
+{name:"芥子色", reading:"からしいろ", hex:"#c8a65d",ds:"JIS"},
+{name:"黄", reading:"き", hex:"#ffff00",ds:"JIS"},
+{name:"蒲公英色", reading:"たんぽぽいろ", hex:"#e3c700",ds:"JIS"},
+{name:"鶯茶", reading:"うぐいすちゃ", hex:"#6a5f37",ds:"JIS"},
+{name:"中黄", reading:"ちゅうき", hex:"#edd60e",ds:"JIS"},
+{name:"刈安色", reading:"かりやすいろ", hex:"#ead56b",ds:"JIS"},
+{name:"黄檗色", reading:"きはだいろ", hex:"#d6c949",ds:"JIS"},
+{name:"海松色", reading:"みるいろ", hex:"#716b4a",ds:"JIS"},
+{name:"鶸色", reading:"ひわいろ", hex:"#c2bd3d",ds:"JIS"},
+{name:"鶯色", reading:"うぐいすいろ", hex:"#706c3e",ds:"JIS"},
+{name:"抹茶色", reading:"まっちゃいろ", hex:"#c0ba7f",ds:"JIS"},
+{name:"黄緑", reading:"きみどり", hex:"#bbc000",ds:"JIS"},
+{name:"苔色", reading:"こけいろ", hex:"#7c7a37",ds:"JIS"},
+{name:"若草色", reading:"わかくさいろ", hex:"#aab300",ds:"JIS"},
+{name:"萌黄", reading:"もえぎ", hex:"#97a61e",ds:"JIS"},
+{name:"草色", reading:"くさいろ", hex:"#737c3e",ds:"JIS"},
+{name:"若葉色", reading:"わかばいろ", hex:"#a9c087",ds:"JIS"},
+{name:"松葉色", reading:"まつばいろ", hex:"#687e52",ds:"JIS"},
+{name:"白緑", reading:"びゃくろく", hex:"#badbc7",ds:"JIS"},
+{name:"緑", reading:"みどり", hex:"#00b66e",ds:"JIS"},
+{name:"常磐色", reading:"ときわいろ", hex:"#007b50",ds:"JIS"},
+{name:"緑青色", reading:"ろくしょういろ", hex:"#4d8169",ds:"JIS"},
+{name:"千歳緑", reading:"ちとせみどり", hex:"#3c6754",ds:"JIS"},
+{name:"深緑", reading:"ふかみどり", hex:"#005638",ds:"JIS"},
+{name:"萌葱色", reading:"もえぎいろ", hex:"#00533e",ds:"JIS"},
+{name:"若竹色", reading:"わかたけいろ", hex:"#00a37e",ds:"JIS"},
+{name:"青磁色", reading:"せいじいろ", hex:"#6da895",ds:"JIS"},
+{name:"青竹色", reading:"あおたけいろ", hex:"#6aa89d",ds:"JIS"},
+{name:"鉄色", reading:"てついろ", hex:"#24433e",ds:"JIS"},
+{name:"青緑", reading:"あおみどり", hex:"#008e94",ds:"JIS"},
+{name:"錆浅葱", reading:"さびあさぎ", hex:"#608a8e",ds:"JIS"},
+{name:"水浅葱", reading:"みずあさぎ", hex:"#6d969c",ds:"JIS"},
+{name:"新橋色", reading:"しんばしいろ", hex:"#53a8b7",ds:"JIS"},
+{name:"浅葱", reading:"あさぎ", hex:"#00859b",ds:"JIS"},
+{name:"白群", reading:"びゃくぐん", hex:"#73b3c1",ds:"JIS"},
+{name:"納戸色", reading:"なんどいろ", hex:"#00687c",ds:"JIS"},
+{name:"甕覗き", reading:"かめのぞき", hex:"#7eb1c1",ds:"JIS"},
+{name:"水色", reading:"みずいろ", hex:"#9dcce0",ds:"JIS"},
+{name:"藍鼠", reading:"あいねず", hex:"#576d79",ds:"JIS"},
+{name:"空色", reading:"そらいろ", hex:"#89bdde",ds:"JIS"},
+{name:"青", reading:"あお", hex:"#006ab6",ds:"JIS"},
+{name:"藍色", reading:"あいいろ", hex:"#2b4b65",ds:"JIS"},
+{name:"濃藍", reading:"こいあい", hex:"#223546",ds:"JIS"},
+{name:"勿忘草色", reading:"わすれなぐさいろ", hex:"#89acd7",ds:"JIS"},
+{name:"露草色", reading:"つゆくさいろ", hex:"#007bc3",ds:"JIS"},
+{name:"縹色", reading:"はなだいろ", hex:"#2b618f",ds:"JIS"},
+{name:"紺青", reading:"こんじょう", hex:"#3a4861",ds:"JIS"},
+{name:"瑠璃色", reading:"るりいろ", hex:"#00519a",ds:"JIS"},
+{name:"瑠璃紺", reading:"るりこん", hex:"#27477a",ds:"JIS"},
+{name:"紺色", reading:"こんいろ", hex:"#343d55",ds:"JIS"},
+{name:"杜若色", reading:"かきつばたいろ", hex:"#435aa0",ds:"JIS"},
+{name:"勝色", reading:"かちいろ", hex:"#3a3c4f",ds:"JIS"},
+{name:"群青色", reading:"ぐんじょういろ", hex:"#384d98",ds:"JIS"},
+{name:"鉄紺", reading:"てつこん", hex:"#292934",ds:"JIS"},
+{name:"藤納戸", reading:"ふじなんど", hex:"#69639a",ds:"JIS"},
+{name:"桔梗色", reading:"ききょういろ", hex:"#4347a2",ds:"JIS"},
+{name:"紺藍", reading:"こんあい", hex:"#353573",ds:"JIS"},
+{name:"藤色", reading:"ふじいろ", hex:"#a294c8",ds:"JIS"},
+{name:"藤紫", reading:"ふじむらさき", hex:"#9883c9",ds:"JIS"},
+{name:"青紫", reading:"あおむらさき", hex:"#7445aa",ds:"JIS"},
+{name:"菫色", reading:"すみれいろ", hex:"#714c99",ds:"JIS"},
+{name:"鳩羽色", reading:"はとばいろ", hex:"#665971",ds:"JIS"},
+{name:"菖蒲色", reading:"しょうぶいろ", hex:"#744b98",ds:"JIS"},
+{name:"江戸紫", reading:"えどむらさき", hex:"#614876",ds:"JIS"},
+{name:"紫", reading:"むらさき", hex:"#a757a8",ds:"JIS"},
+{name:"古代紫", reading:"こだいむらさき", hex:"#765276",ds:"JIS"},
+{name:"茄子紺", reading:"なすこん", hex:"#473946",ds:"JIS"},
+{name:"紫紺", reading:"しこん", hex:"#422c41",ds:"JIS"},
+{name:"菖蒲色", reading:"あやめいろ", hex:"#c573b2",ds:"JIS"},
+{name:"牡丹色", reading:"ぼたんいろ", hex:"#c94093",ds:"JIS"},
+{name:"赤紫", reading:"あかむらさき", hex:"#da508f",ds:"JIS"},
+{name:"白", reading:"しろ", hex:"#f0f0f0",ds:"JIS"},
+{name:"胡粉色", reading:"ごふんいろ", hex:"#ebe7e1",ds:"JIS"},
+{name:"生成り色", reading:"きなりいろ", hex:"#eae0d5",ds:"JIS"},
+{name:"象牙色", reading:"ぞうげいろ", hex:"#ded2bf",ds:"JIS"},
+{name:"銀鼠", reading:"ぎんねず", hex:"#9c9c9c",ds:"JIS"},
+{name:"茶鼠", reading:"ちゃねず", hex:"#998d86",ds:"JIS"},
+{name:"鼠色", reading:"ねずみいろ", hex:"#838383",ds:"JIS"},
+{name:"利休鼠", reading:"りきゅうねず", hex:"#6e7972",ds:"JIS"},
+{name:"鉛色", reading:"なまりいろ", hex:"#72777d",ds:"JIS"},
+{name:"灰色", reading:"はいいろ", hex:"#767676",ds:"JIS"},
+{name:"煤竹色", reading:"すすたけいろ", hex:"#5d5245",ds:"JIS"},
+{name:"黒茶", reading:"くろちゃ", hex:"#3e312b",ds:"JIS"},
+{name:"墨", reading:"すみ", hex:"#343434",ds:"JIS"},
+{name:"黒", reading:"くろ", hex:"#2a2a2a",ds:"JIS"},
+{name:"鉄黒", reading:"てつぐろ", hex:"#2a2a2a",ds:"JIS"},
+{name:"金色", reading:"きんいろ", hex:"#ffd700",ds:"JIS"},
+{name:"銀色", reading:"ぎんいろ", hex:"#c0c0c0",ds:"JIS"},
+{name:"ローズレッド", reading:"Rose Red", hex:"#ca4775",ds:"JIS"},
+{name:"ローズピンク", reading:"Rose Pink", hex:"#ee8ea0",ds:"JIS"},
+{name:"コチニールレッド", reading:"Cochineal Red", hex:"#ae2b52",ds:"JIS"},
+{name:"ルビーレッド", reading:"Ruby Red", hex:"#b90b50",ds:"JIS"},
+{name:"ワインレッド", reading:"Wine Red", hex:"#80273f",ds:"JIS"},
+{name:"バーガンディー", reading:"Burgundy", hex:"#442e31",ds:"JIS"},
+{name:"オールドローズ", reading:"Old Rose", hex:"#c67a85",ds:"JIS"},
+{name:"ローズ", reading:"Rose", hex:"#db3561",ds:"JIS"},
+{name:"ストロベリー", reading:"Strawberry", hex:"#bb004b",ds:"JIS"},
+{name:"コーラルレッド", reading:"Coral Red", hex:"#ff7f8f",ds:"JIS"},
+{name:"ピンク", reading:"Pink", hex:"#ea9198",ds:"JIS"},
+{name:"ボルドー", reading:"Bordeaux", hex:"#533638",ds:"JIS"},
+{name:"ベビーピンク", reading:"Baby Pink", hex:"#fec6c5",ds:"JIS"},
+{name:"ポピーレッド", reading:"Poppy Red", hex:"#df334e",ds:"JIS"},
+{name:"シグナルレッド", reading:"Signal Red", hex:"#ce2143",ds:"JIS"},
+{name:"カーマイン", reading:"Carmine", hex:"#be0039",ds:"JIS"},
+{name:"レッド", reading:"Red", hex:"#df3447",ds:"JIS"},
+{name:"トマトレッド", reading:"Tomato Red", hex:"#df3447",ds:"JIS"},
+{name:"マルーン", reading:"Maroon", hex:"#662b2c",ds:"JIS"},
+{name:"ヴァーミリオン", reading:"Vermilion", hex:"#ef454a",ds:"JIS"},
+{name:"スカーレット", reading:"Scarlet", hex:"#de3838",ds:"JIS"},
+{name:"テラコッタ", reading:"Terracotta", hex:"#a95045",ds:"JIS"},
+{name:"サーモンピンク", reading:"Salmon Pink", hex:"#ff9e8c",ds:"JIS"},
+{name:"シェルピンク", reading:"Shell Pink", hex:"#f9c9b9",ds:"JIS"},
+{name:"ネールピンク", reading:"Nail Pink", hex:"#efbaa8",ds:"JIS"},
+{name:"チャイニーズレッド", reading:"Chinese Red", hex:"#fd5a2a",ds:"JIS"},
+{name:"キャロットオレンジ", reading:"Carrot Orange", hex:"#c55431",ds:"JIS"},
+{name:"バーントシェンナ", reading:"Burnt Sienna", hex:"#a2553c",ds:"JIS"},
+{name:"チョコレート", reading:"Chocolate", hex:"#503830",ds:"JIS"},
+{name:"ココアブラウン", reading:"Cocoa Brown", hex:"#704b38",ds:"JIS"},
+{name:"ピーチ", reading:"Peach", hex:"#e8bda5",ds:"JIS"},
+{name:"ローシェンナ", reading:"Raw Sienna", hex:"#b1632a",ds:"JIS"},
+{name:"オレンジ", reading:"Orange", hex:"#ef810f",ds:"JIS"},
+{name:"ブラウン", reading:"Brown", hex:"#6d4c33",ds:"JIS"},
+{name:"アプリコット", reading:"Apricot", hex:"#d89f6d",ds:"JIS"},
+{name:"タン", reading:"Tan", hex:"#9e6c3f",ds:"JIS"},
+{name:"マンダリンオレンジ", reading:"Mandarin Orange", hex:"#f09629",ds:"JIS"},
+{name:"コルク", reading:"Cork", hex:"#9f7c5c",ds:"JIS"},
+{name:"エクルベージュ", reading:"Ecru Beige", hex:"#f5cda6",ds:"JIS"},
+{name:"ゴールデンイエロー", reading:"Golden Yellow", hex:"#e89a3c",ds:"JIS"},
+{name:"マリーゴールド", reading:"Marigold", hex:"#ffa400",ds:"JIS"},
+{name:"バフ", reading:"Buff", hex:"#c09567",ds:"JIS"},
+{name:"アンバー", reading:"Amber", hex:"#aa7a40",ds:"JIS"},
+{name:"ブロンズ", reading:"Bronze", hex:"#7a592f",ds:"JIS"},
+{name:"ベージュ", reading:"Beige", hex:"#bca78d",ds:"JIS"},
+{name:"イエローオーカー", reading:"Yellow Ocher", hex:"#b8883b",ds:"JIS"},
+{name:"バーントアンバー", reading:"Burnt Umber", hex:"#57462d",ds:"JIS"},
+{name:"セピア", reading:"Sepia", hex:"#483c2c",ds:"JIS"},
+{name:"カーキ", reading:"Khaki", hex:"#92723a",ds:"JIS"},
+{name:"ブロンド", reading:"Blond", hex:"#f6a57d",ds:"JIS"},
+{name:"ネープルスイエロー", reading:"Naples Yellow", hex:"#eec063",ds:"JIS"},
+{name:"レグホーン", reading:"Leghorn", hex:"#dfc291",ds:"JIS"},
+{name:"ローアンバー", reading:"Raw Umber", hex:"#765b1b",ds:"JIS"},
+{name:"クロムイエロー", reading:"Chrome Yellow", hex:"#f6bf00",ds:"JIS"},
+{name:"イエロー", reading:"Yellow", hex:"#f4d500",ds:"JIS"},
+{name:"クリームイエロー", reading:"Cream Yellow", hex:"#e4d3a2",ds:"JIS"},
+{name:"ジョンブリアン", reading:"Jaune Brillant", hex:"#f4d500",ds:"JIS"},
+{name:"カナリーイエロー", reading:"Canary Yellow", hex:"#edd634",ds:"JIS"},
+{name:"オリーブドラブ", reading:"Olive Drab", hex:"#655f47",ds:"JIS"},
+{name:"オリーブ", reading:"Olive", hex:"#5c5424",ds:"JIS"},
+{name:"レモンイエロー", reading:"Lemon Yellow", hex:"#d9ca00",ds:"JIS"},
+{name:"オリーブグリーン", reading:"Olive Green", hex:"#575531",ds:"JIS"},
+{name:"シャトルーズグリーン", reading:"Chartreuse Green", hex:"#c0d136",ds:"JIS"},
+{name:"リーフグリーン", reading:"Leaf Green", hex:"#89983b",ds:"JIS"},
+{name:"グラスグリーン", reading:"Grass Green", hex:"#737c3e",ds:"JIS"},
+{name:"アイビーグリーン", reading:"Ivy Green", hex:"#4c6733",ds:"JIS"},
+{name:"アップルグリーン", reading:"Apple Green", hex:"#a2d29e",ds:"JIS"},
+{name:"ミントグリーン", reading:"Mint Green", hex:"#58ce91",ds:"JIS"},
+{name:"グリーン", reading:"Green", hex:"#009a57",ds:"JIS"},
+{name:"コバルトグリーン", reading:"Cobalt Green", hex:"#09c289",ds:"JIS"},
+{name:"エメラルドグリーン", reading:"Emerald Green", hex:"#00a474",ds:"JIS"},
+{name:"マラカイトグリーン", reading:"Malachite Green", hex:"#007e4e",ds:"JIS"},
+{name:"ボトルグリーン", reading:"Bottle Green", hex:"#204537",ds:"JIS"},
+{name:"フォレストグリーン", reading:"Forest Green", hex:"#2a7762",ds:"JIS"},
+{name:"ビリジアン", reading:"Viridian", hex:"#006d56",ds:"JIS"},
+{name:"ビリヤードグリーン", reading:"Billiard Green", hex:"#00483a",ds:"JIS"},
+{name:"シーグリーン", reading:"Sea Green", hex:"#97b64d",ds:"JIS"},
+{name:"ピーコックグリーン", reading:"Peacock Green", hex:"#007d7f",ds:"JIS"},
+{name:"ナイルブルー", reading:"Nile Blue", hex:"#3d8e95",ds:"JIS"},
+{name:"ピーコックブルー", reading:"Peacock Blue", hex:"#006e7b",ds:"JIS"},
+{name:"ターコイズブルー", reading:"Turquoise Blue", hex:"#009dbf",ds:"JIS"},
+{name:"マリンブルー", reading:"Marine Blue", hex:"#00526b",ds:"JIS"},
+{name:"ホライゾンブルー", reading:"Horizon Blue", hex:"#87afc5",ds:"JIS"},
+{name:"シアン", reading:"Cyan", hex:"#009cd1",ds:"JIS"},
+{name:"スカイブルー", reading:"Sky Blue", hex:"#89bdde",ds:"JIS"},
+{name:"セルリアンブルー", reading:"Cerulean Blue", hex:"#0073a2",ds:"JIS"},
+{name:"ベビーブルー", reading:"Baby Blue", hex:"#a3bacd",ds:"JIS"},
+{name:"サックスブルー", reading:"Saxe Blue", hex:"#5a7993",ds:"JIS"},
+{name:"ブルー", reading:"Blue", hex:"#006fab",ds:"JIS"},
+{name:"コバルトブルー", reading:"Cobalt Blue", hex:"#0062a0",ds:"JIS"},
+{name:"アイアンブルー", reading:"Iron Blue", hex:"#3a4861",ds:"JIS"},
+{name:"プルシアンブルー", reading:"Prussian Blue", hex:"#3a4861",ds:"JIS"},
+{name:"ミッドナイトブルー", reading:"Midnight Blue", hex:"#252a35",ds:"JIS"},
+{name:"ヒヤシンス", reading:"Hyacinth", hex:"#6e82ad",ds:"JIS"},
+{name:"ネイビーブルー", reading:"Navy Blue", hex:"#343d55",ds:"JIS"},
+{name:"ウルトラマリンブルー", reading:"Ultramarine Blue", hex:"#384d98",ds:"JIS"},
+{name:"オリエンタルブルー", reading:"Oriental Blue", hex:"#304285",ds:"JIS"},
+{name:"ウィスタリア", reading:"Wistaria", hex:"#7967c3",ds:"JIS"},
+{name:"パンジー", reading:"Pansy", hex:"#433171",ds:"JIS"},
+{name:"ヘリオトロープ", reading:"Helliotrope", hex:"#8865b2",ds:"JIS"},
+{name:"ヴァイオレット", reading:"Violet", hex:"#714c99",ds:"JIS"},
+{name:"ラベンダー", reading:"Lavender", hex:"#9a8a9f",ds:"JIS"},
+{name:"モーブ", reading:"Mauve", hex:"#855896",ds:"JIS"},
+{name:"ライラック", reading:"Lilac", hex:"#c29dc8",ds:"JIS"},
+{name:"オーキッド", reading:"Oechid", hex:"#c69cc5",ds:"JIS"},
+{name:"パープル", reading:"Purple", hex:"#a757a8",ds:"JIS"},
+{name:"マゼンタ", reading:"Magenta", hex:"#d13a84",ds:"JIS"},
+{name:"チェリーピンク", reading:"Cherry Pink", hex:"#d35889",ds:"JIS"},
+{name:"ホワイト", reading:"White", hex:"#f0f0f0",ds:"JIS"},
+{name:"スノーホワイト", reading:"Snow White", hex:"#f0f0f0",ds:"JIS"},
+{name:"アイボリー", reading:"Ivory", hex:"#ded2bf",ds:"JIS"},
+{name:"スカイグレイ", reading:"Sky Grey", hex:"#b3b8bb",ds:"JIS"},
+{name:"パールグレイ", reading:"Pearl Grey", hex:"#aaaaaa",ds:"JIS"},
+{name:"シルバーグレイ", reading:"Silver Grey", hex:"#9c9c9c",ds:"JIS"},
+{name:"アッシュグレイ", reading:"Ash Grey", hex:"#8f8f8f",ds:"JIS"},
+{name:"ローズグレイ", reading:"Rose Grey", hex:"#8c8080",ds:"JIS"},
+{name:"グレイ", reading:"Grey", hex:"#767676",ds:"JIS"},
+{name:"スチールグレイ", reading:"Steel Grey", hex:"#6d696f",ds:"JIS"},
+{name:"スレートグレイ", reading:"Slate Grey", hex:"#515356",ds:"JIS"},
+{name:"チャコールグレイ", reading:"Charcoal Grey", hex:"#4b474d",ds:"JIS"},
+{name:"ランプブラック", reading:"Lamp Black", hex:"#212121",ds:"JIS"},
+{name:"ブラック", reading:"Black", hex:"#212121",ds:"JIS"},
+{name:"浅葱色", reading:"あさぎいろ", hex:"#00859b",ds:"JIS2"},
+{name:"利休鼠", reading:"りきゅうねずみ", hex:"#6e7972",ds:"JIS2"},
+{name:"黄色", reading:"きいろ", hex:"#e3c700",ds:"JIS2"},
+{name:"茶鼠", reading:"ちゃねずみ", hex:"#998d86",ds:"JIS2"},
+{name:"藍色", reading:"あいいろ", hex:"#105779",ds:"WA"},
+{name:"藍色鳩羽", reading:"あいいろはとば", hex:"#756d91",ds:"WA"},
+{name:"藍墨茶", reading:"あいすみちゃ", hex:"#373c38",ds:"WA"},
+{name:"藍鉄色", reading:"あいてついろ", hex:"#003a47",ds:"WA"},
+{name:"藍鼠", reading:"あいねず", hex:"#6b818e",ds:"WA"},
+{name:"葵色", reading:"あおいいろ", hex:"#aa89bd",ds:"WA"},
+{name:"青白橡", reading:"あおしろつるばみ", hex:"#85916d",ds:"WA"},
+{name:"青丹", reading:"あおに", hex:"#858954",ds:"WA"},
+{name:"青鈍", reading:"あおにび", hex:"#324356",ds:"WA"},
+{name:"青藤", reading:"あおふじ", hex:"#8aa2d3",ds:"WA"},
+{name:"赤", reading:"あか", hex:"#f20000",ds:"WA"},
+{name:"赤支子", reading:"あかくちなし", hex:"#f2934e",ds:"WA"},
+{name:"赤朽葉", reading:"あかくちば", hex:"#db8449",ds:"WA"},
+{name:"赤香色", reading:"あかこういろ", hex:"#f6b894",ds:"WA"},
+{name:"赤白橡", reading:"あかしろつるばみ", hex:"#fed2ae",ds:"WA"},
+{name:"赤紅", reading:"あかべに", hex:"#d81f35",ds:"WA"},
+{name:"灰汁色", reading:"あくいろ", hex:"#bcb09c",ds:"WA"},
+{name:"曙色", reading:"あけぼのいろ", hex:"#f9a383",ds:"WA"},
+{name:"浅緋", reading:"あさあけ", hex:"#df7163",ds:"WA"},
+{name:"浅葱色", reading:"あさぎいろ", hex:"#00a5bf",ds:"WA"},
+{name:"浅葱鼠", reading:"あさぎねず", hex:"#94a8b0",ds:"WA"},
+{name:"浅緑", reading:"あさみどり", hex:"#9bcf97",ds:"WA"},
+{name:"小豆色", reading:"あずきいろ", hex:"#a04940",ds:"WA"},
+{name:"小豆鼠", reading:"あずきねず", hex:"#715454",ds:"WA"},
+{name:"天色", reading:"あまいろ", hex:"#0086cc",ds:"WA"},
+{name:"亜麻色", reading:"あまいろ", hex:"#c7b897",ds:"WA"},
+{name:"飴色", reading:"あめいろ", hex:"#cd6118",ds:"WA"},
+{name:"菖蒲色", reading:"あやめいろ", hex:"#b168a8",ds:"WA"},
+{name:"洗柿", reading:"あらいがき", hex:"#f0b694",ds:"WA"},
+{name:"退紅", reading:"あらぞめ", hex:"#ffb3a7",ds:"WA"},
+{name:"淡藤色", reading:"あわふじいろ", hex:"#d2d0e8",ds:"WA"},
+{name:"杏色", reading:"あんずいろ", hex:"#f4a466",ds:"WA"},
+{name:"威光茶", reading:"いこうちゃ", hex:"#a8a256",ds:"WA"},
+{name:"苺色", reading:"いちごいろ", hex:"#bb5561",ds:"WA"},
+{name:"今紫", reading:"いまむらさき", hex:"#563779",ds:"WA"},
+{name:"岩井茶", reading:"いわいちゃ", hex:"#6f6f43",ds:"WA"},
+{name:"鶯色", reading:"うぐいすいろ", hex:"#838b0d",ds:"WA"},
+{name:"鬱金色", reading:"うこんいろ", hex:"#f7c229",ds:"WA"},
+{name:"薄青", reading:"うすあお", hex:"#a0cea8",ds:"WA"},
+{name:"薄浅葱", reading:"うすあさぎ", hex:"#a2d7dd",ds:"WA"},
+{name:"薄色", reading:"うすいろ", hex:"#ceb4b9",ds:"WA"},
+{name:"淡黄蘗", reading:"うすきはだ", hex:"#f9f1c0",ds:"WA"},
+{name:"薄紅", reading:"うすくれない", hex:"#b15c65",ds:"WA"},
+{name:"薄桜", reading:"うすざくら", hex:"#fcf5f7",ds:"WA"},
+{name:"薄花色", reading:"うすはないろ", hex:"#82a9da",ds:"WA"},
+{name:"薄藤色", reading:"うすふじいろ", hex:"#c7c3e1",ds:"WA"},
+{name:"淡紅藤", reading:"うすべにふじ", hex:"#e9c3dc",ds:"WA"},
+{name:"薄水色", reading:"うすみずいろ", hex:"#bce1df",ds:"WA"},
+{name:"薄緑", reading:"うすみどり", hex:"#cae5cd",ds:"WA"},
+{name:"薄柳", reading:"うすやなぎ", hex:"#e0e7aa",ds:"WA"},
+{name:"卯の花色", reading:"うのはないろ", hex:"#fbfbf6",ds:"WA"},
+{name:"梅鼠", reading:"うめねずみ", hex:"#ad7984",ds:"WA"},
+{name:"梅紫", reading:"うめむらさき", hex:"#493759",ds:"WA"},
+{name:"裏葉色", reading:"うらばいろ", hex:"#a4c2a9",ds:"WA"},
+{name:"裏柳", reading:"うらやなぎ", hex:"#c1d8ac",ds:"WA"},
+{name:"葡萄色", reading:"えびいろ", hex:"#6e1e51",ds:"WA"},
+{name:"葡萄茶", reading:"えびちゃ", hex:"#640125",ds:"WA"},
+{name:"臙脂色", reading:"えんじいろ", hex:"#9b003f",ds:"WA"},
+{name:"臙脂鼠", reading:"えんじねず", hex:"#85646c",ds:"WA"},
+{name:"老緑", reading:"おいみどり", hex:"#405c36",ds:"WA"},
+{name:"楝色", reading:"おうちいろ", hex:"#a596c7",ds:"WA"},
+{name:"黄土色", reading:"おうどいろ", hex:"#ce9b0e",ds:"WA"},
+{name:"鸚緑", reading:"おうりょく", hex:"#9fbb00",ds:"WA"},
+{name:"乙女色", reading:"おとめいろ", hex:"#f9d0c5",ds:"WA"},
+{name:"御納戸色", reading:"おなんどいろ", hex:"#1c6867",ds:"WA"},
+{name:"御納戸茶", reading:"おなんどちゃ", hex:"#465d4c",ds:"WA"},
+{name:"織部", reading:"おりべ", hex:"#125115",ds:"WA"},
+{name:"柿色", reading:"かきいろ", hex:"#de6a1c",ds:"WA"},
+{name:"柿渋色", reading:"かきしぶいろ", hex:"#bd7862",ds:"WA"},
+{name:"杜若", reading:"かきつばた", hex:"#5e3862",ds:"WA"},
+{name:"褐色", reading:"かちいろ", hex:"#003847",ds:"WA"},
+{name:"勝色", reading:"かついろ", hex:"#181b39",ds:"WA"},
+{name:"樺色", reading:"かばいろ", hex:"#c5591a",ds:"WA"},
+{name:"樺茶", reading:"かばちゃ", hex:"#726250",ds:"WA"},
+{name:"甕覗", reading:"かめのぞき", hex:"#c5e4ed",ds:"WA"},
+{name:"鴨の羽色", reading:"かものはいろ", hex:"#00695b",ds:"WA"},
+{name:"韓紅", reading:"からくれない", hex:"#ea0032",ds:"WA"},
+{name:"乾鮭色", reading:"からさけいろ", hex:"#eb9793",ds:"WA"},
+{name:"唐茶", reading:"からちゃ", hex:"#a06705",ds:"WA"},
+{name:"刈安", reading:"かりやす", hex:"#ffed00",ds:"WA"},
+{name:"萱草色", reading:"かんぞういろ", hex:"#fda900",ds:"WA"},
+{name:"黄浅緑", reading:"きあさみどり", hex:"#8cb155",ds:"WA"},
+{name:"桔梗色", reading:"ききょういろ", hex:"#624498",ds:"WA"},
+{name:"黄支子", reading:"きくちなし", hex:"#ffdb4f",ds:"WA"},
+{name:"黄朽葉", reading:"きくちば", hex:"#d3a243",ds:"WA"},
+{name:"紀州茶", reading:"きしゅうちゃ", hex:"#856859",ds:"WA"},
+{name:"狐色", reading:"きつねいろ", hex:"#d9972f",ds:"WA"},
+{name:"黄橡", reading:"きつるばみ", hex:"#a27033",ds:"WA"},
+{name:"黄蘗", reading:"きはだ", hex:"#fef263",ds:"WA"},
+{name:"京藤", reading:"きょうふじ", hex:"#c08fb3",ds:"WA"},
+{name:"京紫", reading:"きょうむらさき", hex:"#772f6d",ds:"WA"},
+{name:"金茶", reading:"きんちゃ", hex:"#ce7a19",ds:"WA"},
+{name:"銀朱", reading:"ぎんしゅ", hex:"#f12b00",ds:"WA"},
+{name:"銀煤竹", reading:"ぎんすすたけ", hex:"#82663a",ds:"WA"},
+{name:"銀鼠", reading:"ぎんねずみ", hex:"#bbbcbf",ds:"WA"},
+{name:"孔雀青", reading:"くじゃくあお", hex:"#0086a2",ds:"WA"},
+{name:"孔雀緑", reading:"くじゃくみどり", hex:"#008e74",ds:"WA"},
+{name:"支子色", reading:"くちなしいろ", hex:"#ffd768",ds:"WA"},
+{name:"涅色", reading:"くりいろ", hex:"#433634",ds:"WA"},
+{name:"栗梅", reading:"くりうめ", hex:"#6c1912",ds:"WA"},
+{name:"栗皮色", reading:"くりかわいろ", hex:"#6a4028",ds:"WA"},
+{name:"栗皮茶", reading:"くりかわちゃ", hex:"#824522",ds:"WA"},
+{name:"紅の八塩", reading:"くれないのやしお", hex:"#ad002d",ds:"WA"},
+{name:"黒緋", reading:"くろあけ", hex:"#86473f",ds:"WA"},
+{name:"鉄色", reading:"くろがねいろ", hex:"#102e24",ds:"WA"},
+{name:"黒橡", reading:"くろつるばみ", hex:"#322c28",ds:"WA"},
+{name:"黒紅", reading:"くろべにいろ", hex:"#302833",ds:"WA"},
+{name:"黒紅梅", reading:"くろべにうめ", hex:"#302833",ds:"WA"},
+{name:"桑色", reading:"くわいろ", hex:"#dabc91",ds:"WA"},
+{name:"桑染", reading:"くわぞめ", hex:"#dabc91",ds:"WA"},
+{name:"桑の実色", reading:"くわのみいろ", hex:"#550030",ds:"WA"},
+{name:"群青色", reading:"ぐんじょういろ", hex:"#4c6c83",ds:"WA"},
+{name:"消炭色", reading:"けしずみいろ", hex:"#595045",ds:"WA"},
+{name:"憲法染", reading:"けんぽうぞめ", hex:"#574738",ds:"WA"},
+{name:"月白", reading:"げっぱく", hex:"#f6f7f8",ds:"WA"},
+{name:"濃藍", reading:"こいあい", hex:"#002e4e",ds:"WA"},
+{name:"光悦茶", reading:"こうえつちゃ", hex:"#9a725c",ds:"WA"},
+{name:"柑子色", reading:"こうじいろ", hex:"#ff5234",ds:"WA"},
+{name:"紅梅色", reading:"こうばいいろ", hex:"#e86b79",ds:"WA"},
+{name:"高麗納戸", reading:"こうらいなんど", hex:"#104539",ds:"WA"},
+{name:"黄櫨染", reading:"こうろぜん", hex:"#d74b22",ds:"WA"},
+{name:"深緋", reading:"こきあけ", hex:"#c20024",ds:"WA"},
+{name:"深支子", reading:"こきくちなし", hex:"#efbb2c",ds:"WA"},
+{name:"深紫", reading:"こきむらさき", hex:"#493759",ds:"WA"},
+{name:"苔色", reading:"こけいろ", hex:"#78882d",ds:"WA"},
+{name:"焦茶", reading:"こげちゃ", hex:"#6a4d32",ds:"WA"},
+{name:"古代紫", reading:"こだいむらさき", hex:"#8c6589",ds:"WA"},
+{name:"琥珀色", reading:"こはくいろ", hex:"#ea930a",ds:"WA"},
+{name:"昆布茶", reading:"こぶちゃ", hex:"#6f6045",ds:"WA"},
+{name:"小町鼠", reading:"こまちねず", hex:"#e5e2e4",ds:"WA"},
+{name:"小麦色", reading:"こむぎいろ", hex:"#e4a343",ds:"WA"},
+{name:"紺", reading:"こん", hex:"#001a43",ds:"WA"},
+{name:"紺桔梗", reading:"こんききょう", hex:"#211e55",ds:"WA"},
+{name:"紺青色", reading:"こんじょういろ", hex:"#005499",ds:"WA"},
+{name:"紺鼠", reading:"こんねず", hex:"#3f4551",ds:"WA"},
+{name:"金春色", reading:"こんぱるいろ", hex:"#5ac2d9",ds:"WA"},
+{name:"紺藤", reading:"こんふじ", hex:"#6592c6",ds:"WA"},
+{name:"紺碧", reading:"こんぺき", hex:"#005b98",ds:"WA"},
+{name:"左伊多津万色", reading:"さいたづまいろ", hex:"#327131",ds:"WA"},
+{name:"嵯峨鼠", reading:"さがねず", hex:"#b08d84",ds:"WA"},
+{name:"桜鼠", reading:"さくらねずみ", hex:"#d8c6bc",ds:"WA"},
+{name:"錆利休", reading:"さびりきゅう", hex:"#877254",ds:"WA"},
+{name:"珊瑚色", reading:"さんごいろ", hex:"#ef8468",ds:"WA"},
+{name:"珊瑚珠色", reading:"さんごしゅいろ", hex:"#ef454a",ds:"WA"},
+{name:"柘榴色", reading:"ざくろいろ", hex:"#c92e36",ds:"WA"},
+{name:"紫苑色", reading:"しおんいろ", hex:"#968abd",ds:"WA"},
+{name:"芝翫茶", reading:"しかんちゃ", hex:"#bf795d",ds:"WA"},
+{name:"紫紺", reading:"しこん", hex:"#400b36",ds:"WA"},
+{name:"至極色", reading:"しごくいろ", hex:"#2d0425",ds:"WA"},
+{name:"紫檀色", reading:"したんいろ", hex:"#6a1435",ds:"WA"},
+{name:"漆黒", reading:"しっこく", hex:"#080000",ds:"WA"},
+{name:"赤銅色", reading:"しゃくどういろ", hex:"#7e0f09",ds:"WA"},
+{name:"朱殷", reading:"しゅあん", hex:"#740a00",ds:"WA"},
+{name:"猩々緋", reading:"しょうじょうひ", hex:"#e7001d",ds:"WA"},
+{name:"白藍", reading:"しらあい", hex:"#d4ecee",ds:"WA"},
+{name:"白茶", reading:"しらちゃ", hex:"#dac4a5",ds:"WA"},
+{name:"白百合色", reading:"しらゆりいろ", hex:"#fdfcf5",ds:"WA"},
+{name:"白", reading:"しろ", hex:"#fffffd",ds:"WA"},
+{name:"白菫色", reading:"しろすみれいろ", hex:"#e9eaf5",ds:"WA"},
+{name:"白鼠", reading:"しろねずみ", hex:"#e6e6e6",ds:"WA"},
+{name:"白練", reading:"しろねり", hex:"#fcfaf2",ds:"WA"},
+{name:"白縹", reading:"しろはなだ", hex:"#dff2fc",ds:"WA"},
+{name:"深紅", reading:"しんく", hex:"#ad002d",ds:"WA"},
+{name:"真朱", reading:"しんしゅ", hex:"#d72500",ds:"WA"},
+{name:"新橋色", reading:"しんばしいろ", hex:"#5ac2d9",ds:"WA"},
+{name:"深碧", reading:"しんぺき", hex:"#005e15",ds:"WA"},
+{name:"純白", reading:"じゅんぱく", hex:"#ffffff",ds:"WA"},
+{name:"甚三紅", reading:"じんざもみ", hex:"#d23f40",ds:"WA"},
+{name:"蘇芳", reading:"すおう", hex:"#7e2639",ds:"WA"},
+{name:"蘇芳香", reading:"すおうこう", hex:"#b23e52",ds:"WA"},
+{name:"煤竹色", reading:"すすたけいろ", hex:"#70564a",ds:"WA"},
+{name:"雀色", reading:"すずめいろ", hex:"#864337",ds:"WA"},
+{name:"雀茶", reading:"すずめちゃ", hex:"#982e21",ds:"WA"},
+{name:"素鼠", reading:"すねずみ", hex:"#737373",ds:"WA"},
+{name:"墨色", reading:"すみいろ", hex:"#000a02",ds:"WA"},
+{name:"菫色", reading:"すみれいろ", hex:"#7065a3",ds:"WA"},
+{name:"青漆", reading:"せいしつ", hex:"#184212",ds:"WA"},
+{name:"青白磁", reading:"せいはくじ", hex:"#ebf4f4",ds:"WA"},
+{name:"千歳茶", reading:"せんざいちゃ", hex:"#48493f",ds:"WA"},
+{name:"千歳緑", reading:"せんざいみどり", hex:"#335719",ds:"WA"},
+{name:"鮮緑", reading:"せんりょく", hex:"#6cbb5a",ds:"WA"},
+{name:"蒼色", reading:"そうしょく", hex:"#007655",ds:"WA"},
+{name:"承和色", reading:"そがいろ", hex:"#f3f47f",ds:"WA"},
+{name:"蘇比", reading:"そひ", hex:"#fba027",ds:"WA"},
+{name:"赭", reading:"そほ", hex:"#ca4829",ds:"WA"},
+{name:"空色", reading:"そらいろ", hex:"#73b8e2",ds:"WA"},
+{name:"空色鼠", reading:"そらいろねず", hex:"#b8c8d1",ds:"WA"},
+{name:"代赭色", reading:"たいしゃいろ", hex:"#b36c3c",ds:"WA"},
+{name:"玉子色", reading:"たまごいろ", hex:"#ffdf85",ds:"WA"},
+{name:"淡紅色", reading:"たんこうしょく", hex:"#fadce9",ds:"WA"},
+{name:"胆礬色", reading:"たんばいろ", hex:"#007d7a",ds:"WA"},
+{name:"蒲公英色", reading:"たんぽぽいろ", hex:"#ffe200",ds:"WA"},
+{name:"千草色", reading:"ちぐさいろ", hex:"#3a8fb7",ds:"WA"},
+{name:"長春色", reading:"ちょうしゅんいろ", hex:"#d88b83",ds:"WA"},
+{name:"丁子染", reading:"ちょうじぞめ", hex:"#ddb87e",ds:"WA"},
+{name:"鴨頭草", reading:"つきくさ", hex:"#161825",ds:"WA"},
+{name:"躑躅色", reading:"つつじいろ", hex:"#e02c87",ds:"WA"},
+{name:"露草色", reading:"つゆくさいろ", hex:"#71a4d9",ds:"WA"},
+{name:"鉄紺", reading:"てつこん", hex:"#003149",ds:"WA"},
+{name:"照柿", reading:"てりがき", hex:"#f89264",ds:"WA"},
+{name:"鴇色", reading:"ときいろ", hex:"#f3a696",ds:"WA"},
+{name:"鴇羽色", reading:"ときはいろ", hex:"#f49e95",ds:"WA"},
+{name:"木賊色", reading:"とくさいろ", hex:"#22825d",ds:"WA"},
+{name:"沈香茶", reading:"とのちゃ", hex:"#436752",ds:"WA"},
+{name:"鳶色", reading:"とびいろ", hex:"#7a380f",ds:"WA"},
+{name:"鳥の子色", reading:"とりのこいろ", hex:"#f8eed1",ds:"WA"},
+{name:"中紅花", reading:"なかくれない", hex:"#ee869a",ds:"WA"},
+{name:"菜種油色", reading:"なたねあぶらいろ", hex:"#dec031",ds:"WA"},
+{name:"菜の花色", reading:"なのはないろ", hex:"#fcd900",ds:"WA"},
+{name:"生壁色", reading:"なまかべいろ", hex:"#aa8c63",ds:"WA"},
+{name:"似紫", reading:"にせむらさきいろ", hex:"#513743",ds:"WA"},
+{name:"根岸色", reading:"ねぎしいろ", hex:"#908e65",ds:"WA"},
+{name:"鼠色", reading:"ねずみいろ", hex:"#7d7d7d",ds:"WA"},
+{name:"熨斗目色", reading:"のしめいろ", hex:"#175b66",ds:"WA"},
+{name:"灰色", reading:"はいいろ", hex:"#9f9d9a",ds:"WA"},
+{name:"白銅色", reading:"はくどういろ", hex:"#d3dbe2",ds:"WA"},
+{name:"花浅葱", reading:"はなあさぎ", hex:"#1e88a8",ds:"WA"},
+{name:"花色", reading:"はないろ", hex:"#0086ad",ds:"WA"},
+{name:"花紺青", reading:"はなこんじょう", hex:"#062c54",ds:"WA"},
+{name:"縹色", reading:"はなだいろ", hex:"#0086ad",ds:"WA"},
+{name:"花緑青", reading:"はなろくしょう", hex:"#5ab5b2",ds:"WA"},
+{name:"榛摺", reading:"はりずり", hex:"#79520b",ds:"WA"},
+{name:"梅幸茶", reading:"ばいこうちゃ", hex:"#aaa751",ds:"WA"},
+{name:"薔薇色", reading:"ばらいろ", hex:"#e73275",ds:"WA"},
+{name:"秘色", reading:"ひそく", hex:"#abced8",ds:"WA"},
+{name:"檜皮色", reading:"ひはだいろ", hex:"#7b4334",ds:"WA"},
+{name:"鶸色", reading:"ひわいろ", hex:"#d6d000",ds:"WA"},
+{name:"白緑", reading:"びゃくろく", hex:"#daead0",ds:"WA"},
+{name:"天鵞絨", reading:"びろうど", hex:"#00451e",ds:"WA"},
+{name:"檳榔子黒", reading:"びんろうじぐろ", hex:"#00081a",ds:"WA"},
+{name:"深藍", reading:"ふかあい", hex:"#004150",ds:"WA"},
+{name:"深川鼠", reading:"ふかがわねずみ", hex:"#85a1a0",ds:"WA"},
+{name:"深藍色", reading:"ふかきあいいろ", hex:"#006a66",ds:"WA"},
+{name:"深緑", reading:"ふかみどり", hex:"#004025",ds:"WA"},
+{name:"柴色", reading:"ふしいろ", hex:"#998c78",ds:"WA"},
+{name:"藤色", reading:"ふじいろ", hex:"#baa7cc",ds:"WA"},
+{name:"藤納戸", reading:"ふじなんど", hex:"#606da1",ds:"WA"},
+{name:"藤鼠", reading:"ふじねずみ", hex:"#6e75a4",ds:"WA"},
+{name:"藤紫", reading:"ふじむらさき", hex:"#8f82bc",ds:"WA"},
+{name:"二藍", reading:"ふたあい", hex:"#888abc",ds:"WA"},
+{name:"二人静", reading:"ふたりしずか", hex:"#583b55",ds:"WA"},
+{name:"碧色", reading:"へきしょく", hex:"#007f89",ds:"WA"},
+{name:"紅赤", reading:"べにあか", hex:"#e5004f",ds:"WA"},
+{name:"紅色", reading:"べにいろ", hex:"#c41a41",ds:"WA"},
+{name:"紅樺", reading:"べにかば", hex:"#b63d1b",ds:"WA"},
+{name:"紅桔梗", reading:"べにききょう", hex:"#9c308d",ds:"WA"},
+{name:"紅柑子", reading:"べにこうじ", hex:"#cc5229",ds:"WA"},
+{name:"紅唐", reading:"べにとう", hex:"#d23f40",ds:"WA"},
+{name:"紅鼠", reading:"べにねず", hex:"#a06f70",ds:"WA"},
+{name:"紅緋", reading:"べにひ", hex:"#f83929",ds:"WA"},
+{name:"紅鶸色", reading:"べにひわいろ", hex:"#c9396d",ds:"WA"},
+{name:"紅藤", reading:"べにふじ", hex:"#cca6bf",ds:"WA"},
+{name:"紅柄色", reading:"べんがらいろ", hex:"#aa562e",ds:"WA"},
+{name:"牡丹色", reading:"ぼたんいろ", hex:"#e761a4",ds:"WA"},
+{name:"松葉色", reading:"まつばいろ", hex:"#3f7735",ds:"WA"},
+{name:"水浅葱", reading:"みずあさぎ", hex:"#8cd2bc",ds:"WA"},
+{name:"水色", reading:"みずいろ", hex:"#7fcce3",ds:"WA"},
+{name:"水柿", reading:"みずがき", hex:"#b56c60",ds:"WA"},
+{name:"湊鼠", reading:"みなとねずみ", hex:"#77969a",ds:"WA"},
+{name:"水縹", reading:"みはなだ", hex:"#7ec7d8",ds:"WA"},
+{name:"海松色", reading:"みるいろ", hex:"#596327",ds:"WA"},
+{name:"海松茶", reading:"みるちゃ", hex:"#57543d",ds:"WA"},
+{name:"麦藁色", reading:"むぎわらいろ", hex:"#e3c576",ds:"WA"},
+{name:"虫襖", reading:"むしあお", hex:"#20604f",ds:"WA"},
+{name:"蒸栗色", reading:"むしくりいろ", hex:"#efeacc",ds:"WA"},
+{name:"紫式部", reading:"むらさきしきぶ", hex:"#90326d",ds:"WA"},
+{name:"滅紫", reading:"めっし", hex:"#594255",ds:"WA"},
+{name:"萌黄色", reading:"もえぎいろ", hex:"#86b81b",ds:"WA"},
+{name:"萌葱色", reading:"もえぎいろ", hex:"#006d4d",ds:"WA"},
+{name:"萌木色", reading:"もえぎいろ", hex:"#a7bd00",ds:"WA"},
+{name:"木蘭", reading:"もくらん", hex:"#c7b370",ds:"WA"},
+{name:"百塩茶", reading:"ももしおちゃ", hex:"#724938",ds:"WA"},
+{name:"桃花色", reading:"ももはないろ", hex:"#f9aea5",ds:"WA"},
+{name:"柳煤竹", reading:"やなぎすすたけ", hex:"#4a593d",ds:"WA"},
+{name:"柳染", reading:"やなぎそめ", hex:"#93b881",ds:"WA"},
+{name:"柳茶", reading:"やなぎちゃ", hex:"#a3a86c",ds:"WA"},
+{name:"柳鼠", reading:"やなぎねずみ", hex:"#c8d5bb",ds:"WA"},
+{name:"大和柿", reading:"やまとがき", hex:"#efae7c",ds:"WA"},
+{name:"山吹色", reading:"やまぶきいろ", hex:"#f8b400",ds:"WA"},
+{name:"楊梅色", reading:"やまももいろ", hex:"#c6a35b",ds:"WA"},
+{name:"雄黄", reading:"ゆうおう", hex:"#ee9d19",ds:"WA"},
+{name:"柚葉色", reading:"ゆずはいろ", hex:"#006543",ds:"WA"},
+{name:"聴色", reading:"ゆるしいろ", hex:"#fcd4d5",ds:"WA"},
+{name:"羊羹色", reading:"ようかんいろ", hex:"#6d3c14",ds:"WA"},
+{name:"洋紅色", reading:"ようこうしょく", hex:"#da003d",ds:"WA"},
+{name:"吉岡染", reading:"よしおかぞめ", hex:"#43341b",ds:"WA"},
+{name:"蘭茶", reading:"らんちゃ", hex:"#d19826",ds:"WA"},
+{name:"利休白茶", reading:"りきゅうしらちゃ", hex:"#e6e3c5",ds:"WA"},
+{name:"利休茶", reading:"りきゅうちゃ", hex:"#897845",ds:"WA"},
+{name:"柳緑", reading:"りゅうりょく", hex:"#7baa17",ds:"WA"},
+{name:"竜胆色", reading:"りんどういろ", hex:"#6967ab",ds:"WA"},
+{name:"瑠璃色", reading:"るりいろ", hex:"#004898",ds:"WA"},
+{name:"瑠璃紺", reading:"るりこん", hex:"#224b8f",ds:"WA"},
+{name:"檸檬色", reading:"れもんいろ", hex:"#ecdf2b",ds:"WA"},
+{name:"煉瓦色", reading:"れんがいろ", hex:"#aa5c3f",ds:"WA"},
+{name:"呂色", reading:"ろいろ", hex:"#0c0c0c",ds:"WA"},
+{name:"緑青", reading:"ろくしょう", hex:"#5bad92",ds:"WA"},
+{name:"路考茶", reading:"ろこうちゃ", hex:"#927a30",ds:"WA"},
+{name:"若草色", reading:"わかくさいろ", hex:"#abc900",ds:"WA"},
+{name:"若竹色", reading:"わかたけいろ", hex:"#7cc28e",ds:"WA"},
+{name:"若菜色", reading:"わかないろ", hex:"#ccde68",ds:"WA"},
+{name:"若葉色", reading:"わかばいろ", hex:"#a4ca68",ds:"WA"},
+{name:"若緑", reading:"わかみどり", hex:"#a5cd89",ds:"WA"},
+{name:"若紫", reading:"わかむらさき", hex:"#be84b8",ds:"WA"},
+{name:"若芽色", reading:"わかめいろ", hex:"#e8ec98",ds:"WA"},
+{name:"勿忘草", reading:"わすれなぐさ", hex:"#9cc5e6",ds:"WA"}];
+}
+</script></body>
+
 </html>
+
+
